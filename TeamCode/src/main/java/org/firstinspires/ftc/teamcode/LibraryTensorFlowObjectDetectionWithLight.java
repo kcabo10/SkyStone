@@ -227,12 +227,12 @@ public class LibraryTensorFlowObjectDetectionWithLight {
                             // if it reads the skystone as greater than the stone than
                             // it sets the current skystone position as RIGHT
                             if (Skystone1X > stone1X) {
-                                telemetry.addData("Skystone Position", "middle");
+                                telemetry.addData("Skystone Position", "left");
                                 currentPos = "Pos 1";
                                 //if the skystone is not greater than the stone than
                                 // it sets the current skystone position as CENTER
                             } else {
-                                telemetry.addData("Skystone Position", "left");
+                                telemetry.addData("Skystone Position", "middle");
                                 currentPos = "Pos 2";
                             }
                         }

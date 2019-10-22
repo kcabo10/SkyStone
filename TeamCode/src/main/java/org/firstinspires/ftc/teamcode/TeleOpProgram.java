@@ -68,8 +68,8 @@ public class TeleOpProgram extends OpMode {
      * This method sets motor power to zero
      */
     public void init_loop() {
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
+//        robot.leftIntake.setPower(0);
+//        robot.rightIntake.setPower(0);
     }
 
     /**
@@ -146,15 +146,14 @@ public class TeleOpProgram extends OpMode {
         // When the game pad 2 a button is pressed set the basket position to 0
         // When the game pad 2 x button is pressed set the basket position to .5.
         // When the game pad 2 b button is pressed set the basket position to .9.
-        if (gamepad2.a) {
-            robot.leftIntake.setPower(1);
-            robot.rightIntake.setPower(1);
-            telemetry.addData("Button a pressed", gamepad2.a);
-            telemetry.update();
-        }
+//        if (gamepad2.a) {
+//            robot.leftIntake.setPower(1);
+//            robot.rightIntake.setPower(1);
+//            telemetry.addData("Button a pressed", gamepad2.a);
+//            telemetry.update();
+//        }
 
         // Telemetry
-        telemetry.addData("Color Number", robot.colorSensor.readUnsignedByte(ModernRoboticsI2cColorSensor.Register.COLOR_NUMBER));
         telemetry.addData("Scale Factor", scaleFactor);
         telemetry.addData("Direction", direction);
         telemetry.addData("left front power", robot.leftFront.getPower());
@@ -171,8 +170,8 @@ public class TeleOpProgram extends OpMode {
 
         buttonYPressed = 0;
         buttonAPressed = 0;
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
+//        robot.leftIntake.setPower(0);
+//        robot.rightIntake.setPower(0);
 
     }
 }

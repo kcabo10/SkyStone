@@ -32,6 +32,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
             new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
+    double offset = .68;
 
     /**
      * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
@@ -59,24 +60,31 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
          * if < 1 set grid pos to (0.5,2.5)
          */
         // Set initial Grid Nav position
-        int leftDistance = robot.leftSonic.getDistance();
-        int rightDistance = robot.rightSonic.getDistance();
+        robot.leftSonic.ping();
+        robot.rightSonic.ping();
+        sleep(200);
+        double leftDistance = (double)robot.leftSonic.getDistance()/2.54/24 + offset;
+        double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
 
-        leftDistance /= 2.54/24;
-        rightDistance /= 2.54/24;
+        telemetry.addData("leftDistance", leftDistance);
+        telemetry.addData("rightDistance", rightDistance);
+        telemetry.update();
 
-        if (leftDistance >= 1) {
-            telemetry.addData("leftXDistance", leftDistance);
-                gridNavigation.setGridPosition(leftDistance, .5,90);
+        double yDistance = .375;
+
+        if (leftDistance >= .5) {
+            telemetry.addData("leftDistance", leftDistance);
+            telemetry.update();
+                gridNavigation.setGridPosition(leftDistance, yDistance,90);
         }
         else if (rightDistance >= 3) {
-            gridNavigation.setGridPosition(rightDistance, .5,90);
-            telemetry.addData("rightXDistance", rightDistance);
-
+            gridNavigation.setGridPosition(rightDistance, yDistance, 90);
+            telemetry.addData("rightDistance", rightDistance);
         }
+
         else {
             telemetry.addData("Default", "");
-            gridNavigation.setGridPosition(1.5,.5,90);
+            gridNavigation.setGridPosition(1.5,yDistance,90);
         }
         telemetry.update();
 
@@ -96,13 +104,13 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
         //int END_ANGLE = 2;
 
         // Skystone pos 1
-        double[] SKYSTONE_POS_1 = {.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_1 = {.5, 1.8}; /* END_ANGLE = 0 */
         // Skystone pos 2
-        double[] SKYSTONE_POS_2 = {.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_2 = {.5, 1.8}; /* END_ANGLE = 0 */
         // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {.7, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_3 = {.7, 1.8}; /* END_ANGLE = 0 */
         // Foundation pos
-        double[] FOUNDATION_POS = {1.75, 5}; /* END_ANGLE = 0 */
+        double[] FOUNDATION_POS = {5, 1.8}; /* END_ANGLE = 0 */
         // Repositioning pos
         double[] REPOSITIONING_POS = {0.5, 5}; /* END_ANGLE = 0 */
         // Parking pos
@@ -173,7 +181,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                 break;
         }
         // drive to foundation to deposit skystone
-//        gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+        gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
 //        /*
 //         * PLACE SKYSTONE
 //         */
@@ -214,7 +222,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {
             case ("Pos 1"):
-                telemetry.addData("Telemetry", "Right");
+                telemetry.addData("Telemetry", "left");
                 telemetry.update();
                 break;
             case ("Pos 2"):
@@ -222,7 +230,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                 telemetry.update();
                 break;
             case ("Pos 3"):
-                telemetry.addData("Telemetry", "Left");
+                telemetry.addData("Telemetry", "Right");
                 telemetry.update();
                 break;
 
@@ -231,7 +239,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();
                 // sets skystone pos to center as default
-                SkystonePosition = "Pos 3";
+                SkystonePosition = "Pos 1";
                 break;
         }
 

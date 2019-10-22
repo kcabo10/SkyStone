@@ -34,7 +34,6 @@ public class HardwareBeep {
     public DcMotor rightIntake = null;
     public DcMotor leftIntake = null;
     public BNO055IMU imu = null;
-    public ModernRoboticsI2cColorSensor colorSensor = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
 
@@ -69,7 +68,6 @@ public class HardwareBeep {
 
 
         imu = hwMap.get(BNO055IMU.class, "imu");
-        colorSensor = hwMap.get(ModernRoboticsI2cColorSensor.class, "color_Sensor");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         //rightSonic.changeI2cAddress(0xe2);
