@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TestingTensorFlowObjectDetectionNoLight extends LinearOpMode {
 
     //Calling our hardware map
-    HardwareBeepTest robot = new HardwareBeepTest();
+    HardwareBeep robot = new HardwareBeep();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
     LibraryTensorFlowObjectDetectionNoLight tensorFlow =
