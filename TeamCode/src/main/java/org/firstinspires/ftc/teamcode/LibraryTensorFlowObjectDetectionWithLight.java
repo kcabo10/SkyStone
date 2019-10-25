@@ -219,16 +219,16 @@ public class LibraryTensorFlowObjectDetectionWithLight {
                         // if it reads two stones than it sets the current skystone position as
                         // LEFT
                         if (Skystone1X == -1 && stone1X != -1 && stone2X != -1) {
-                            telemetry.addData("Skystone Position", "right");
-                            currentPos = "Pos 3";
+                            telemetry.addData("Skystone Position", "left");
+                            currentPos = "Pos 1";
                         }
                         // if it reads a skystone and a stone than it goes into this function
                         if (Skystone1X != -1 && stone1X != -1) {
                             // if it reads the skystone as greater than the stone than
                             // it sets the current skystone position as RIGHT
                             if (Skystone1X > stone1X) {
-                                telemetry.addData("Skystone Position", "left");
-                                currentPos = "Pos 1";
+                                telemetry.addData("Skystone Position", "right");
+                                currentPos = "Pos 3";
                                 //if the skystone is not greater than the stone than
                                 // it sets the current skystone position as CENTER
                             } else {
