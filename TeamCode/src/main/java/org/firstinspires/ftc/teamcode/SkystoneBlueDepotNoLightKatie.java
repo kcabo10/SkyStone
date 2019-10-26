@@ -94,7 +94,7 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
         //wait for start
         waitForStart();
 
-        gridNavigation.driveToPosition(.5,.5,.7);
+
 
         int X = 0;
         int Y = 1;
@@ -104,13 +104,22 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
         //int END_ANGLE = 2;
 
         // Skystone pos 1
-        double[] SKYSTONE_POS_1 = {.5, 1.8}; /* END_ANGLE = 0 */
+        double[] DEPOT_POS = {.5, .5}; /* END_ANGLE = 0 */
+        double[] DEPOT_POS2 = {.7, .5}; /* END_ANGLE = 0 */
+
+        double[] SKYSTONE_POS_1 = {.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_1 = {1.5, 1.5}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE = {1.5, 1.55}; /* END_ANGLE = 0 */
         // Skystone pos 2
-        double[] SKYSTONE_POS_2 = {.5, 1.8}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_2 = {.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_2 = {1.2, 1.5}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE2 = {1.2, 1.55}; /* END_ANGLE = 0 */
         // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {.7, 1.8}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_3 = {.7, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_3 = {1.7, 1.5}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE3 = {1.7, 1.55}; /* END_ANGLE = 0 */
         // Foundation pos
-        double[] FOUNDATION_POS = {5, 1.8}; /* END_ANGLE = 0 */
+        double[] FOUNDATION_POS = {5, 1.4}; /* END_ANGLE = 0 */
         // Repositioning pos
         double[] REPOSITIONING_POS = {0.5, 5}; /* END_ANGLE = 0 */
         // Parking pos
@@ -125,9 +134,15 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                 telemetry.addData("Telemetry", "Skystone Pos = Pos 1");
                 printTelemetry(20);
                 if (SkystonePosition == "Pos 1") {
+                    gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
                     gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
                     telemetry.addData("Grid Nav Go to Pos X", SKYSTONE_POS_1[X]);
                     telemetry.addData("Grid Nav Go to Pos Y", SKYSTONE_POS_1[Y]);
+                    sleep(2000);
+                    gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+                    gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+                    gridNavigation.driveToPosition(TOWARD_SKYSTONE[X], TOWARD_SKYSTONE[Y], .5);
+
 
                     /*
                      * PICK UP SKYSTONE
@@ -143,9 +158,15 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                 telemetry.addData("Telemetry", "Skystone Pos = 2");
                 printTelemetry(40);
                 if (SkystonePosition == "Pos 2") {
+                    gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
                     gridNavigation.driveToPosition(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .5);
                     telemetry.addData("Grid Nav Goto Pos X", SKYSTONE_POS_2[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", SKYSTONE_POS_2[Y]);
+                    sleep(2000);
+                    gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+                    gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
+                    gridNavigation.driveToPosition(TOWARD_SKYSTONE[X], TOWARD_SKYSTONE[Y], .5);
+
                     /*
                      * PICK UP SKYSTONE
                      */
@@ -163,7 +184,14 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", SKYSTONE_POS_3[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", SKYSTONE_POS_3[Y]);
                     // drive to the third skystone position
+                    gridNavigation.driveToPosition(DEPOT_POS2[X], DEPOT_POS2[Y], .5);
                     gridNavigation.driveToPosition(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .5);
+                    sleep(2000);
+                    gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+                    gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                    gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                    gridNavigation.driveToPosition(TOWARD_SKYSTONE3[X], TOWARD_SKYSTONE3[Y], .5);
+
                     /*
                      * PICK UP SKYSTONE
                      */
@@ -177,11 +205,24 @@ public class SkystoneBlueDepotNoLightKatie extends LinearOpMode {
             default:
                 telemetry.addData("Telemetry", "Didn't see skystone pos");
                 telemetry.update();
+                gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
                 gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
+                sleep(2000);
+                gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+                gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+                gridNavigation.driveToPosition(TOWARD_SKYSTONE[X], TOWARD_SKYSTONE[Y], .5);
                 break;
         }
         // drive to foundation to deposit skystone
-        gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+
+        telemetry.addData("Foundation Coords X", FOUNDATION_POS[X]);
+        telemetry.addData("Foundation Coords Y", FOUNDATION_POS[Y]);
+
+        telemetry.addData("Orig Coords X", gridNavigation.xOrigin);
+        telemetry.addData("Orig Coords Y", gridNavigation.yOrigin);
+        telemetry.update();
+
+
 //        /*
 //         * PLACE SKYSTONE
 //         */
