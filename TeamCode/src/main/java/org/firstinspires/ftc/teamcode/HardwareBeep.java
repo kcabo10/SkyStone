@@ -31,8 +31,11 @@ public class HardwareBeep {
     public DcMotor leftBack = null;
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
-    public DcMotor rightIntake = null;
-    public DcMotor leftIntake = null;
+//    public DcMotor rightIntake = null;
+//    public DcMotor leftIntake = null;
+//    public CRServo outExtrusion1 = null;
+//    public CRServo outExtrusion2 = null;
+//    public CRServo claw = null;
     public BNO055IMU imu = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
@@ -65,6 +68,10 @@ public class HardwareBeep {
         rightBack = hwMap.get(DcMotor.class, "right_back");
 //        leftIntake = hwMap.get(DcMotor.class, "left_intake");
 //        rightIntake = hwMap.get(DcMotor.class, "right_intake");
+//        outExtrusion1 = hwMap.get(CRServo.class,"out_extrusion1");
+//        outExtrusion2 = hwMap.get(CRServo.class,"out_extrusion2");
+//        claw = hwMap.get(CRServo.class,"claw");
+
 
 
         imu = hwMap.get(BNO055IMU.class, "imu");
@@ -79,6 +86,10 @@ public class HardwareBeep {
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 //        leftIntake.setDirection(DcMotor.Direction.FORWARD);
 //        rightIntake.setDirection(DcMotor.Direction.REVERSE);
+//        outExtrusion1.setDirection(CRServo.Direction.FORWARD);
+//        outExtrusion2.setDirection(CRServo.Direction.FORWARD);
+//        claw.setDirection(CRServo.Direction.FORWARD);
+
 
         // Set Motor to Zero Power Behavior
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -87,6 +98,9 @@ public class HardwareBeep {
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set Servos to Zero Power
+//        outExtrusion1.setPower(0);
+//        outExtrusion2.setPower(0);
+//        claw.setPower(0);
 
         // Set Motors to Run Without Encoders
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
