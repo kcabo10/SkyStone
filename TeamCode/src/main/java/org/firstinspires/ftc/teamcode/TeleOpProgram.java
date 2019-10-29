@@ -16,15 +16,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "TeleOp Program", group = "TankDrive")
 public class TeleOpProgram extends OpMode {
 
-    // Declaring timers for the arm and basket.
-    private ElapsedTime armtime = new ElapsedTime();
-    private ElapsedTime baskettime = new ElapsedTime();
-    // Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
-    private int arm_state = 0;
-    private int arm_extrusion_state = 0;
-    private int basket_state = 0;
     // Calling hardware map.
-    private HardwareBeep robot = new HardwareBeep();
+    private HardwareBeepTest robot = new HardwareBeepTest();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
@@ -146,12 +139,45 @@ public class TeleOpProgram extends OpMode {
         // When the game pad 2 a button is pressed set the basket position to 0
         // When the game pad 2 x button is pressed set the basket position to .5.
         // When the game pad 2 b button is pressed set the basket position to .9.
-//        if (gamepad2.a) {
+        if (gamepad2.a) {
 //            robot.leftIntake.setPower(1);
 //            robot.rightIntake.setPower(1);
-//            telemetry.addData("Button a pressed", gamepad2.a);
-//            telemetry.update();
-//        }
+            telemetry.addData("Button a pressed", gamepad2.a);
+            telemetry.update();
+        }
+        else if (!gamepad2.a) {
+//            robot.leftIntake.setPower(0);
+//            robot.rightIntake.setPower(0);
+        }
+
+
+
+        if (gamepad2.dpad_up) {
+//            robot.outExtrusion1.setPower(1);
+//            robot.outExtrusion2.setPower(1);
+            telemetry.addData("up dpad pressed", gamepad2.dpad_up);
+            telemetry.update();
+        }
+        if (gamepad2.dpad_down) {
+//            robot.outExtrusion1.setPower(-1);
+//            robot.outExtrusion2.setPower(-1);
+            telemetry.addData("down dpad pressed", gamepad2.dpad_down);
+            telemetry.update();
+        }
+
+
+
+        if (gamepad2.dpad_right) {
+//            robot.claw.setPower(1);
+            telemetry.addData("right dpad pressed", gamepad2.dpad_right);
+            telemetry.update();
+        }
+
+        if (gamepad2.dpad_left) {
+//            robot.claw.setPower(-1);
+            telemetry.addData("left dpad pressed", gamepad2.dpad_left);
+            telemetry.update();
+        }
 
         // Telemetry
         telemetry.addData("Scale Factor", scaleFactor);
