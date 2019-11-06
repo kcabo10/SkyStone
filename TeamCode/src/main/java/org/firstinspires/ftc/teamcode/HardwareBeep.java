@@ -31,11 +31,18 @@ public class HardwareBeep {
     public DcMotor leftBack = null;
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
-//    public DcMotor rightIntake = null;
-//    public DcMotor leftIntake = null;
-//    public CRServo outExtrusion1 = null;
-//    public CRServo outExtrusion2 = null;
-//    public CRServo claw = null;
+    public DcMotor rightIntake = null;
+    public DcMotor leftIntake = null;
+    public DcMotor droidLifterLeft = null;
+    public DcMotor droidLifterRight = null;
+    public CRServo outExtrusion1 = null;
+    public CRServo outExtrusion2 = null;
+    public CRServo upExtrusion1 = null;
+    public CRServo upExtrusion2 = null;
+    public CRServo claw = null;
+    public Servo clawTurner = null;
+    public Servo foundation1 = null;
+    public Servo foundation2 = null;
     public BNO055IMU imu = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
@@ -66,11 +73,16 @@ public class HardwareBeep {
         leftBack = hwMap.get(DcMotor.class, "left_back");
         rightFront = hwMap.get(DcMotor.class, "right_front");
         rightBack = hwMap.get(DcMotor.class, "right_back");
-//        leftIntake = hwMap.get(DcMotor.class, "left_intake");
-//        rightIntake = hwMap.get(DcMotor.class, "right_intake");
-//        outExtrusion1 = hwMap.get(CRServo.class,"out_extrusion1");
-//        outExtrusion2 = hwMap.get(CRServo.class,"out_extrusion2");
-//        claw = hwMap.get(CRServo.class,"claw");
+        leftIntake = hwMap.get(DcMotor.class, "left_intake");
+        rightIntake = hwMap.get(DcMotor.class, "right_intake");
+        droidLifterLeft = hwMap.get(DcMotor.class, "droid_left");
+        droidLifterRight = hwMap.get(DcMotor.class, "droid_right");
+        outExtrusion1 = hwMap.get(CRServo.class,"out_extrusion1");
+        outExtrusion2 = hwMap.get(CRServo.class,"out_extrusion2");
+        claw = hwMap.get(CRServo.class,"claw");
+        clawTurner = hwMap.get(Servo.class, "claw_turner");
+        foundation1 = hwMap.get(Servo.class, "foundation1");
+        foundation2 = hwMap.get(Servo.class, "foundation2");
 
 
 
@@ -84,11 +96,16 @@ public class HardwareBeep {
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-//        leftIntake.setDirection(DcMotor.Direction.FORWARD);
-//        rightIntake.setDirection(DcMotor.Direction.REVERSE);
-//        outExtrusion1.setDirection(CRServo.Direction.FORWARD);
-//        outExtrusion2.setDirection(CRServo.Direction.FORWARD);
-//        claw.setDirection(CRServo.Direction.FORWARD);
+        leftIntake.setDirection(DcMotor.Direction.FORWARD);
+        rightIntake.setDirection(DcMotor.Direction.REVERSE);
+        droidLifterRight.setDirection(DcMotor.Direction.REVERSE);
+        droidLifterLeft.setDirection(DcMotor.Direction.REVERSE);
+        outExtrusion1.setDirection(CRServo.Direction.FORWARD);
+        outExtrusion2.setDirection(CRServo.Direction.FORWARD);
+        claw.setDirection(CRServo.Direction.FORWARD);
+        foundation1.setDirection(Servo.Direction.FORWARD);
+        foundation1.setDirection(Servo.Direction.FORWARD);
+        clawTurner.setDirection(Servo.Direction.FORWARD);
 
 
         // Set Motor to Zero Power Behavior
@@ -98,9 +115,13 @@ public class HardwareBeep {
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set Servos to Zero Power
-//        outExtrusion1.setPower(0);
-//        outExtrusion2.setPower(0);
-//        claw.setPower(0);
+        outExtrusion1.setPower(0);
+        outExtrusion2.setPower(0);
+        claw.setPower(0);
+        foundation1.setPosition(0);
+        foundation2.setPosition(0);
+        clawTurner.setPosition(0);
+
 
         // Set Motors to Run Without Encoders
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -109,8 +130,11 @@ public class HardwareBeep {
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set Motors to Run Using Encoders
-//        leftIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        droidLifterLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        droidLifterRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set IMU Parameters
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
