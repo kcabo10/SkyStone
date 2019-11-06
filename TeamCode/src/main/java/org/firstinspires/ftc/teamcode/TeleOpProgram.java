@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleOpProgram extends OpMode {
 
     // Calling hardware map.
-    private HardwareBeepTest robot = new HardwareBeepTest();
+    private HardwareBeep robot = new HardwareBeep();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
@@ -26,6 +26,10 @@ public class TeleOpProgram extends OpMode {
     // Setting scaling to full speed.
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
+    private ElapsedTime foundationtime = new ElapsedTime();
+    private int foundation_state = 0;
+
+
 
     /**
      * This method reverses the direction of the mecanum drive.
@@ -61,8 +65,14 @@ public class TeleOpProgram extends OpMode {
      * This method sets motor power to zero
      */
     public void init_loop() {
-//        robot.leftIntake.setPower(0);
-//        robot.rightIntake.setPower(0);
+        robot.leftIntake.setPower(0);
+        robot.rightIntake.setPower(0);
+        robot.outExtrusion1.setPower(0);
+        robot.outExtrusion2.setPower(0);
+        robot.upExtrusion1.setPower(0);
+        robot.upExtrusion2.setPower(0);
+
+
     }
 
     /**
@@ -139,44 +149,69 @@ public class TeleOpProgram extends OpMode {
         // When the game pad 2 a button is pressed set the basket position to 0
         // When the game pad 2 x button is pressed set the basket position to .5.
         // When the game pad 2 b button is pressed set the basket position to .9.
-        if (gamepad2.a) {
-//            robot.leftIntake.setPower(1);
-//            robot.rightIntake.setPower(1);
-            telemetry.addData("Button a pressed", gamepad2.a);
+        if (gamepad2.b) {
+            robot.leftIntake.setPower(-1);
+            robot.rightIntake.setPower(1);
+            telemetry.addData("Button b pressed", gamepad2.b);
             telemetry.update();
         }
-        else if (!gamepad2.a) {
+//        else if (!gamepad2.b) {
 //            robot.leftIntake.setPower(0);
 //            robot.rightIntake.setPower(0);
-        }
+//        }
 
+        switch (foundation_state) {
+            case (0):
+                if (!gamepad2.y) {
+                    robot.foundation1.setPosition(0);
+                    robot.foundation2.setPosition(0);
+                    foundation_state = 0;
+                }
+                break;
+            case (1):
+                if (gamepad2.y) {
+                    robot.foundation1.setPosition(0.25);
+                    robot.foundation2.setPosition(0.25);
+                    foundation_state = 1;
+                }
+                break;
+        }
 
 
         if (gamepad2.dpad_up) {
-//            robot.outExtrusion1.setPower(1);
-//            robot.outExtrusion2.setPower(1);
+            robot.outExtrusion1.setPower(1);
+            robot.outExtrusion2.setPower(1);
             telemetry.addData("up dpad pressed", gamepad2.dpad_up);
             telemetry.update();
         }
         if (gamepad2.dpad_down) {
-//            robot.outExtrusion1.setPower(-1);
-//            robot.outExtrusion2.setPower(-1);
+            robot.outExtrusion1.setPower(-1);
+            robot.outExtrusion2.setPower(-1);
             telemetry.addData("down dpad pressed", gamepad2.dpad_down);
             telemetry.update();
         }
 
 
-
-        if (gamepad2.dpad_right) {
-//            robot.claw.setPower(1);
+        if (gamepad2.right_trigger == 1) {
+            robot.upExtrusion1.setPower(1);
+            robot.upExtrusion2.setPower(1);
             telemetry.addData("right dpad pressed", gamepad2.dpad_right);
             telemetry.update();
         }
+        else if (gamepad2.right_trigger == 0) {
+            robot.upExtrusion1.setPower(0);
+            robot.upExtrusion2.setPower(0);
+        }
 
-        if (gamepad2.dpad_left) {
-//            robot.claw.setPower(-1);
+        if (gamepad2.left_trigger == 1) {
+            robot.upExtrusion1.setPower(-1);
+            robot.upExtrusion2.setPower(-1);
             telemetry.addData("left dpad pressed", gamepad2.dpad_left);
             telemetry.update();
+        }
+        else if (gamepad2.left_trigger == 0) {
+            robot.upExtrusion1.setPower(0);
+            robot.upExtrusion2.setPower(0);
         }
 
         // Telemetry
@@ -196,8 +231,13 @@ public class TeleOpProgram extends OpMode {
 
         buttonYPressed = 0;
         buttonAPressed = 0;
-//        robot.leftIntake.setPower(0);
-//        robot.rightIntake.setPower(0);
+        robot.leftIntake.setPower(0);
+        robot.rightIntake.setPower(0);
+        robot.outExtrusion1.setPower(0);
+        robot.outExtrusion2.setPower(0);
+        robot.upExtrusion1.setPower(0);
+        robot.upExtrusion2.setPower(0);
+
 
     }
 }
