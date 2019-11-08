@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleOpProgram extends OpMode {
 
     // Calling hardware map.
-    private HardwareBeep robot = new HardwareBeep();
+    private HardwareBeepTest robot = new HardwareBeepTest();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
@@ -29,6 +29,7 @@ public class TeleOpProgram extends OpMode {
     private int foundation_state = 0;
     private int claw_state = 0;
     private int intake_state = 0;
+    private int up_extrusion_state = 0;
 
 
 
@@ -174,11 +175,7 @@ public class TeleOpProgram extends OpMode {
             case 0:
                 if (gamepad2.x) {
                     clawruntime.reset();
-                    robot.claw.setPower(-.5);
-                    while (clawruntime.seconds() < .2) {
-                        telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", clawruntime.seconds());
-                        telemetry.update();
-                    }
+                    robot.claw.setPower(-.25);
                     claw_state++;
 
                 }
@@ -186,11 +183,7 @@ public class TeleOpProgram extends OpMode {
             case 1:
                 if (gamepad2.x) {
                     clawruntime.reset();
-                    robot.claw.setPower(.5);
-                    while (clawruntime.seconds() < .2) {
-                        telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", clawruntime.seconds());
-                        telemetry.update();
-                    }
+                    robot.claw.setPower(.25);
                     claw_state++;
 
                 }
@@ -244,25 +237,61 @@ public class TeleOpProgram extends OpMode {
         } else {
             }
 
-        if (gamepad2.right_trigger == 1) {
-            robot.droidLifterLeft.setPower(1);
-            robot.droidLifterRight.setPower(-1);
-            telemetry.addData("right dpad pressed", gamepad2.dpad_right);
-            telemetry.update();
-        } else if (gamepad2.right_trigger == 0) {
-            robot.droidLifterLeft.setPower(0);
-            robot.droidLifterRight.setPower(0);
+        switch (up_extrusion_state) {
+            case 0:
+                // when the right bumper is being pressed and the touch sensor is not being set the armExtrusion power is set to 1 and the basket position is set to .5.
+                // Once those conditions are met the state advances to the next case.
+                // When the right trigger is being pressed the armExtrusion power is set to -1 and the basket position is set to .4.
+                // Otherwise the power is set to 0.
+                if (gamepad2.left_trigger > 0) {
+                    robot.droidLifterRight.setPower(1);
+                    robot.droidLifterLeft.setPower(1);
+                    up_extrusion_state++;
+
+                } else if (gamepad2.right_trigger > 0) {
+                    robot.droidLifterRight.setPower(-1);
+                    robot.droidLifterLeft.setPower(-1);
+                } else {
+                    robot.droidLifterRight.setPower(0);
+                    robot.droidLifterLeft.setPower(0);
+                }
+                break;
+            case 1:
+                // Once the right bumper is not being pressed it advances to the next state.
+                if (gamepad2.left_trigger > 0) {
+                    up_extrusion_state++;
+                }
+                break;
+            case 2:
+                // This case sets the power to zero once the right bumper has been released and returns to state zero.
+                // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
+                if (gamepad2.left_trigger <= 0) {
+                    robot.droidLifterRight.setPower(0);
+                    robot.droidLifterLeft.setPower(0);
+                    up_extrusion_state = 0;
+                }
+                break;
         }
 
-        if (gamepad2.left_trigger == 1) {
-            robot.droidLifterLeft.setPower(-.25);
-            robot.droidLifterRight.setPower(.25);
-            telemetry.addData("left dpad pressed", gamepad2.dpad_left);
-            telemetry.update();
-        } else if (gamepad2.left_trigger == 0) {
-            robot.droidLifterLeft.setPower(0);
-            robot.droidLifterRight.setPower(0);
-        }
+//        if (gamepad2.right_trigger == 1) {
+//            robot.droidLifterLeft.setPower(1);
+//            robot.droidLifterRight.setPower(-1);
+//            telemetry.addData("right dpad pressed", gamepad2.dpad_right);
+//            telemetry.update();
+//        } else if (gamepad2.right_trigger == 0) {
+//            robot.droidLifterLeft.setPower(0);
+//            robot.droidLifterRight.setPower(0);
+//        }
+//
+//        if (gamepad2.left_trigger == 1) {
+//            robot.droidLifterLeft.setPower(-.25);
+//            robot.droidLifterRight.setPower(.25);
+//            telemetry.addData("left dpad pressed", gamepad2.dpad_left);
+//            telemetry.update();
+//        } else if (gamepad2.left_trigger == 0) {
+//            robot.droidLifterLeft.setPower(0);
+//            robot.droidLifterRight.setPower(0);
+//        }
 
         // Telemetry
         telemetry.addData("Scale Factor", scaleFactor);

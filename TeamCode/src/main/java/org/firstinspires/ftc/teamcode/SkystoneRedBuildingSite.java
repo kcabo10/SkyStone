@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-@Autonomous(name = "Skystone Red Depot With Light Katie", group = "Beep")
+@Autonomous(name = "Red Building Site", group = "Beep")
 public class SkystoneRedBuildingSite extends LinearOpMode {
 
     // Declaring a timer

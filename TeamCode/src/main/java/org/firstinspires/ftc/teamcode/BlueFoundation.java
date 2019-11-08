@@ -35,7 +35,7 @@ public class BlueFoundation extends LinearOpMode {
 
         //Grid nav set in perspective on positive x,y and blue build site
 
-        gridNavigation.setGridPosition(2.1041, 0.296, -90);
+        gridNavigation.setGridPosition(2.1041, 0.296, 90);
 
         gridNavigation.driveToPosition(2.1041, 2.375,.6);
         gridNavigation.driveToPosition(1.8, 2.375,.6);
