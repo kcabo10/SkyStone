@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * @author Beep Patrol
@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+
+@Disabled
 @Autonomous(name = "Testing Tensor Flow Object Detection No Light", group = "Beep")
 public class TestingTensorFlowObjectDetectionNoLight extends LinearOpMode {
 
@@ -105,7 +107,7 @@ public class TestingTensorFlowObjectDetectionNoLight extends LinearOpMode {
     /**
      * This method calls Tensor Flow in order to read the skystone position
      */
-        public void getSkystonePosition() {
+    public void getSkystonePosition() {
         int debounceCount = 0;
         long startTime = 0;
         String previousPosition;

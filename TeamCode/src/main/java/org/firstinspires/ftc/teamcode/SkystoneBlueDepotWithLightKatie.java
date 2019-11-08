@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+@Disabled
 @Autonomous(name = "Skystone Blue Depot With Light Katie", group = "Beep")
 public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
@@ -54,17 +56,12 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
-        /*
-         * Use ultrasonic to read south wall
-         * if > 1 set y pos to value
-         * if < 1 set grid pos to (0.5,2.5)
-         */
         // Set initial Grid Nav position
 //        robot.leftSonic.ping();
         robot.rightSonic.ping();
         sleep(200);
 //        double leftDistance = (double)robot.leftSonic.getDistance()/2.54/24 + offset;
-        double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
+        double rightDistance = (double) robot.rightSonic.getDistance() / 2.54 / 24 + offset;
 
 //        telemetry.addData("leftDistance", leftDistance);
         telemetry.addData("rightDistance", rightDistance);
@@ -78,13 +75,11 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 //                gridNavigation.setGridPosition(leftDistance, yDistance,90);
 //        }
         if (rightDistance >= .5) {
-            gridNavigation.setGridPosition(-rightDistance,yDistance, 90);
+            gridNavigation.setGridPosition(-rightDistance, yDistance, 90);
             telemetry.addData("rightDistance", rightDistance);
-        }
-
-        else {
+        } else {
             telemetry.addData("Default", "");
-            gridNavigation.setGridPosition(1.5,yDistance,90);
+            gridNavigation.setGridPosition(1.5, yDistance, 90);
         }
         telemetry.update();
 
@@ -93,8 +88,6 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
         //wait for start
         waitForStart();
-
-
 
 
         int X = 0;

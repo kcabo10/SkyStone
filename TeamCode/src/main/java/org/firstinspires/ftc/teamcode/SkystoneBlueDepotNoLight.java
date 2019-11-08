@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+
+@Disabled
 @Autonomous(name = "Skystone Blue Depot No Light", group = "Beep")
 public class SkystoneBlueDepotNoLight extends LinearOpMode {
 
@@ -75,17 +78,17 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
         //int END_ANGLE = 2;
 
         // Skystone pos 1
-        double[] SKYSTONE_POS_1 = {1.5, 1.75}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_1 = {1.5, 1.75};
         // Skystone pos 2
-        double[] SKYSTONE_POS_2 = {1.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_2 = {1.5, 1.5};
         // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {1.5, 1.25}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_3 = {1.5, 1.25};
         // Foundation pos
-        double[] FOUNDATION_POS = {1.75, 5}; /* END_ANGLE = 0 */
+        double[] FOUNDATION_POS = {1.75, 5};
         // Repositioning pos
-        double[] REPOSITIONING_POS = {0.5, 5}; /* END_ANGLE = 0 */
+        double[] REPOSITIONING_POS = {0.5, 5};
         // Parking pos
-        double[] PARKING_POS = {0.5, 3}; /* END_ANGLE = -90 */
+        double[] PARKING_POS = {0.5, 3};
 
         // This is a switch block that plays the program in relation to the skystone position
         // Tensor Flow reads
@@ -152,7 +155,7 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
                 break;
         }
         // drive to foundation to deposit skystone
-        gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+//        gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
         /*
          * PLACE SKYSTONE
          */
@@ -160,9 +163,9 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
          * LOWER FOUNDATION ATTACHMENT
          */
         // drive to reposition foundation
-        gridNavigation.driveToPositionBackwards(REPOSITIONING_POS[X], REPOSITIONING_POS[Y], .7);
+//        gridNavigation.driveToPositionBackwards(REPOSITIONING_POS[X], REPOSITIONING_POS[Y], .7);
         // parking under alliance sky bridge
-        gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
+//        gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
 
     }

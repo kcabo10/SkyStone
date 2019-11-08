@@ -122,7 +122,9 @@ public class LibraryGyro {
 
     }
 
-    /** This method sets the PID values
+    /**
+     * This method sets the PID values
+     *
      * @param Kp
      * @param Ki
      * @param Kd
@@ -138,8 +140,10 @@ public class LibraryGyro {
     }
 
 
-    /** This is the turn Gyro method that call in other programs to turn the robot to a certain
+    /**
+     * This is the turn Gyro method that call in other programs to turn the robot to a certain
      * degree.
+     *
      * @param targetHeading
      * @return
      */

@@ -7,7 +7,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
@@ -41,6 +40,7 @@ public class HardwareBeepTest {
     public BNO055IMU imu = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
+    public BNO055IMU imu = null;
 
     // Set local OpMode Members
     HardwareMap hwMap = null;
@@ -80,6 +80,8 @@ public class HardwareBeepTest {
         foundation2 = hwMap.get(Servo.class, "foundation2");
 
 
+        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         imu = hwMap.get(BNO055IMU.class, "imu");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
@@ -101,7 +103,6 @@ public class HardwareBeepTest {
         foundation1.setDirection(Servo.Direction.FORWARD);
         clawTurner.setDirection(Servo.Direction.FORWARD);
 
-
         // Set Motor to Zero Power Behavior
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -115,7 +116,6 @@ public class HardwareBeepTest {
         foundation1.setPosition(0);
         foundation2.setPosition(0);
         clawTurner.setPosition(0);
-
 
         // Set Motors to Run Without Encoders
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

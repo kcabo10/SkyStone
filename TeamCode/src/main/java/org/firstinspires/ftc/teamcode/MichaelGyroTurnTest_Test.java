@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.LibraryGridNavigation;
-
 public class MichaelGyroTurnTest_Test {
 
     /**
@@ -79,9 +77,9 @@ public class MichaelGyroTurnTest_Test {
         double[] FOUNDATION_POS = {5, 1.8}; /* END_ANGLE = 0 */
 
         //Initial touchdown
-        testGridNav.setGridPosition(SKYSTONE_POS_2 [X], SKYSTONE_POS_2 [Y], 90);
+        testGridNav.setGridPosition(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], 90);
 
-        testGridNav.driveToPositionValuesOnly(FOUNDATION_POS [X], FOUNDATION_POS [Y], 45);
+        testGridNav.driveToPositionValuesOnly(FOUNDATION_POS[X], FOUNDATION_POS[Y], 45);
 
         //Right mineral
 //        //Drive closer to lander
