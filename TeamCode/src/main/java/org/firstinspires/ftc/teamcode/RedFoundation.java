@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Red Foundation", group = "Beep")
+@Autonomous(name = "Blue Foundation", group = "Beep")
 public class RedFoundation extends LinearOpMode {
 
     // Declaring a timer
@@ -31,17 +31,15 @@ public class RedFoundation extends LinearOpMode {
         //wait for start
         waitForStart();
 
-        robot.leftFront.setPower(-0.5);
-        robot.rightFront.setPower(0.5);
-        robot.leftBack.setPower(0.5);
-        robot.rightBack.setPower(-0.5);
+        robot.leftFront.setPower(0.5);
+        robot.rightFront.setPower(-0.5);
+        robot.leftBack.setPower(-0.5);
+        robot.rightBack.setPower(0.5);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.7)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
-        sleep(500);
 
         robot.leftFront.setPower(0.5);
         robot.rightFront.setPower(0.5);
@@ -53,9 +51,7 @@ public class RedFoundation extends LinearOpMode {
             telemetry.update();
         }
 
-        sleep(500);
-
-        gyroTurn.turnGyro(-60);
+        gyroTurn.turnGyro(60);
 
         gyroDrive.gyroDrive(0.5, 1500, 0);
     }
