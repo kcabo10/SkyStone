@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+@Disabled
 @Autonomous(name = "Skystone Red Depot With Light Katie", group = "Beep")
 public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
 
@@ -63,7 +65,7 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         robot.leftSonic.ping();
         robot.rightSonic.ping();
         sleep(200);
-        double leftDistance = (double)robot.leftSonic.getDistance()/2.54/24 + offset;
+        double leftDistance = (double) robot.leftSonic.getDistance() / 2.54 / 24 + offset;
 //        double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
 
         telemetry.addData("leftDistance", leftDistance);
@@ -75,7 +77,7 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         if (leftDistance >= .5) {
             telemetry.addData("leftDistance", leftDistance);
             telemetry.update();
-                gridNavigation.setGridPosition(leftDistance, yDistance,90);
+            gridNavigation.setGridPosition(leftDistance, yDistance, 90);
         }
 //        else if (rightDistance >= 3) {
 //            gridNavigation.setGridPosition(rightDistance, yDistance, 90);
@@ -84,7 +86,7 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
 
         else {
             telemetry.addData("Default", "");
-            gridNavigation.setGridPosition(1.3,yDistance,90);
+            gridNavigation.setGridPosition(1.3, yDistance, 90);
         }
         telemetry.update();
 

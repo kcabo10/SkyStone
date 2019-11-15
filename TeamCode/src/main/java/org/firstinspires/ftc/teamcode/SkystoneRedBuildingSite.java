@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,7 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-@Autonomous(name = "Red Building Site", group = "Beep")
+@Disabled
+@Autonomous(name = "SkystoneRedBuildingSite", group = "Beep")
 public class SkystoneRedBuildingSite extends LinearOpMode {
 
     // Declaring a timer
@@ -64,10 +66,10 @@ public class SkystoneRedBuildingSite extends LinearOpMode {
         robot.rightSonic.ping();
         sleep(200);
         //double leftDistance = (double) robot.leftSonic.getDistance() / 2.54 / 24 + offset;
-       double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
+        double rightDistance = (double) robot.rightSonic.getDistance() / 2.54 / 24 + offset;
 
         //telemetry.addData("leftDistance", leftDistance);
-       telemetry.addData("rightDistance", rightDistance);
+        telemetry.addData("rightDistance", rightDistance);
         telemetry.update();
 
         double yDistance = .375;
@@ -80,9 +82,7 @@ public class SkystoneRedBuildingSite extends LinearOpMode {
         if (rightDistance >= .5) {
             gridNavigation.setGridPosition(rightDistance, yDistance, 90);
             telemetry.addData("rightDistance", rightDistance);
-        }
-
-        else {
+        } else {
             telemetry.addData("Default", "");
             gridNavigation.setGridPosition(1.3, yDistance, 90);
         }
@@ -105,8 +105,8 @@ public class SkystoneRedBuildingSite extends LinearOpMode {
         double[] TOWARD_FOUNDATION = {.8, 1.0}; /* END_ANGLE = 0 */
         double[] FOUNDATION = {.8, 1.5}; /* END_ANGLE = 0 */
 
-        gridNavigation.driveToPosition(TOWARD_FOUNDATION [X], TOWARD_FOUNDATION [Y], .5);
-        gridNavigation.driveToPosition(FOUNDATION [X], FOUNDATION [Y], .5);
+        gridNavigation.driveToPosition(TOWARD_FOUNDATION[X], TOWARD_FOUNDATION[Y], .5);
+        gridNavigation.driveToPosition(FOUNDATION[X], FOUNDATION[Y], .5);
 
     }
 }

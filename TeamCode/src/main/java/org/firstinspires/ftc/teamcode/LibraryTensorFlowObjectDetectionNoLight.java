@@ -35,8 +35,8 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -278,7 +278,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
      */
     private void initTfod() {
         int tfodMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.5;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);

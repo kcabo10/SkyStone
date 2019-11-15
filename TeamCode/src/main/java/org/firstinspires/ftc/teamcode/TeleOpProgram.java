@@ -32,7 +32,6 @@ public class TeleOpProgram extends OpMode {
     private int clawAid_state = 0;
 
 
-
     /**
      * This method reverses the direction of the mecanum drive.
      */
@@ -377,6 +376,7 @@ public class TeleOpProgram extends OpMode {
         robot.outExtrusion2.setPower(0);
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
+
 
     }
 }
