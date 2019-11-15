@@ -19,7 +19,7 @@ public class LibraryGyroDrive {
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
     // This P Coefficient is the value that corrects the robot in relation to the error of the robots
     // current heading
-    static final double P_DRIVE_COEFF = 0.05;     // Larger is more responsive, but also less stable
+    static final double P_DRIVE_COEFF = 0.01;     // Larger is more responsive, but also less stable
     // a constant speed
     public double speed = .6;
     // Calls the Hardware map
@@ -297,8 +297,8 @@ public class LibraryGyroDrive {
             if (encoderTicks < 0)
                 steer *= -1.0;
 
-            leftSpeed = speed + steer;
-            rightSpeed = speed - steer;
+            leftSpeed = speed - steer;
+            rightSpeed = speed + steer;
 
             leftSpeed = Range.clip(leftSpeed, -.3, 1);
             rightSpeed = Range.clip(rightSpeed, -.3, 1);

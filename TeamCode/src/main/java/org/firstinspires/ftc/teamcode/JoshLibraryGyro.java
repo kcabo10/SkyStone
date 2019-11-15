@@ -44,7 +44,7 @@ public class JoshLibraryGyro {
         parameters.loggingEnabled = false;
 
         // initializes the gyro in the Rev IMU
-        robot.imu.initialize(parameters);
+        robot.imuActual.initialize(parameters);
     }
 
     /**
@@ -52,7 +52,7 @@ public class JoshLibraryGyro {
      */
     private void resetAngle() {
         // We completely reset the gyro angle
-        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        lastAngles = robot.imuActual.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
     }
 
@@ -67,7 +67,7 @@ public class JoshLibraryGyro {
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,
+        Orientation angles = robot.imuActual.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,
                 AngleUnit.DEGREES);
 
         //

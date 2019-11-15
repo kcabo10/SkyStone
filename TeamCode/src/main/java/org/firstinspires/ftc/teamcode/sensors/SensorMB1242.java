@@ -24,6 +24,7 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
     private long lastPingTime = Long.MAX_VALUE;
     private int lastDistance = Integer.MAX_VALUE;
     private long minDelay = 100;
+    int offset = 17;
 
 
     public SensorMB1242(I2cDeviceSynch deviceClient) {
