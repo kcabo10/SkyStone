@@ -22,14 +22,14 @@ public class TeleOpProgram extends OpMode {
     // Setting initial direction to forward.
     private int direction = -1;
     // Setting scaling to full speed.
-    private double scaleFactor = 1;
+    private double scaleFactor = 0.5;
     private double scaleTurningSpeed = 1;
     private ElapsedTime foundationtime = new ElapsedTime();
-    public ElapsedTime clawruntime = new ElapsedTime();
+    public ElapsedTime clawaidruntime = new ElapsedTime();
     private int foundation_state = 0;
     private int claw_state = 0;
-    private int intake_state = 0;
     private int up_extrusion_state = 0;
+    private int clawAid_state = 0;
 
 
 
@@ -74,7 +74,6 @@ public class TeleOpProgram extends OpMode {
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
 
-
     }
 
     /**
@@ -82,9 +81,9 @@ public class TeleOpProgram extends OpMode {
      */
     public void loop() {
 
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = -gamepad1.right_stick_x;
 
         // When the direction value is reversed this if statement inverts the addition and subtraction for turning.
         // Default mode: The robot starts with the scaleTurningSpeed set to 1, scaleFactor set to 1, and direction set to forward.
@@ -158,54 +157,111 @@ public class TeleOpProgram extends OpMode {
         } else if (gamepad2.left_bumper) {
             robot.leftIntake.setPower(-.5);
             robot.rightIntake.setPower(-.5);
-        } else if (!gamepad2.right_bumper && !gamepad2.left_bumper) {
+        } else {
             robot.leftIntake.setPower(0);
             robot.rightIntake.setPower(0);
         }
 
-//        if(gamepad2.x){
-//            resetStartTime();
-//            while(time < 1){
-//                robot.claw.setPower(1);
-//            }
-//            robot.claw.setPower(0);
-//        }
+        if (gamepad2.b) {
+            robot.claw.setPosition(0);
+            clawaidruntime.reset();
+            while (clawaidruntime.milliseconds() > 250){
+                //sleep
+            }
+            robot.clawAid.setPosition(1);
+            clawaidruntime.reset();
+            while (clawaidruntime.milliseconds() > 250){
+                //sleep
+            }
+            robot.claw.setPosition(1);
+            clawaidruntime.reset();
+            while (clawaidruntime.milliseconds() > 250){
+                //sleep
+            }
+            robot.clawAid.setPosition(0);
+            clawAid_state++;
+        }
 
         switch (claw_state) {
-            case 0:
+            case (0):
                 if (gamepad2.x) {
-                    clawruntime.reset();
-                    robot.claw.setPower(-.25);
+                    robot.claw.setPosition(0);
+                    robot.clawAid.setPosition(1);
                     claw_state++;
-
                 }
                 break;
-            case 1:
-                if (gamepad2.x) {
-                    clawruntime.reset();
-                    robot.claw.setPower(.25);
+            case (1):
+                if (robot.claw.getPosition() <= 0.1 && !gamepad2.x) {
                     claw_state++;
-
                 }
                 break;
-            case 2:
-                robot.claw.setPower(0);
-                claw_state = 0;
+            case (2):
+                if (gamepad2.x) {
+                    robot.claw.setPosition(1);
+                    claw_state++;
+                }
+                break;
+            case (3):
+                if (robot.claw.getPosition() >= .9 && !gamepad2.x) {
+                    claw_state = 0;
+                }
+                break;
+        }
+
+        switch (clawAid_state) {
+            case (0):
+                if (gamepad2.b) {
+                    robot.claw.setPosition(1);
+                    //sleep
+                    robot.clawAid.setPosition(0);
+                    //sleep
+                    robot.claw.setPosition(0);
+                    //sleep
+                    robot.clawAid.setPosition(1);
+                    clawAid_state++;
+                }
+                break;
+            case (1):
+                if (robot.clawAid.getPosition() <= 0.1 && !gamepad2.b) {
+                    clawAid_state++;
+                }
+                break;
+            case (2):
+                if (gamepad2.b) {
+                    robot.clawAid.setPosition(1);
+                    clawAid_state++;
+                }
+                break;
+            case (3):
+                if (robot.clawAid.getPosition() >= .9 && !gamepad2.b) {
+                    clawAid_state = 0;
+                }
+                break;
         }
 
         switch (foundation_state) {
             case (0):
-                if (!gamepad2.y) {
+                if (gamepad2.y) {
                     robot.foundation1.setPosition(0);
-                    robot.foundation2.setPosition(0);
-                    foundation_state = 0;
+                    robot.foundation2.setPosition(1);
+                    foundation_state++;
                 }
                 break;
             case (1):
+                if (robot.foundation1.getPosition() <= 0.1 && robot.foundation2.getPosition() >= .9 && !gamepad2.y) {
+                    foundation_state++;
+                }
+                break;
+            case (2):
                 if (gamepad2.y) {
-                    robot.foundation1.setPosition(0.25);
-                    robot.foundation2.setPosition(0.25);
-                    foundation_state = 1;
+                    robot.foundation1.setPosition(1);
+                    robot.foundation2.setPosition(0);
+                    foundation_state++;
+                }
+                break;
+            case (3):
+                if (robot.foundation1.getPosition() >= .9 && robot.foundation2.getPosition() <= 0.1 && !gamepad2.y) {
+                    foundation_state = 0;
                 }
                 break;
         }
@@ -230,8 +286,8 @@ public class TeleOpProgram extends OpMode {
             robot.clawTurner.setPosition(1.0);
             telemetry.addData("right dpad pressed", gamepad2.dpad_right);
             telemetry.update();
-        } else if (gamepad2.dpad_left && !gamepad2.dpad_right)    {
-                robot.clawTurner.setPosition(-1.0);
+        } else if (gamepad2.dpad_left && !gamepad2.dpad_right){
+                robot.clawTurner.setPosition(0);
                 telemetry.addData("left dpad pressed", gamepad2.dpad_left);
                 telemetry.update();
         } else {
@@ -245,24 +301,18 @@ public class TeleOpProgram extends OpMode {
                 // Otherwise the power is set to 0.
                 if (gamepad2.left_trigger > 0) {
                     robot.droidLifterRight.setPower(1);
-                    robot.droidLifterLeft.setPower(1);
+                    robot.droidLifterLeft.setPower(-1);
                     up_extrusion_state++;
 
                 } else if (gamepad2.right_trigger > 0) {
-                    robot.droidLifterRight.setPower(-1);
-                    robot.droidLifterLeft.setPower(-1);
+                    robot.droidLifterRight.setPower(-.5);
+                    robot.droidLifterLeft.setPower(.5);
                 } else {
                     robot.droidLifterRight.setPower(0);
                     robot.droidLifterLeft.setPower(0);
                 }
                 break;
             case 1:
-                // Once the right bumper is not being pressed it advances to the next state.
-                if (gamepad2.left_trigger > 0) {
-                    up_extrusion_state++;
-                }
-                break;
-            case 2:
                 // This case sets the power to zero once the right bumper has been released and returns to state zero.
                 // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
                 if (gamepad2.left_trigger <= 0) {
@@ -305,6 +355,12 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("lb encoder ticks", robot.leftBack.getCurrentPosition());
         telemetry.addData("lf encoder ticks", robot.leftFront.getCurrentPosition());
         telemetry.addData("right intake", robot.rightIntake.getPower());
+        telemetry.addData("foundation_state", foundation_state);
+        telemetry.addData("claw_state", claw_state);
+        telemetry.addData("foundation1 position", robot.foundation1.getPosition());
+        telemetry.addData("foundation2 position", robot.foundation2.getPosition());
+        telemetry.addData("claw position", robot.claw.getPosition());
+        telemetry.addData("claw turner position", robot.clawTurner.getPosition());
         telemetry.update();
     }
 
@@ -321,8 +377,6 @@ public class TeleOpProgram extends OpMode {
         robot.outExtrusion2.setPower(0);
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
-        robot.claw.setPower(0);
-
 
     }
 }

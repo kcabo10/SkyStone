@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -34,11 +35,12 @@ public class HardwareBeepTest {
     public DcMotor droidLifterRight = null;
     public CRServo outExtrusion1 = null;
     public CRServo outExtrusion2 = null;
-    public CRServo claw = null;
+    public Servo claw = null;
     public Servo clawTurner = null;
     public Servo foundation1 = null;
     public Servo foundation2 = null;
-    public BNO055IMU imu = null;
+    public Servo clawAid = null;
+    public BNO055IMU imuActual = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
 
@@ -74,32 +76,34 @@ public class HardwareBeepTest {
         droidLifterRight = hwMap.get(DcMotor.class, "droid_right");
         outExtrusion1 = hwMap.get(CRServo.class, "out_extrusion1");
         outExtrusion2 = hwMap.get(CRServo.class, "out_extrusion2");
-        claw = hwMap.get(CRServo.class, "claw");
+        claw = hwMap.get(Servo.class, "claw");
         clawTurner = hwMap.get(Servo.class, "claw_turner");
         foundation1 = hwMap.get(Servo.class, "foundation1");
         foundation2 = hwMap.get(Servo.class, "foundation2");
+        clawAid = hwMap.get(Servo.class, "claw_aid");
 
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         //rightSonic.changeI2cAddress(0xe2);
 
         // Set Motor and Servo Direction
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
         leftIntake.setDirection(DcMotor.Direction.FORWARD);
         rightIntake.setDirection(DcMotor.Direction.REVERSE);
         droidLifterRight.setDirection(DcMotor.Direction.REVERSE);
         droidLifterLeft.setDirection(DcMotor.Direction.REVERSE);
         outExtrusion1.setDirection(CRServo.Direction.FORWARD);
         outExtrusion2.setDirection(CRServo.Direction.FORWARD);
-        claw.setDirection(CRServo.Direction.FORWARD);
+        claw.setDirection(Servo.Direction.FORWARD);
         foundation1.setDirection(Servo.Direction.FORWARD);
         foundation1.setDirection(Servo.Direction.FORWARD);
         clawTurner.setDirection(Servo.Direction.FORWARD);
+        clawAid.setDirection(Servo.Direction.FORWARD);
 
 
         // Set Motor to Zero Power Behavior
@@ -111,10 +115,6 @@ public class HardwareBeepTest {
         // Set Servos to Zero Power
         outExtrusion1.setPower(0);
         outExtrusion2.setPower(0);
-        claw.setPower(0);
-        foundation1.setPosition(0);
-        foundation2.setPosition(0);
-        clawTurner.setPosition(0);
 
 
         // Set Motors to Run Without Encoders
@@ -138,7 +138,7 @@ public class HardwareBeepTest {
         parameters.loggingEnabled = false;
 
         // Initialize IMU
-        imu.initialize(parameters);
+        imuActual.initialize(parameters);
     }
 }
 

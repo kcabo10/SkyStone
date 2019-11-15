@@ -30,11 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -57,8 +54,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Pushbot: Auto Drive By Time", group = "Pushbot")
-public class JoshPushbotAutoDriveByTime_Linear extends LinearOpMode {
+@Autonomous(name = "Pushbot: Auto Drive By Time2", group = "Pushbot")
+public class allinceParkingUnderBridge extends LinearOpMode {
 
     static final double FORWARD_SPEED = 0.6;
     /* Declare OpMode members. */
@@ -81,51 +78,31 @@ public class JoshPushbotAutoDriveByTime_Linear extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
-
-         for (int i = 0; i < 2; i++) {
-            robot.leftFront.setPower(-FORWARD_SPEED);
-            robot.rightFront.setPower(FORWARD_SPEED);
-            robot.leftBack.setPower(FORWARD_SPEED);
-            robot.rightBack.setPower(-FORWARD_SPEED);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-
-            robot.leftFront.setPower(FORWARD_SPEED);
-            robot.rightFront.setPower(FORWARD_SPEED);
-            robot.leftBack.setPower(FORWARD_SPEED);
-            robot.rightBack.setPower(FORWARD_SPEED);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-
-            robot.leftFront.setPower(FORWARD_SPEED);
-            robot.rightFront.setPower(-FORWARD_SPEED);
-            robot.leftBack.setPower(-FORWARD_SPEED);
-            robot.rightBack.setPower(FORWARD_SPEED);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-
-            robot.leftFront.setPower(-FORWARD_SPEED);
-            robot.rightFront.setPower(-FORWARD_SPEED);
-            robot.leftBack.setPower(-FORWARD_SPEED);
-            robot.rightBack.setPower(-FORWARD_SPEED);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
+        //driving tward bridge
+        robot.leftFront.setPower(FORWARD_SPEED);
+        robot.rightFront.setPower(FORWARD_SPEED);
+        robot.leftBack.setPower(FORWARD_SPEED);
+        robot.rightBack.setPower(FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
         }
+
+
+
+        //parking under bridge
+        robot.leftFront.setPower(-FORWARD_SPEED);
+        robot.rightFront.setPower(FORWARD_SPEED);
+        robot.leftBack.setPower(FORWARD_SPEED);
+        robot.rightBack.setPower(-FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.7)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
