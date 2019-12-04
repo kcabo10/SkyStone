@@ -152,10 +152,10 @@ public class TeleOpProgram extends OpMode {
 
         if (gamepad2.right_bumper) {
             robot.leftIntake.setPower(.5);
-            robot.rightIntake.setPower(.5);
+            robot.rightIntake.setPower(.25);
         } else if (gamepad2.left_bumper) {
             robot.leftIntake.setPower(-.5);
-            robot.rightIntake.setPower(-.5);
+            robot.rightIntake.setPower(-.25);
         } else {
             robot.leftIntake.setPower(0);
             robot.rightIntake.setPower(0);

@@ -33,8 +33,8 @@ public class BlueFoundation extends LinearOpMode {
         //wait for start
         waitForStart();
 
-        robot.foundation1.setPosition(1);
-        robot.foundation2.setPosition(0);
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(0);
 
         //Grid nav set in perspective on positive x,y and blue build site
 
@@ -43,8 +43,8 @@ public class BlueFoundation extends LinearOpMode {
         gridNavigation.driveToPosition(2.1041, 2.375,.3);
         gridNavigation.driveToPosition(1.6, 2.375,.3);
 
-        robot.foundation1.setPosition(0);
-        robot.foundation2.setPosition(1);
+//        robot.foundation1.setPosition(0);
+//        robot.foundation2.setPosition(1);
 
         sleep(500);
 
@@ -54,8 +54,8 @@ public class BlueFoundation extends LinearOpMode {
 
         gyroDrive.gyroDrive(0.5, 1500, 0);
 
-        robot.foundation1.setPosition(1);
-        robot.foundation2.setPosition(0);
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(0);
         sleep(1000);
 
         gyroTurn.turnGyro(-60);
