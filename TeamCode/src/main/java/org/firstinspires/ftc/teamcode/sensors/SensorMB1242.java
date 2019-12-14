@@ -24,6 +24,7 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
     private long lastPingTime = Long.MAX_VALUE;
     private int lastDistance = Integer.MAX_VALUE;
     private long minDelay = 100;
+    int offset = 17;
 
 
     public SensorMB1242(I2cDeviceSynch deviceClient) {
@@ -65,9 +66,12 @@ public class SensorMB1242 extends I2cDeviceSynchDevice<I2cDeviceSynch> implement
 
     public void changeI2cAddress(int i2cAddress) {
 
-        deviceClient.write8(0, i2cAddress, I2cWaitControl.ATOMIC);
+        deviceClient.write8(0, 0xaa, I2cWaitControl.ATOMIC);
+        deviceClient.write8(0, 0xaa, I2cWaitControl.ATOMIC);
         deviceClient.write8(0, 0xaa, I2cWaitControl.ATOMIC);
         deviceClient.write8(0, 0xa5, I2cWaitControl.ATOMIC);
+
+        deviceClient.write8(0, i2cAddress, I2cWaitControl.ATOMIC);
 
         /*
 

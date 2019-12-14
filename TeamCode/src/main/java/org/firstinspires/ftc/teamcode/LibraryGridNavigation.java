@@ -32,7 +32,7 @@ public class LibraryGridNavigation {
     //Y1 is starting Y coordinate
     double Distance;
     float turnAngle = 0f;
-    double GEAR_RATIO_SCALING_FACTOR = 1.2857142857;//(35/45);
+    double GEAR_RATIO_SCALING_FACTOR = 0.5;//(35/45); //12604 tile base has a 1 to 1 ratio
     //    SensorMB1242 leftUS = robot.leftSonic;
 //    SensorMB1242 rightUS = robot.rightSonic;
     private ElapsedTime runtime = new ElapsedTime();
@@ -170,7 +170,8 @@ public class LibraryGridNavigation {
 
         double yLeg = yDestination - yOrigin;
 
-        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.57) * 537.6 * GEAR_RATIO_SCALING_FACTOR;
+        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR;
+        //3.94 is 100cm circumference. 1120 is the encoder ticks for Neverrest 40.
         /** The input for each grid coordiante is one tile, so first we multiply the input
          * by size of one tile, which is 24 inches.  Then we divide that value by the distance
          * covered by one rotation of our wheels, which is 12.57 inches.  We then multiply that
@@ -178,6 +179,8 @@ public class LibraryGridNavigation {
          * we multiply that encoder value by the gear ratio that is set up for the wheel assembly we use.
          */
         System.out.println("Drive Distance is " + Distance);
+        System.out.println("Hypotenuse is " + Math.hypot(xLeg, yLeg));
+
         return Distance;
     }
 
@@ -186,10 +189,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionNonBlocking(double xDestination, double yDestination, double power) {
 
@@ -229,10 +232,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionValuesOnly(double xDestination, double yDestination, double power) {
 
@@ -246,10 +249,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
@@ -262,11 +265,17 @@ public class LibraryGridNavigation {
 
         gyroDrive.gyroDriveVariableP(power, (int) Distance, turnAngle, PCoeff);
 
+        telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
+        telemetry.addData("Distance parameter", (int) Distance);
+        telemetry.update();
+
     }
 
-    /** This is the initialize method
-     * @param myRobot Call your hardware map
-     * @param myGyro Insert the gyro you want to ues. In our case we use the REV IMU
+    /**
+     * This is the initialize method
+     *
+     * @param myRobot     Call your hardware map
+     * @param myGyro      Insert the gyro you want to ues. In our case we use the REV IMU
      * @param myTelemetry Call the telemetry
      */
     public void init(HardwareBeep myRobot, LibraryGyro myGyro, Telemetry myTelemetry) {
@@ -280,10 +289,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -312,10 +321,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -331,10 +340,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionReverse(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
@@ -350,10 +359,10 @@ public class LibraryGridNavigation {
 
     /**
      * @param xDestination When you call this method in another function you insert the x destination
-     *      * you want to go to on the grid
+     *                     * you want to go to on the grid
      * @param yDestination When you call this method in another function you insert the y destination
-     * you want to go to on the grid
-     * @param power Input the power you want to run the robot at
+     *                     you want to go to on the grid
+     * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionReverseValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);

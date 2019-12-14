@@ -1,74 +1,238 @@
-///* Copyright (c) 2017 FIRST. All rights reserved.
-// *
-// * Redistribution and use in source and binary forms, with or without modification,
-// * are permitted (subject to the limitations in the disclaimer below) provided that
-// * the following conditions are met:
-// *
-// * Redistributions of source code must retain the above copyright notice, this list
-// * of conditions and the following disclaimer.
-// *
-// * Redistributions in binary form must reproduce the above copyright notice, this
-// * list of conditions and the following disclaimer in the documentation and/or
-// * other materials provided with the distribution.
-// *
-// * Neither the name of FIRST nor the names of its contributors may be used to endorse or
-// * promote products derived from this software without specific prior written permission.
-// *
-// * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
-// * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-// * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-// * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// */
-//
+//Declare package
 package org.firstinspires.ftc.teamcode;
 
+//Import Hardware
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class HardwareBeepTest {
-    /* Public OpMode members. */
-    public DcMotor leftDrive = null;
-    public DcMotor rightDrive = null;
+import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
-    /* local OpMode members. */
+/**
+ * @author Beep Patrol
+ * <p>
+ * <b>Summary:</b>
+ * <p>
+ * This is our Hardware Map that contains all the motors, servos, and sensors that we use on the
+ * robot. We pull this Hardware Map in all the programs we use a part of the robot. In this program
+ * we intialize the encoders on the motors we want to call the encoder for.
+ */
+public class HardwareBeepTest {
+
+    // Set Public OpMode Members
+    public DcMotor leftFront = null;
+    public DcMotor leftBack = null;
+    public DcMotor rightFront = null;
+    public DcMotor rightBack = null;
+    public DcMotor rightIntake = null;
+    public DcMotor leftIntake = null;
+    public DcMotor droidLifterLeft = null;
+    public DcMotor droidLifterRight = null;
+    public CRServo outExtrusion1 = null;
+    public CRServo outExtrusion2 = null;
+    public Servo claw = null;
+    public Servo clawTurner = null;
+    public Servo foundation1 = null;
+    public Servo foundation2 = null;
+    public Servo clawAid = null;
+    public BNO055IMU imuActual = null;
+    public SensorMB1242 rightSonic = null;
+    public SensorMB1242 leftSonic = null;
+
+    // Set local OpMode Members
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
 
-    /* Constructor */
+    // Constructor
     public HardwareBeepTest() {
-
     }
 
-    /* Initialize standard Hardware interfaces */
+    /**
+     * Initializes standard hardware interfaces
+     *
+     * @param ahwMap A reference to Hardware Map
+     */
     public void init(HardwareMap ahwMap) {
-        // Save reference to Hardware map
+
+        // Telemetry Switches
+        boolean GRID_NAV_TELEMETRY_ON = true;
+
+        // Save Reference To Hardware Map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
-        leftDrive = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        // Define Motors, Servos, and Sensors
+        leftFront = hwMap.get(DcMotor.class, "left_front");
+        leftBack = hwMap.get(DcMotor.class, "left_back");
+        rightFront = hwMap.get(DcMotor.class, "right_front");
+        rightBack = hwMap.get(DcMotor.class, "right_back");
+        leftIntake = hwMap.get(DcMotor.class, "left_intake");
+        rightIntake = hwMap.get(DcMotor.class, "right_intake");
+        droidLifterLeft = hwMap.get(DcMotor.class, "droid_left");
+        droidLifterRight = hwMap.get(DcMotor.class, "droid_right");
+        outExtrusion1 = hwMap.get(CRServo.class, "out_extrusion1");
+        outExtrusion2 = hwMap.get(CRServo.class, "out_extrusion2");
+        claw = hwMap.get(Servo.class, "claw");
+        clawTurner = hwMap.get(Servo.class, "claw_turner");
+        foundation1 = hwMap.get(Servo.class, "foundation1");
+        foundation2 = hwMap.get(Servo.class, "foundation2");
+        clawAid = hwMap.get(Servo.class, "claw_aid");
 
-        // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
+        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
+        //rightSonic.changeI2cAddress(0xe2);
 
-        // Define and initialize ALL installed servos.
+        // Set Motor and Servo Direction
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        leftIntake.setDirection(DcMotor.Direction.FORWARD);
+        rightIntake.setDirection(DcMotor.Direction.REVERSE);
+        droidLifterRight.setDirection(DcMotor.Direction.REVERSE);
+        droidLifterLeft.setDirection(DcMotor.Direction.REVERSE);
+        outExtrusion1.setDirection(CRServo.Direction.FORWARD);
+        outExtrusion2.setDirection(CRServo.Direction.FORWARD);
+        claw.setDirection(Servo.Direction.FORWARD);
+        foundation1.setDirection(Servo.Direction.FORWARD);
+        foundation1.setDirection(Servo.Direction.FORWARD);
+        clawTurner.setDirection(Servo.Direction.FORWARD);
+        clawAid.setDirection(Servo.Direction.FORWARD);
 
+
+        // Set Motor to Zero Power Behavior
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Set Servos to Zero Power
+        outExtrusion1.setPower(0);
+        outExtrusion2.setPower(0);
+
+
+        // Set Motors to Run Without Encoders
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // Set Motors to Run Using Encoders
+        leftIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        droidLifterLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        droidLifterRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Set IMU Parameters
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        // Initialize IMU
+        imuActual.initialize(parameters);
     }
 }
 
+
+
+
+
+//Import Hardware
+//
+//import com.qualcomm.hardware.bosch.BNO055IMU;
+//import com.qualcomm.robotcore.hardware.DcMotor;
+//import com.qualcomm.robotcore.hardware.HardwareMap;
+//import com.qualcomm.robotcore.util.ElapsedTime;
+//
+//import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
+//
+///**
+// * @author Beep Patrol
+// * <p>
+// * <b>Summary:</b>
+// * <p>
+// * This is our Hardware Map that contains all the motors, servos, and sensors that we use on the
+// * robot. We pull this Hardware Map in all the programs we use a part of the robot. In this program
+// * we intialize the encoders on the motors we want to call the encoder for.
+// */
+//public class HardwareBeepTest {
+//
+//    // Set Public OpMode Members
+//    public DcMotor leftFront = null;
+//    public DcMotor leftBack = null;
+//    public DcMotor rightFront = null;
+//    public DcMotor rightBack = null;
+//    public SensorMB1242 rightSonic = null;
+//    public SensorMB1242 leftSonic = null;
+//    public BNO055IMU imu = null;
+//
+//    // Set local OpMode Members
+//    HardwareMap hwMap = null;
+//    private ElapsedTime period = new ElapsedTime();
+//
+//    // Constructor
+//    public HardwareBeepTest() {
+//    }
+//
+//    /**
+//     * Initializes standard hardware interfaces
+//     *
+//     * @param ahwMap A reference to Hardware Map
+//     */
+//    public void init(HardwareMap ahwMap) {
+//
+//        // Telemetry Switches
+//        boolean GRID_NAV_TELEMETRY_ON = true;
+//
+//        // Save Reference To Hardware Map
+//        hwMap = ahwMap;
+//
+//        // Define Motors, Servos, and Sensors
+//        leftFront = hwMap.get(DcMotor.class, "left_front");
+//        leftBack = hwMap.get(DcMotor.class, "left_back");
+//        rightFront = hwMap.get(DcMotor.class, "right_front");
+//        rightBack = hwMap.get(DcMotor.class, "right_back");
+//        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+//        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
+//        imu = hwMap.get(BNO055IMU.class, "imu");
+//
+//        // Set Motor and Servo Direction
+//        leftFront.setDirection(DcMotor.Direction.FORWARD);
+//        leftBack.setDirection(DcMotor.Direction.FORWARD);
+//        rightFront.setDirection(DcMotor.Direction.REVERSE);
+//        rightBack.setDirection(DcMotor.Direction.REVERSE);
+//
+//
+//        // Set Motor to Zero Power Behavior
+//        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//
+//        // Set Motors to Run Without Encoders
+//        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//        // Set IMU Parameters
+//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//        parameters.mode = BNO055IMU.SensorMode.IMU;
+//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.loggingEnabled = false;
+//
+//        // Initialize IMU
+//        imu.initialize(parameters);
+//    }
+//}

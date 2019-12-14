@@ -34,8 +34,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-
 /**
  * This file illustrates the concept of driving a path based on time.
  * It uses the common Pushbot hardware class to define the drive on the robot.
@@ -56,14 +54,13 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
-@Autonomous(name = "Pushbot: Auto Drive By Time", group = "Pushbot")
 @Disabled
+@Autonomous(name = "Pushbot: Auto Drive By Time", group = "Pushbot")
 public class JoshPushbotAutoDriveByTime_Linear extends LinearOpMode {
 
     static final double FORWARD_SPEED = 0.6;
     /* Declare OpMode members. */
-    HardwarePushbot robot = new HardwarePushbot();   // Use a Pushbot's hardware
+    HardwareBeep robot = new HardwareBeep();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -85,17 +82,51 @@ public class JoshPushbotAutoDriveByTime_Linear extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        robot.leftDrive.setPower(FORWARD_SPEED);
-        robot.rightDrive.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+
+         for (int i = 0; i < 2; i++) {
+            robot.leftFront.setPower(-FORWARD_SPEED);
+            robot.rightFront.setPower(FORWARD_SPEED);
+            robot.leftBack.setPower(FORWARD_SPEED);
+            robot.rightBack.setPower(-FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+
+            robot.leftFront.setPower(FORWARD_SPEED);
+            robot.rightFront.setPower(FORWARD_SPEED);
+            robot.leftBack.setPower(FORWARD_SPEED);
+            robot.rightBack.setPower(FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+
+            robot.leftFront.setPower(FORWARD_SPEED);
+            robot.rightFront.setPower(-FORWARD_SPEED);
+            robot.leftBack.setPower(-FORWARD_SPEED);
+            robot.rightBack.setPower(FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+
+            robot.leftFront.setPower(-FORWARD_SPEED);
+            robot.rightFront.setPower(-FORWARD_SPEED);
+            robot.leftBack.setPower(-FORWARD_SPEED);
+            robot.rightBack.setPower(-FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
         }
-
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
+
     }
 }
