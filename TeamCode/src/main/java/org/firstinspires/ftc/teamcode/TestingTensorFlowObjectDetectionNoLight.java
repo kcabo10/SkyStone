@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
 
-@Disabled
+
 @Autonomous(name = "Testing Tensor Flow Object Detection No Light", group = "Beep")
 public class TestingTensorFlowObjectDetectionNoLight extends LinearOpMode {
 

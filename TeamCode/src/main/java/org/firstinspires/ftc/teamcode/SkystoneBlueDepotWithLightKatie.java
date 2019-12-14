@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-@Disabled
 @Autonomous(name = "Skystone Blue Depot With Light Katie", group = "Beep")
 public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
@@ -30,8 +29,8 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
+    LibraryTensorFlowObjectDetectionNoLight tensorFlow =
+            new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
     double offset = .31;
@@ -58,13 +57,13 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
         // Set initial Grid Nav position
 //        robot.leftSonic.ping();
-        robot.rightSonic.ping();
+        robot.leftSonic.ping();
         sleep(200);
 //        double leftDistance = (double)robot.leftSonic.getDistance()/2.54/24 + offset;
-        double rightDistance = (double) robot.rightSonic.getDistance() / 2.54 / 24 + offset;
+        double leftDistance = (double) robot.leftSonic.getDistance() / 2.54 / 24 + offset;
 
 //        telemetry.addData("leftDistance", leftDistance);
-        telemetry.addData("rightDistance", rightDistance);
+        telemetry.addData("leftDistance", leftDistance);
         telemetry.update();
 
         double yDistance = .375;
@@ -74,9 +73,9 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 //            telemetry.update();
 //                gridNavigation.setGridPosition(leftDistance, yDistance,90);
 //        }
-        if (rightDistance >= .5) {
-            gridNavigation.setGridPosition(-rightDistance, yDistance, 90);
-            telemetry.addData("rightDistance", rightDistance);
+        if (leftDistance >= .5) {
+            gridNavigation.setGridPosition(-leftDistance, yDistance, 90);
+            telemetry.addData("rightDistance", leftDistance);
         } else {
             telemetry.addData("Default", "");
             gridNavigation.setGridPosition(1.5, yDistance, 90);
@@ -262,7 +261,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {
             case ("Pos 1"):
-                telemetry.addData("Telemetry", "left");
+                telemetry.addData("Telemetry", "right");
                 telemetry.update();
                 SkystonePosition = "Pos 3";
                 break;
@@ -271,7 +270,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 telemetry.update();
                 break;
             case ("Pos 3"):
-                telemetry.addData("Telemetry", "Right");
+                telemetry.addData("Telemetry", "left");
                 telemetry.update();
                 SkystonePosition = "Pos 1";
                 break;
