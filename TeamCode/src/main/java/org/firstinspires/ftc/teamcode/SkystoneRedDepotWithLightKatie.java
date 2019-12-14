@@ -30,8 +30,8 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
+//    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
+//            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
     double offset = .31;
@@ -66,10 +66,10 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         robot.rightSonic.ping();
         sleep(200);
         double leftDistance = (double) robot.leftSonic.getDistance() / 2.54 / 24 + offset;
-//        double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
+       double rightDistance = (double)robot.rightSonic.getDistance()/2.54/24 + offset;
 
         telemetry.addData("leftDistance", leftDistance);
-//        telemetry.addData("rightDistance", rightDistance);
+       telemetry.addData("rightDistance", rightDistance);
         telemetry.update();
 
         double yDistance = .375;
@@ -79,10 +79,10 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
             telemetry.update();
             gridNavigation.setGridPosition(leftDistance, yDistance, 90);
         }
-//        else if (rightDistance >= 3) {
-//            gridNavigation.setGridPosition(rightDistance, yDistance, 90);
-//            telemetry.addData("rightDistance", rightDistance);
-//        }
+        else if (rightDistance >= 3) {
+            gridNavigation.setGridPosition(rightDistance, yDistance, 90);
+            telemetry.addData("rightDistance", rightDistance);
+        }
 
         else {
             telemetry.addData("Default", "");
@@ -228,16 +228,16 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         telemetry.update();
 
 
-//        /*
-//         * PLACE SKYSTONE
-//         */
-//        /*
-//         * LOWER FOUNDATION ATTACHMENT
-//         */
-//        // drive to reposition foundation
-//        gridNavigation.driveToPositionBackwards(REPOSITIONING_POS[X], REPOSITIONING_POS[Y], .7);
-//        // parking under alliance sky bridge
-//        gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
+        /*
+         * PLACE SKYSTONE
+         */
+        /*
+         * LOWER FOUNDATION ATTACHMENT
+         */
+        // drive to reposition foundation
+        gridNavigation.driveToPositionBackwards(REPOSITIONING_POS[X], REPOSITIONING_POS[Y], .7);
+        // parking under alliance sky bridge
+        gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
 
     }
@@ -263,7 +263,7 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         /*
          * UPDATE WITH NEW REPOSITORY
          */
-        SkystonePosition = tensorFlow.findSkystone();
+//        SkystonePosition = tensorFlow.findSkystone();
 
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {

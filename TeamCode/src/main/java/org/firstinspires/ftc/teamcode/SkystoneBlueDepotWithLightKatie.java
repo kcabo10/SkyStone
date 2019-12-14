@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-@Disabled
 @Autonomous(name = "Skystone Blue Depot With Light Katie", group = "Beep")
 public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
@@ -30,8 +29,8 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
+//    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
+//            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
     double offset = .31;
@@ -257,7 +256,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         /*
          * UPDATE WITH NEW REPOSITORY
          */
-        SkystonePosition = tensorFlow.findSkystone();
+//        SkystonePosition = tensorFlow.findSkystone();
 
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {

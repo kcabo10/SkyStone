@@ -31,8 +31,8 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
+//    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
+//            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
 
@@ -191,7 +191,7 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
         /*
          * UPDATE WITH NEW REPOSITORY
          */
-        SkystonePosition = tensorFlow.findSkystone();
+//        SkystonePosition = tensorFlow.findSkystone();
 
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {

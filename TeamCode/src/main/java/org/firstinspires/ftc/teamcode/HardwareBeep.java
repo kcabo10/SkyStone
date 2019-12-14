@@ -29,12 +29,11 @@
 //    public DcMotor leftBack = null;
 //    public DcMotor rightFront = null;
 //    public DcMotor rightBack = null;
-//    public DcMotor rightIntake = null;
-//    public DcMotor leftIntake = null;
+//    public CRServo rightIntake = null;
+//    public CRServo leftIntake = null;
 //    public DcMotor droidLifterLeft = null;
 //    public DcMotor droidLifterRight = null;
-//    public CRServo outExtrusion1 = null;
-//    public CRServo outExtrusion2 = null;
+//    public CRServo outExtrusion = null;
 //    public Servo claw = null;
 //    public Servo clawTurner = null;
 //    public Servo foundation1 = null;
@@ -70,12 +69,11 @@
 //        leftBack = hwMap.get(DcMotor.class, "left_back");
 //        rightFront = hwMap.get(DcMotor.class, "right_front");
 //        rightBack = hwMap.get(DcMotor.class, "right_back");
-//        leftIntake = hwMap.get(DcMotor.class, "left_intake");
-//        rightIntake = hwMap.get(DcMotor.class, "right_intake");
+//        leftIntake = hwMap.get(CRServo.class, "left_intake");
+//        rightIntake = hwMap.get(CRServo.class, "right_intake");
 //        droidLifterLeft = hwMap.get(DcMotor.class, "droid_left");
 //        droidLifterRight = hwMap.get(DcMotor.class, "droid_right");
-//        outExtrusion1 = hwMap.get(CRServo.class, "out_extrusion1");
-//        outExtrusion2 = hwMap.get(CRServo.class, "out_extrusion2");
+//        outExtrusion = hwMap.get(CRServo.class, "out_extrusion1");
 //        claw = hwMap.get(Servo.class, "claw");
 //        clawTurner = hwMap.get(Servo.class, "claw_turner");
 //        foundation1 = hwMap.get(Servo.class, "foundation1");
@@ -97,8 +95,7 @@
 //        rightIntake.setDirection(DcMotor.Direction.REVERSE);
 //        droidLifterRight.setDirection(DcMotor.Direction.REVERSE);
 //        droidLifterLeft.setDirection(DcMotor.Direction.REVERSE);
-//        outExtrusion1.setDirection(CRServo.Direction.FORWARD);
-//        outExtrusion2.setDirection(CRServo.Direction.FORWARD);
+//        outExtrusion.setDirection(CRServo.Direction.FORWARD);
 //        claw.setDirection(Servo.Direction.FORWARD);
 //        foundation1.setDirection(Servo.Direction.FORWARD);
 //        foundation1.setDirection(Servo.Direction.FORWARD);
@@ -113,8 +110,8 @@
 //        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //
 //        // Set Servos to Zero Power
-//        outExtrusion1.setPower(0);
-//        outExtrusion2.setPower(0);
+//        outExtrusion.setPower(0);
+//
 //
 //
 //        // Set Motors to Run Without Encoders
@@ -124,8 +121,8 @@
 //        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //
 //        // Set Motors to Run Using Encoders
-//        leftIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftIntake.setPower(0);
+//        rightIntake.setPower(0);
 //
 //        droidLifterLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        droidLifterRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -141,9 +138,9 @@
 //        imuActual.initialize(parameters);
 //    }
 //}
-//
-//
-//
+
+
+
 
 
 
@@ -152,12 +149,13 @@ package org.firstinspires.ftc.teamcode;
 
 //Import Hardware
 
-        import com.qualcomm.hardware.bosch.BNO055IMU;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.HardwareMap;
-        import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-        import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
+import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 /**
  * @author Beep Patrol
@@ -210,10 +208,10 @@ public class HardwareBeep {
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
 
         // Set Motor and Servo Direction
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Set Motor to Zero Power Behavior

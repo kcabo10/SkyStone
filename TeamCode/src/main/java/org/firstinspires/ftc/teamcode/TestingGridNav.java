@@ -31,8 +31,8 @@ public class TestingGridNav extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
+//    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
+//            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
 
