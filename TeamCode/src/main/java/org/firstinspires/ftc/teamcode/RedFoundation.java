@@ -34,8 +34,8 @@ public class RedFoundation extends LinearOpMode {
         //wait for start
         waitForStart();
 
-        robot.foundation1.setPosition(1);
-        robot.foundation2.setPosition(0);
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(0);
         //Grid nav set in perspective on positive x,y and blue build site
 
         gridNavigation.setGridPosition(0.296,  2.1041, 0);
@@ -43,8 +43,8 @@ public class RedFoundation extends LinearOpMode {
         gridNavigation.driveToPosition(2.375, 2.1041,.3);
         gridNavigation.driveToPosition(2.375, 1.6,.3);
 
-        robot.foundation1.setPosition(0);
-        robot.foundation2.setPosition(1);
+//        robot.foundation1.setPosition(0);
+//        robot.foundation2.setPosition(1);
         sleep(500);
 
         gyroDrive.gyroDrive(0.5, -500, 0);
@@ -53,8 +53,8 @@ public class RedFoundation extends LinearOpMode {
 
         gyroDrive.gyroDrive(0.5, 1500, 0);
 
-        robot.foundation1.setPosition(1);
-        robot.foundation2.setPosition(0);
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(0);
         sleep(1000);
 
         gyroTurn.turnGyro(60);
