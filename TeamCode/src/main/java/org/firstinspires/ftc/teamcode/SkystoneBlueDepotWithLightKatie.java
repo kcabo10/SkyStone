@@ -29,8 +29,8 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
     // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionNoLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionNoLight(robot, telemetry);
+    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
+            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
     double offset = .31;
@@ -97,23 +97,22 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         //int END_ANGLE = 2;
 
         // Skystone pos 1
-        double[] DEPOT_POS = {-.5, .5}; /* END_ANGLE = 0 */
-        double[] DEPOT_POS2 = {-.7, .5}; /* END_ANGLE = 0 */
+        double[] DEPOT_POS = {.5, .5}; /* END_ANGLE = 0 */
 
-        double[] SKYSTONE_POS_1 = {-.5, 1.5}; /* END_ANGLE = 0 */
-        double[] SKYSTONE2_POS_1 = {-1.5, 1.5}; /* END_ANGLE = 0 */
-        double[] TOWARD_SKYSTONE = {-1.5, 1.55}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_1 = {.3, 1.6}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_1 = {1.5, 1}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE = {1.5, 1.55}; /* END_ANGLE = 0 */
         // Skystone pos 2
-        double[] SKYSTONE_POS_2 = {-.5, 1.5}; /* END_ANGLE = 0 */
-        double[] SKYSTONE2_POS_2 = {-1.2, 1.5}; /* END_ANGLE = 0 */
-        double[] TOWARD_SKYSTONE2 = {-1.2, 1.55}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_2 = {.5, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_2 = {1.2, 1.5}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE2 = {1.2, 1.55}; /* END_ANGLE = 0 */
         // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {-.7, 1.5}; /* END_ANGLE = 0 */
-        double[] SKYSTONE2_POS_3 = {-1.7, 1.5}; /* END_ANGLE = 0 */
-        double[] TOWARD_SKYSTONE3 = {-1.7, 1.55}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_3 = {.7, 1.5}; /* END_ANGLE = 0 */
+        double[] SKYSTONE2_POS_3 = {1.7, 1.5}; /* END_ANGLE = 0 */
+        double[] TOWARD_SKYSTONE3 = {1.7, 1.55}; /* END_ANGLE = 0 */
         // Foundation pos
-        double[] FOUNDATION_POS = {-5, 1.5}; /* END_ANGLE = 0 */
-        double[] FACING_FOUNDATION = {-5, 1.55}; /* END_ANGLE = 0 */
+        double[] FOUNDATION_POS = {5, 1.5}; /* END_ANGLE = 0 */
+        double[] FACING_FOUNDATION = {5, 1.55}; /* END_ANGLE = 0 */
         // Repositioning pos
         double[] REPOSITIONING_POS = {-0.5, 5}; /* END_ANGLE = 0 */
         // Parking pos
@@ -129,10 +128,22 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 printTelemetry(20);
                 if (SkystonePosition == "Pos 1") {
                     gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
-                    gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
-                    telemetry.addData("Grid Nav Go to Pos X", SKYSTONE_POS_1[X]);
-                    telemetry.addData("Grid Nav Go to Pos Y", SKYSTONE_POS_1[Y]);
+                    telemetry.addData("Grid Nav Go to Pos X", DEPOT_POS[X]);
+                    telemetry.addData("Grid Nav Go to Pos Y", DEPOT_POS[Y]);
                     sleep(2000);
+
+                    runtime.reset();
+//                    robot.rightIntake.setPower(7);
+//                    robot.leftIntake.setPower(-7);
+
+                    // Waiting for 1.15 seconds before it stops the servo
+                    while (runtime.seconds() < 1.5) {
+                        gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
+                    }
+                    // Sets power to 0 to stop the latch
+//                    robot.rightIntake.setPower(0);
+//                    robot.leftIntake.setPower(0);
+
                     gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
                     gridNavigation.driveToPosition(FACING_FOUNDATION[X], FACING_FOUNDATION[Y], .5);
 //                    gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
@@ -180,7 +191,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                     telemetry.addData("Grid Nav Goto Pos X", SKYSTONE_POS_3[X]);
                     telemetry.addData("Grid Nav Goto Pos Y", SKYSTONE_POS_3[Y]);
                     // drive to the third skystone position
-                    gridNavigation.driveToPosition(DEPOT_POS2[X], DEPOT_POS2[Y], .5);
+                    gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
                     gridNavigation.driveToPosition(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .5);
                     sleep(2000);
                     gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
@@ -203,7 +214,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 telemetry.addData("Telemetry", "Didn't see skystone pos");
                 telemetry.update();
                 gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
-                gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
+                gridNavigation.driveToPosition(SKYSTONE_POS_3[X], SKYSTONE_POS_1[Y], .5);
                 sleep(2000);
                 gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
                 gridNavigation.driveToPosition(FACING_FOUNDATION[X], FACING_FOUNDATION[Y], .5);

@@ -32,7 +32,8 @@ public class LibraryGridNavigation {
     //Y1 is starting Y coordinate
     double Distance;
     float turnAngle = 0f;
-    double GEAR_RATIO_SCALING_FACTOR = 0.5;//(35/45); //12604 tile base has a 1 to 1 ratio
+    double GEAR_RATIO_SCALING_FACTOR = 2;//(35/45);
+    double GEAR_RATIO_SCALING_FACTOR_TileRunner = 1;//(35/45); //12604 tile base has a 1 to 1 ratio
     //    SensorMB1242 leftUS = robot.leftSonic;
 //    SensorMB1242 rightUS = robot.rightSonic;
     private ElapsedTime runtime = new ElapsedTime();
@@ -44,11 +45,16 @@ public class LibraryGridNavigation {
      * @param yPosition
      * @param angle
      */
+
+    double previousXPosition;
+
     public void setGridPosition(double xPosition, double yPosition, float angle) {
         xOrigin = xPosition;
         yOrigin = yPosition;
+        yPosition = previousXPosition;
         StartingAngle = angle;
         System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
+
     }
 
     /**
@@ -104,6 +110,52 @@ public class LibraryGridNavigation {
 
     }
 
+    public float getTurnAngleBackwardsValuesOnly(double xDestination, double yDestination) {
+
+        float tanAngle = 0; // comment
+
+        // This section creates the legs of the triangle formed by the rectangular coordinates
+        // inputted by the programing team.
+        double xLeg = xDestination - xOrigin;
+
+        double yLeg = yDestination - yOrigin;
+
+        // The theta variable is found by taking the inverse tangent function of the y and x legs
+        // of the triangle. Theta is the angle the robot needs to turn to align with the new
+        // destination.
+        double theta = Math.atan2(yLeg, xLeg);
+        //atan2 automatically corrects for the limited domain of the inverse tangent function
+
+
+        // This converts the radians given by the atan2 funtion to degrees.
+        tanAngle = (float) Math.toDegrees(theta) + 180;
+        if (tanAngle > 180) {
+            tanAngle = tanAngle - 360;
+        } else if (tanAngle < -180) {
+            tanAngle = tanAngle + 360;
+        }
+
+        // These set the previous destination coordinates to the next starting coordinates.
+        xOrigin = xDestination;
+        yOrigin = yDestination;
+
+        turnAngle = tanAngle - StartingAngle;
+        if (turnAngle > 180) {
+            turnAngle = turnAngle - 360;
+        } else if (turnAngle < -180) {
+            turnAngle = turnAngle + 360;
+        }
+
+        System.out.println("xLeg is " + xLeg);
+        System.out.println("yLeg is " + yLeg);
+        System.out.println("Start Angle is " + StartingAngle);
+        System.out.println("Tangent Angle is " + tanAngle);
+        System.out.println("Turn angle " + turnAngle);
+        StartingAngle = tanAngle;
+
+        return turnAngle;
+
+    }
     /**
      * @param xDestination
      * @param yDestination
@@ -164,13 +216,68 @@ public class LibraryGridNavigation {
      * @param yDestination
      * @return
      */
+
+    public float getTurnAngleBackwards(double xDestination, double yDestination) {
+
+        float tanAngle = 0; // comment
+
+        // This section creates the legs of the triangle formed by the rectangular coordinates
+        // inputted by the programing team.
+        double xLeg = xDestination - xOrigin;
+
+        double yLeg = yDestination - yOrigin;
+
+        // The theta variable is found by taking the inverse tangent function of the y and x legs
+        // of the triangle. Theta is the angle the robot needs to turn to align with the new
+        // destination.
+        double theta = Math.atan2(yLeg, xLeg);
+        //atan2 automatically corrects for the limited domain of the inverse tangent function
+
+
+        // This converts the radians given by the atan2 funtion to degrees.
+        tanAngle = (float) Math.toDegrees(theta) + 180;
+        if (tanAngle > 180) {
+            tanAngle = tanAngle - 360;
+        } else if (tanAngle < -180) {
+            tanAngle = tanAngle + 360;
+        }
+
+        // These set the previous destination coordinates to the next starting coordinates.
+        xOrigin = xDestination;
+        yOrigin = yDestination;
+
+        turnAngle = tanAngle - StartingAngle;
+        if (turnAngle > 180) {
+            turnAngle = turnAngle - 360;
+        } else if (turnAngle < -180) {
+            turnAngle = turnAngle + 360;
+        }
+
+        System.out.println("xLeg is " + xLeg);
+        System.out.println("yLeg is " + yLeg);
+        System.out.println("Start Angle is " + StartingAngle);
+        System.out.println("Tangent Angle is " + tanAngle);
+        System.out.println("Turn angle " + turnAngle);
+        StartingAngle = tanAngle;
+
+        return turnAngle;
+
+    }
+    /**
+     * @param xDestination
+     * @param yDestination
+     * @return
+     */
     public double getDriveDistance(double xDestination, double yDestination) {
 
         double xLeg = xDestination - xOrigin;
 
         double yLeg = yDestination - yOrigin;
 
-        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR;
+        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
+
+
+//        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR;
         //3.94 is 100cm circumference. 1120 is the encoder ticks for Neverrest 40.
         /** The input for each grid coordiante is one tile, so first we multiply the input
          * by size of one tile, which is 24 inches.  Then we divide that value by the distance
@@ -179,7 +286,6 @@ public class LibraryGridNavigation {
          * we multiply that encoder value by the gear ratio that is set up for the wheel assembly we use.
          */
         System.out.println("Drive Distance is " + Distance);
-        System.out.println("Hypotenuse is " + Math.hypot(xLeg, yLeg));
 
         return Distance;
     }
@@ -259,11 +365,29 @@ public class LibraryGridNavigation {
         double PCoeff = .01;
 
         getDriveDistance(xDestination, yDestination);
+        previousXPosition = getDriveDistance(xDestination, yDestination);
         getTurnAngle(xDestination, yDestination);
 
         gyroDrive.gyro.turnGyro(turnAngle);
 
         gyroDrive.gyroDriveVariableP(power, (int) Distance, turnAngle, PCoeff);
+
+        telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
+        telemetry.addData("Distance parameter", (int) Distance);
+        telemetry.update();
+
+    }
+    public void strafeToPosition(double xDestination, double yDestination, double power) {
+
+        getDriveDistance(xDestination, yDestination);
+        turnAngle = 0;
+
+        if (getDriveDistance(xDestination, yDestination) >= previousXPosition) {
+            gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
+        }
+        else {
+            gyroDrive.gyroStrafeLeft(power, (int) Distance, turnAngle);
+        }
 
         telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
         telemetry.addData("Distance parameter", (int) Distance);
@@ -296,26 +420,11 @@ public class LibraryGridNavigation {
      */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
-        getTurnAngle(xDestination, yDestination);
+        previousXPosition = getDriveDistance(xDestination, yDestination);
+        getTurnAngleBackwards(xDestination, yDestination);
 
-        //turnAngle = (turnAngle - 180);
-
-//        if (turnAngle > 180) {
-//            turnAngle = turnAngle - 180;
-//            StartingAngle = (StartingAngle - 180);
-//
-//        } else if (turnAngle < -180) {
-//            turnAngle = turnAngle + 180;
-//            StartingAngle = (StartingAngle + 180);
-//
-//        } else {
-//        }
-
-        gyroDrive.gyro.turnGyro(turnAngle);
-        gyroDrive.gyroDrive(-power, (int) Distance, 0.0);
-
-        telemetry.addData("Angle", turnAngle);
-        telemetry.update();
+      gyroDrive.gyro.turnGyro(turnAngle);
+      gyroDrive.gyroDrive(-power, (int) -Distance, 0.0);
 
     }
 
@@ -328,48 +437,7 @@ public class LibraryGridNavigation {
      */
     public void driveToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power) {
         getDriveDistance(xDestination, yDestination);
-        getTurnAngleValuesOnly(xDestination, yDestination);
-
-        turnAngle = (turnAngle - 180);
-        StartingAngle = (StartingAngle - 180);
-
-
-        System.out.println("driveToPositionBackwardsValueOnly to with turn angle " + turnAngle + " and Starting Angle " + StartingAngle);
-
-    }
-
-    /**
-     * @param xDestination When you call this method in another function you insert the x destination
-     *                     * you want to go to on the grid
-     * @param yDestination When you call this method in another function you insert the y destination
-     *                     you want to go to on the grid
-     * @param power        Input the power you want to run the robot at
-     */
-    public void driveToPositionReverse(double xDestination, double yDestination, double power) {
-        getDriveDistance(xDestination, yDestination);
-        getTurnAngle(xDestination, yDestination);
-
-        turnAngle = (0 + 180);
-        StartingAngle = (StartingAngle + 180);
-
-        gyroDrive.gyro.turnGyro(turnAngle);
-        gyroDrive.gyroDrive(-power, -(int) Distance, 0.0);
-
-    }
-
-    /**
-     * @param xDestination When you call this method in another function you insert the x destination
-     *                     * you want to go to on the grid
-     * @param yDestination When you call this method in another function you insert the y destination
-     *                     you want to go to on the grid
-     * @param power        Input the power you want to run the robot at
-     */
-    public void driveToPositionReverseValuesOnly(double xDestination, double yDestination, double power) {
-        getDriveDistance(xDestination, yDestination);
-        getTurnAngleValuesOnly(xDestination, yDestination);
-
-        turnAngle = (turnAngle + 180);
-        StartingAngle = (StartingAngle + 180);
+        getTurnAngleBackwardsValuesOnly(xDestination, yDestination);
         System.out.println("driveToPositionBackwardsValueOnly to with turn angle " + turnAngle + " and Starting Angle " + StartingAngle);
 
     }

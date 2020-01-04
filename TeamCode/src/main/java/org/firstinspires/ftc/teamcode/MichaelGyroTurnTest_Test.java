@@ -77,15 +77,16 @@ public class MichaelGyroTurnTest_Test {
         double[] FOUNDATION_POS = {5, 1.8}; /* END_ANGLE = 0 */
 
         //Initial touchdown
-        testGridNav.setGridPosition(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], 90);
-
-        testGridNav.driveToPositionValuesOnly(FOUNDATION_POS[X], FOUNDATION_POS[Y], 45);
+//        testGridNav.setGridPosition(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], 90);
+//
+//        testGridNav.driveToPositionValuesOnly(FOUNDATION_POS[X], FOUNDATION_POS[Y], 45);
 
         //Right mineral
 //        //Drive closer to lander
-//        testGridNav.setGridPosition(1.8, .9, 8);
-//        testGridNav.driveToPositionBackwardsValuesOnly(1.4, 1.35, .2);
-//
+        testGridNav.setGridPosition(1.5, .5, 90);
+        testGridNav.driveToPositionValuesOnly(.5, .5, .2);
+        testGridNav.driveToPositionBackwardsValuesOnly(.5, 1.5, .2);
+
 //        testGridNav.setGridPosition(.9, .9, 180);
 //        testGridNav.driveToPositionValuesOnly(.1, 2.3, .7);
 //

@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
 
-@Disabled
 @Autonomous(name = "Testing Tensor Flow Object Detection With Light", group = "Beep")
 public class TestingTensorFlowObjectDetectionWithLight extends LinearOpMode {
 
@@ -44,7 +43,7 @@ public class TestingTensorFlowObjectDetectionWithLight extends LinearOpMode {
         waitForStart();
 
         // Start up Tensor Flow to read skystone position after start
-        getSkystonePosition();
+        getSkystonePos();
 
         // This is a switch block that plays the program in relation to the skystone position
         // Tensor Flow reads
@@ -107,30 +106,38 @@ public class TestingTensorFlowObjectDetectionWithLight extends LinearOpMode {
     /**
      * This method calls Tensor Flow in order to read the skystone position
      */
-    public void getSkystonePosition() {
+    public void getSkystonePos() {
         int debounceCount = 0;
         long startTime = 0;
         String previousPosition;
+        /*
+         * UPDATE WITH NEW REPOSITORY
+         */
         SkystonePosition = tensorFlow.findSkystone();
+
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {
-            case ("Pos 3"):
-                telemetry.addData("Telemetry", "Pos 3");
-                telemetry.update();
-                break;
             case ("Pos 1"):
-                telemetry.addData("Telemetry", "Pos 1");
+                telemetry.addData("Telemetry", "right");
                 telemetry.update();
+                SkystonePosition = "Pos 3";
                 break;
             case ("Pos 2"):
-                telemetry.addData("Telemetry", "Pos 2");
+                telemetry.addData("Telemetry", "Middle");
                 telemetry.update();
+                break;
+            case ("Pos 3"):
+                telemetry.addData("Telemetry", "left");
+                telemetry.update();
+                SkystonePosition = "Pos 1";
                 break;
 
             // If it reads unknown than it goes to this default case
             default:
                 telemetry.addData("Telemetry", "Unknown Position");
                 telemetry.update();
+                // sets skystone pos to center as default
+                SkystonePosition = "Pos 1";
                 break;
         }
 

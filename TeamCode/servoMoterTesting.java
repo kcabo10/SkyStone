@@ -15,14 +15,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleOpProgram extends OpMode {
 
     // Calling hardware map.
-    private HardwareBeep robot = new HardwareBeep();
+    private HardwareBeepTest robot = new HardwareBeepTest();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
     // Setting initial direction to forward.
     private int direction = -1;
     // Setting scaling to full speed.
-    private double scaleFactor = 1;
+    private double scaleFactor = 0.5;
     private double scaleTurningSpeed = 1;
     private ElapsedTime foundationtime = new ElapsedTime();
     public ElapsedTime clawaidruntime = new ElapsedTime();
@@ -43,16 +43,16 @@ public class TeleOpProgram extends OpMode {
         }
     }
 
-//    /**
-//     * This method scales the speed of the robot to .5.
-//     */
-//    private void scaleFactor() {
-//        if (scaleFactor == 0.5) {
-//            scaleFactor = 1;
-//        } else if (scaleFactor == 1) {
-//            scaleFactor = 0.5;
-//        }
-//    }
+    /**
+     * This method scales the speed of the robot to .5.
+     */
+    private void scaleFactor() {
+        if (scaleFactor == 0.5) {
+            scaleFactor = 1;
+        } else if (scaleFactor == 1) {
+            scaleFactor = 0.5;
+        }
+    }
 
     /**
      * This method initializes hardware map.
@@ -66,13 +66,12 @@ public class TeleOpProgram extends OpMode {
      * This method sets motor power to zero
      */
     public void init_loop() {
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
-        robot.outExtrusion.setPower(0);
+        robot.CRServo.setPower(0);
+        robot.CRServo.setPower(0);
+        robot.outExtrusion1.setPower(0);
+        robot.outExtrusion2.setPower(0);
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
 
     }
 
@@ -125,41 +124,41 @@ public class TeleOpProgram extends OpMode {
                 break;
         }
 
-//        // When the a button has been pressed and released the speed is scaled to .5 power.
-//        switch (buttonAPressed) {
-//            case (0):
-//                if (gamepad1.a) {
-//                    buttonAPressed = 1;
-//                }
-//                break;
-//            case (1):
-//                if (!gamepad1.a) {
-//                    buttonAPressed = 0;
-//                    scaleFactor();
-//                }
-//                break;
-//        }
-//
-//        // When the button below the right joystick is pressed JUST the turning speed power is set to .5.
-//        if (gamepad1.right_stick_button) {
-//            scaleTurningSpeed = 0.5;
-//        } else {
-//            scaleTurningSpeed = 1;
-//        }
+        // When the a button has been pressed and released the speed is scaled to .5 power.
+        switch (buttonAPressed) {
+            case (0):
+                if (gamepad1.a) {
+                    buttonAPressed = 1;
+                }
+                break;
+            case (1):
+                if (!gamepad1.a) {
+                    buttonAPressed = 0;
+                    scaleFactor();
+                }
+                break;
+        }
+
+        // When the button below the right joystick is pressed JUST the turning speed power is set to .5.
+        if (gamepad1.right_stick_button) {
+            scaleTurningSpeed = 0.5;
+        } else {
+            scaleTurningSpeed = 1;
+        }
 
         // When the game pad 2 a button is pressed set the basket position to 0
         // When the game pad 2 x button is pressed set the basket position to .5.
         // When the game pad 2 b button is pressed set the basket position to .9.
 
         if (gamepad2.right_bumper) {
-            robot.leftIntake.setPower(-1);
-            robot.rightIntake.setPower(1);
+            robot.CRServo.setPower(.5);
+            robot.CRServo.setPower(.5);
         } else if (gamepad2.left_bumper) {
-            robot.leftIntake.setPower(1);
-            robot.rightIntake.setPower(-1);
+            robot.CRServo.setPower(-.5);
+            robot.CRServo.setPower(-.5);
         } else {
-            robot.leftIntake.setPower(0);
-            robot.rightIntake.setPower(0);
+            robot.CRServo.setPower(0);
+            robot.CRServo.setPower(0);
         }
 
         if (gamepad2.b) {
@@ -268,15 +267,18 @@ public class TeleOpProgram extends OpMode {
 
 
         if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            robot.outExtrusion.setPower(.5);
+            robot.outExtrusion1.setPower(-1);
+            robot.outExtrusion2.setPower(1);
             telemetry.addData("down dpad pressed", gamepad2.dpad_down);
             telemetry.update();
         } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.outExtrusion.setPower(-.5);
+            robot.outExtrusion1.setPower(1);
+            robot.outExtrusion2.setPower(-1);
             telemetry.addData("up dpad pressed", gamepad2.dpad_up);
             telemetry.update();
         } else {
-            robot.outExtrusion.setPower(0);
+            robot.outExtrusion1.setPower(0);
+            robot.outExtrusion2.setPower(0);
         }
 
         if(gamepad2.dpad_right && !gamepad2.dpad_left) {
@@ -284,11 +286,11 @@ public class TeleOpProgram extends OpMode {
             telemetry.addData("right dpad pressed", gamepad2.dpad_right);
             telemetry.update();
         } else if (gamepad2.dpad_left && !gamepad2.dpad_right){
-                robot.clawTurner.setPosition(0);
-                telemetry.addData("left dpad pressed", gamepad2.dpad_left);
-                telemetry.update();
+            robot.clawTurner.setPosition(0);
+            telemetry.addData("left dpad pressed", gamepad2.dpad_left);
+            telemetry.update();
         } else {
-            }
+        }
 
         switch (up_extrusion_state) {
             case 0:
@@ -370,11 +372,10 @@ public class TeleOpProgram extends OpMode {
         buttonAPressed = 0;
         robot.leftIntake.setPower(0);
         robot.rightIntake.setPower(0);
-        robot.outExtrusion.setPower(0);
+        robot.outExtrusion1.setPower(0);
+        robot.outExtrusion2.setPower(0);
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
 
 
     }

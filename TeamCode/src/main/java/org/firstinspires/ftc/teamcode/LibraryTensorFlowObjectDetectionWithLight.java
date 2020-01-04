@@ -106,7 +106,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
         // sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the
         // correct mineral
-        while (System.currentTimeMillis() < (startTime + 5000)) { /**DEBUG CHANGED TO 30000*/
+        while (System.currentTimeMillis() < (startTime + 30000)) { /**DEBUG CHANGED TO 30000*/
 
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystone();
@@ -279,7 +279,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
         int tfodMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.5;
+        tfodParameters.minimumConfidence = 0.6;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
