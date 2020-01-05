@@ -66,13 +66,13 @@ public class TeleOpProgram extends OpMode {
      * This method sets motor power to zero
      */
     public void init_loop() {
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
+        //robot.leftIntake.setPower(0);
+        //robot.rightIntake.setPower(0);
         robot.outExtrusion.setPower(0);
         robot.droidLifterLeft.setPower(0);
         robot.droidLifterRight.setPower(0);
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
+        //robot.leftIntake.setPower(0);
+        //robot.rightIntake.setPower(0);
 
     }
 

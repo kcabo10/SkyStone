@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
 
-@Autonomous(name = "Testing Gyro Strafe", group = "Beep")
-public class TestingGyroStrafe extends LinearOpMode {
+@Autonomous(name = "parking under bridge", group = "Beep")
+public class autonomousSkystoneJosh extends LinearOpMode {
 
     // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
@@ -28,7 +27,6 @@ public class TestingGyroStrafe extends LinearOpMode {
     LibraryGyroDrive gyroDrive = new LibraryGyroDrive();
 
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
-
 
     /**
      * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
@@ -43,24 +41,35 @@ public class TestingGyroStrafe extends LinearOpMode {
         gyroTurn.init(robot, telemetry);
         //initializing the gyro drive function
         gyroDrive.init(robot, telemetry, robot.rightBack);
-
         gridNavigation.init(robot, gyroTurn, telemetry);
-
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
+
+        double SET_POS_X = 4.5;
+        double SET_POS_Y = 0.4;
+        double DRIVE_TO_SKYSTONE_X = 4.5;
+        double DRIVE_TO_SKYSTONE_Y = 1.8;
+        double POWER_FOR_MOTORS = 0.5;
+        double REVERSE_FROM_SKYSTONE_X = 4.5;
+        double REVERSE_FROM_SKYSTONE_Y = 1.2;
+
+
+        //TODO read the skystone in init phase.
         waitForStart();
 
-        gyroDrive.gyroStrafeLeft(.5,5000,0);
+        gridNavigation.setGridPosition(SET_POS_X, SET_POS_Y,90);
 
-        sleep(1000);
+        gridNavigation.driveToPosition(DRIVE_TO_SKYSTONE_X, DRIVE_TO_SKYSTONE_Y, POWER_FOR_MOTORS);
 
-        gyroDrive.gyroStrafeRight(.3, 5000, 0);
+        gridNavigation.driveToPosition(REVERSE_FROM_SKYSTONE_X, REVERSE_FROM_SKYSTONE_Y, POWER_FOR_MOTORS);
 
-        //gridNavigation.setGridPosition(.5,1.5,90);
+        gridNavigation.strafeToPosition(REVERSE_FROM_SKYSTONE_X, REVERSE_FROM_SKYSTONE_Y, POWER_FOR_MOTORS);
 
-        //gridNavigation.driveToPosition(.5,.5,.2);
 
-        //gridNavigation.driveToPositionBackwards(.5,1.5,.2);
+
+
+
+
     }
 }

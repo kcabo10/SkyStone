@@ -82,8 +82,8 @@ public class HardwareBeep {
 
 
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
-        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
-        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
+        //leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+        //rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         //rightSonic.changeI2cAddress(0xe2);
 
         // Set Motor and Servo Direction
@@ -136,10 +136,10 @@ public class HardwareBeep {
     }
 }
 
-
-
-
-//Declare package
+//
+//
+//
+////Declare package
 //package org.firstinspires.ftc.teamcode;
 //
 ////Import Hardware
@@ -149,9 +149,9 @@ public class HardwareBeep {
 //        import com.qualcomm.robotcore.hardware.DcMotorSimple;
 //        import com.qualcomm.robotcore.hardware.HardwareMap;
 //        import com.qualcomm.robotcore.util.ElapsedTime;
-//
+//        import com.qualcomm.robotcore.hardware.CRServo;
 //        import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
-//
+//        import com.qualcomm.robotcore.hardware.Servo;
 ///**
 // * @author Beep Patrol
 // * <p>
@@ -171,6 +171,17 @@ public class HardwareBeep {
 //    public SensorMB1242 rightSonic = null;
 //    public SensorMB1242 leftSonic = null;
 //    public BNO055IMU imuActual = null;
+//    //    // Set Public OpMode Members
+//    public CRServo rightIntake = null;
+//    public CRServo leftIntake = null;
+//    public DcMotor droidLifterLeft = null;
+//    public DcMotor droidLifterRight = null;
+//    public DcMotor outExtrusion = null;
+//    public Servo claw = null;
+//    public Servo clawTurner = null;
+//    public Servo foundation1 = null;
+//    public Servo foundation2 = null;
+//    public Servo clawAid = null;
 //
 //    // Set local OpMode Members
 //    HardwareMap hwMap = null;
@@ -232,6 +243,6 @@ public class HardwareBeep {
 //        imuActual.initialize(parameters);
 //    }
 //}
-
-
-
+//
+//
+//
