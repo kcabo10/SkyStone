@@ -255,8 +255,8 @@ public class LibraryGyroDrive {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
     }
+
     public void gyroStrafeLeft (double speed,
                                 int encoderTicks,
                                 double angle) {
@@ -361,7 +361,6 @@ public class LibraryGyroDrive {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
     }
 
     /**

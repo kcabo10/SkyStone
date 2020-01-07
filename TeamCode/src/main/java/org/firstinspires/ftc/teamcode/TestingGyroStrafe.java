@@ -51,16 +51,16 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.gyroStrafeLeft(.5,5000,0);
+//        gyroDrive.gyroStrafeLeft(.5,5000,0);
+//
+//        sleep(1000);
+//
+//        gyroDrive.gyroStrafeRight(.3, 5000, 0);
 
-        sleep(1000);
+        gridNavigation.setGridPosition(1.5,.5,90);
 
-        gyroDrive.gyroStrafeRight(.3, 5000, 0);
+        gridNavigation.strafeToPosition(.5,.5,.2);
 
-        //gridNavigation.setGridPosition(.5,1.5,90);
-
-        //gridNavigation.driveToPosition(.5,.5,.2);
-
-        //gridNavigation.driveToPositionBackwards(.5,1.5,.2);
+        gridNavigation.driveToPositionBackwards(.5,1.5,.2);
     }
 }

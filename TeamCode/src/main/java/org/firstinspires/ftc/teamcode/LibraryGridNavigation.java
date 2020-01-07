@@ -51,7 +51,7 @@ public class LibraryGridNavigation {
     public void setGridPosition(double xPosition, double yPosition, float angle) {
         xOrigin = xPosition;
         yOrigin = yPosition;
-        yPosition = previousXPosition;
+        previousXPosition = getDriveDistance(xDestination, yDestination);
         StartingAngle = angle;
         System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
 
@@ -380,7 +380,6 @@ public class LibraryGridNavigation {
     public void strafeToPosition(double xDestination, double yDestination, double power) {
 
         getDriveDistance(xDestination, yDestination);
-        turnAngle = 0;
 
         if (getDriveDistance(xDestination, yDestination) >= previousXPosition) {
             gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
@@ -391,8 +390,31 @@ public class LibraryGridNavigation {
 
         telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
         telemetry.addData("Distance parameter", (int) Distance);
+        telemetry.addData("Turn Angle", (int) turnAngle);
         telemetry.update();
 
+        xOrigin = xDestination;
+        yOrigin = yDestination;
+    }
+
+    public void strafeToPositionBackwards(double xDestination, double yDestination, double power) {
+
+        getDriveDistance(xDestination, yDestination);
+
+        if (getDriveDistance(xDestination, yDestination) >= previousXPosition) {
+            gyroDrive.gyroStrafeLeft(power, (int) Distance, turnAngle);
+        }
+        else {
+            gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
+        }
+
+        telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
+        telemetry.addData("Distance parameter", (int) Distance);
+        telemetry.addData("Turn Angle", (int) turnAngle);
+        telemetry.update();
+
+        xOrigin = xDestination;
+        yOrigin = yDestination;
     }
 
     /**
