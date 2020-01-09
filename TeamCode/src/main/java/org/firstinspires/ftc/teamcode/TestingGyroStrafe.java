@@ -51,16 +51,25 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
+        runtime.reset();
+        robot.rightIntake.setPower(-1);
+        robot.leftIntake.setPower(1);
+
+        while (runtime.seconds() < 4){
+
+        }
+        robot.leftIntake.setPower(0);
+        robot.rightIntake.setPower(0);
 //        gyroDrive.gyroStrafeLeft(.5,5000,0);
 //
 //        sleep(1000);
 //
 //        gyroDrive.gyroStrafeRight(.3, 5000, 0);
 
-        gridNavigation.setGridPosition(1.5,.5,90);
-
-        gridNavigation.strafeToPosition(.5,.5,.2);
-
-        gridNavigation.driveToPositionBackwards(.5,1.5,.2);
+//        gridNavigation.setGridPosition(1.5,.5,90);
+//
+//        gridNavigation.strafeToPosition(.5,.5,.2,0);
+//
+//        gridNavigation.driveToPositionBackwards(.5,1.5,.2);
     }
 }

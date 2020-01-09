@@ -32,9 +32,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -71,6 +73,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
         robot = newHardwareBeep;
         telemetry = newTelemetry;
+
     }
 
     /**
@@ -106,7 +109,7 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
         // sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the
         // correct mineral
-        while (System.currentTimeMillis() < (startTime + 3000)) { /**DEBUG CHANGED TO 30000*/
+        while (System.currentTimeMillis() < (startTime + 1000)) { /**DEBUG CHANGED TO 30000*/
 
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystone();
@@ -159,9 +162,9 @@ public class LibraryTensorFlowObjectDetectionWithLight {
 
                     // if the object identification is greater or equal
                     if (updatedRecognitions.size() >= 2) {
-                        int Skystone1X = -1;
-                        int stone1X = -1;
-                        int stone2X = -1;
+                        float Skystone1X = -1;
+                        float stone1X = -1;
+                        float stone2X = -1;
                         // created a linked list which sorts the values that Tensor Flow reads.
                         // It gets the values by reading the bottom left corner of the skystones.
                         LinkedList<Recognition> recognitionLinkedList = new LinkedList<Recognition>();
@@ -204,14 +207,14 @@ public class LibraryTensorFlowObjectDetectionWithLight {
                             // if Tensor Flow reads the stone as the skystone than it obtains
                             // the left x value
                             if (recognition.getLabel().equals(LABEL_SECOND_ELEMENT)) {
-                                Skystone1X = (int) recognition.getLeft();
+                                Skystone1X = recognition.getLeft();
                                 // else if it reads 1 stone it reads the left x value
                             } else if (stone1X == -1) {
-                                stone1X = (int) recognition.getLeft();
+                                stone1X = recognition.getLeft();
                                 // else if it reads 2 stones than it gets the two left x
                                 // values of both stones
                             } else {
-                                stone2X = (int) recognition.getLeft();
+                                stone2X = recognition.getLeft();
                             }
                         }
                         // this is where it calculates the correct skystone position
@@ -236,6 +239,9 @@ public class LibraryTensorFlowObjectDetectionWithLight {
                                 currentPos = "Pos 2";
                             }
                         }
+                        telemetry.addData("Skystone left ", Skystone1X);
+                        telemetry.addData("Stone1x left ", stone1X);
+                        telemetry.addData("Stone2x left ", stone2X);
                     }
                 }
             }
@@ -245,10 +251,12 @@ public class LibraryTensorFlowObjectDetectionWithLight {
     }
 
     /**
-     * That method starts up vuforia on the phone
+     * Initialize the Vuforia localization engine.
      */
     private void initVuforia() {
-        // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -275,11 +283,12 @@ public class LibraryTensorFlowObjectDetectionWithLight {
     /**
      * Initialize the Tensor Flow Object Detection engine.
      */
+
     private void initTfod() {
         int tfodMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.6;
+        tfodParameters.minimumConfidence = 0.7;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }

@@ -30,6 +30,8 @@ public class LibraryGyroDrive {
     Telemetry telemetry;
     DcMotor motor;
 
+    Boolean PRINT_TELEMETRY = true;
+
     /**
      * The hardware class needs to be initialized before this method is called
      */
@@ -61,8 +63,11 @@ public class LibraryGyroDrive {
         double leftSpeed;
         double rightSpeed;
 
-        telemetry.addData("In Gyro Drive method", "");
-        telemetry.update();
+        if (PRINT_TELEMETRY){
+            telemetry.addData("In Gyro Drive method", "");
+            telemetry.update();
+        }
+
 
         // In order to use the encoders you need to follow a specific pattern. The first step is to
         // stop and reset the encoders
@@ -96,7 +101,7 @@ public class LibraryGyroDrive {
 
         // Set a range clip for the speed to ensure that the robot doesn't drive faster or slower
         // than the clip
-        speed = Range.clip(Math.abs(speed), 0.0, .3);
+        speed = Range.clip(speed, -1, 1);
         // set all the motors to the .6 power we declared in the beginning of the program
         robot.leftFront.setPower(speed);
         robot.leftBack.setPower(speed);
@@ -120,8 +125,8 @@ public class LibraryGyroDrive {
             rightSpeed = speed - steer;
 
             // set speed clip for the motors on both sides of the robot
-            leftSpeed = Range.clip(leftSpeed, -.3, .3);
-            rightSpeed = Range.clip(rightSpeed, -.3, .3);
+            leftSpeed = Range.clip(leftSpeed, -1, 1);
+            rightSpeed = Range.clip(rightSpeed, -1, 1);
 
             // setting speeds
             robot.leftFront.setPower(leftSpeed);
@@ -166,8 +171,10 @@ public class LibraryGyroDrive {
         double rightFrontSpeed;
         double rightBackSpeed;
 
-        telemetry.addData("In Gyro Drive method", "");
-        telemetry.update();
+        if (PRINT_TELEMETRY){
+            telemetry.addData("In Gyro Drive method", "");
+            telemetry.update();
+        }
 
         // In order to use the encoders you need to follow a specific pattern. The first step is to
         // stop and reset the encoders
@@ -201,7 +208,7 @@ public class LibraryGyroDrive {
 
         // Set a range clip for the speed to ensure that the robot doesn't drive faster or slower
         // than the clip
-        speed = Range.clip(Math.abs(speed), 0.0, .5);
+        speed = Range.clip(speed, -1, 1);
         // set all the motors to the .6 power we declared in the beginning of the program
         robot.leftFront.setPower(speed);
         robot.leftBack.setPower(speed);
@@ -223,10 +230,10 @@ public class LibraryGyroDrive {
             rightBackSpeed = speed + steer;
 
             // set speed clip for the motors on both sides of the robot
-            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
-            leftBackSpeed = Range.clip(leftBackSpeed, -.5, .5);
-            rightFrontSpeed = Range.clip(rightFrontSpeed, -.5, .5);
-            rightBackSpeed = Range.clip(rightBackSpeed, -.5, .5);
+//            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
+//            leftBackSpeed = Range.clip(leftBackSpeed, -.5, .5);
+//            rightFrontSpeed = Range.clip(rightFrontSpeed, -.5, .5);
+//            rightBackSpeed = Range.clip(rightBackSpeed, -.5, .5);
 
             // setting speeds
             robot.leftFront.setPower(leftFrontSpeed);
@@ -307,7 +314,7 @@ public class LibraryGyroDrive {
 
         // Set a range clip for the speed to ensure that the robot doesn't drive faster or slower
         // than the clip
-        speed = Range.clip(Math.abs(speed), 0.0, .5);
+        speed = Range.clip(speed, -1, 1);
         // set all the motors to the .6 power we declared in the beginning of the program
         robot.leftFront.setPower(speed);
         robot.leftBack.setPower(speed);
@@ -329,10 +336,10 @@ public class LibraryGyroDrive {
             rightBackSpeed = speed + steer;
 
             // set speed clip for the motors on both sides of the robot
-            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
-            leftBackSpeed = Range.clip(leftBackSpeed, -.5, .5);
-            rightFrontSpeed = Range.clip(rightFrontSpeed, -.5, .5);
-            rightBackSpeed = Range.clip(rightBackSpeed, -.5, .5);
+//            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
+//            leftBackSpeed = Range.clip(leftBackSpeed, -.5, .5);
+//            rightFrontSpeed = Range.clip(rightFrontSpeed, -.5, .5);
+//            rightBackSpeed = Range.clip(rightBackSpeed, -.5, .5);
 
             // setting speeds
             robot.leftFront.setPower(leftFrontSpeed);
@@ -513,8 +520,8 @@ public class LibraryGyroDrive {
             leftSpeed = speed - steer;
             rightSpeed = speed + steer;
 
-            leftSpeed = Range.clip(leftSpeed, -.3, 1);
-            rightSpeed = Range.clip(rightSpeed, -.3, 1);
+            leftSpeed = Range.clip(leftSpeed, -1, 1);
+            rightSpeed = Range.clip(rightSpeed, -1, 1);
 
             robot.leftFront.setPower(leftSpeed);
             robot.leftBack.setPower(leftSpeed);

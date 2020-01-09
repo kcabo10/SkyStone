@@ -33,6 +33,7 @@ public class LibraryGridNavigation {
     double Distance;
     float turnAngle = 0f;
     double GEAR_RATIO_SCALING_FACTOR = 2;//(35/45);
+    double Direction;
     double GEAR_RATIO_SCALING_FACTOR_TileRunner = 1;//(35/45); //12604 tile base has a 1 to 1 ratio
     //    SensorMB1242 leftUS = robot.leftSonic;
 //    SensorMB1242 rightUS = robot.rightSonic;
@@ -51,7 +52,7 @@ public class LibraryGridNavigation {
     public void setGridPosition(double xPosition, double yPosition, float angle) {
         xOrigin = xPosition;
         yOrigin = yPosition;
-        previousXPosition = getDriveDistance(xDestination, yDestination);
+        previousXPosition = getDriveDistance(xPosition, yPosition);
         StartingAngle = angle;
         System.out.println("setGridPos to (" + xPosition + ", " + yPosition + ") angle " + angle);
 
@@ -156,6 +157,7 @@ public class LibraryGridNavigation {
         return turnAngle;
 
     }
+
     /**
      * @param xDestination
      * @param yDestination
@@ -263,6 +265,7 @@ public class LibraryGridNavigation {
         return turnAngle;
 
     }
+
     /**
      * @param xDestination
      * @param yDestination
@@ -274,10 +277,10 @@ public class LibraryGridNavigation {
 
         double yLeg = yDestination - yOrigin;
 
-        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
+        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 537.6 * GEAR_RATIO_SCALING_FACTOR;
 
+//        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
 
-//        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR;
         //3.94 is 100cm circumference. 1120 is the encoder ticks for Neverrest 40.
         /** The input for each grid coordiante is one tile, so first we multiply the input
          * by size of one tile, which is 24 inches.  Then we divide that value by the distance
@@ -375,16 +378,15 @@ public class LibraryGridNavigation {
         telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
         telemetry.addData("Distance parameter", (int) Distance);
         telemetry.update();
-
     }
-    public void strafeToPosition(double xDestination, double yDestination, double power) {
+
+    public void strafeToPosition(double xDestination, double yDestination, double power, double direction) {
 
         getDriveDistance(xDestination, yDestination);
 
-        if (getDriveDistance(xDestination, yDestination) >= previousXPosition) {
+        if (direction == 0) {
             gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
-        }
-        else {
+        } else {
             gyroDrive.gyroStrafeLeft(power, (int) Distance, turnAngle);
         }
 
@@ -397,13 +399,15 @@ public class LibraryGridNavigation {
         yOrigin = yDestination;
     }
 
-    public void strafeToPositionBackwards(double xDestination, double yDestination, double power) {
+    public void strafeToPositionBackwards(double xDestination, double yDestination, double power, double direction) {
 
         getDriveDistance(xDestination, yDestination);
 
-        if (getDriveDistance(xDestination, yDestination) >= previousXPosition) {
+        // Strafing Right
+        if (direction == 0) {
             gyroDrive.gyroStrafeLeft(power, (int) Distance, turnAngle);
         }
+        // Strafing Left
         else {
             gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
         }
@@ -441,12 +445,15 @@ public class LibraryGridNavigation {
      * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
+        double PCoeff = .01;
         getDriveDistance(xDestination, yDestination);
         previousXPosition = getDriveDistance(xDestination, yDestination);
         getTurnAngleBackwards(xDestination, yDestination);
 
-      gyroDrive.gyro.turnGyro(turnAngle);
-      gyroDrive.gyroDrive(-power, (int) -Distance, 0.0);
+        gyroDrive.gyro.turnGyro(turnAngle);
+        gyroDrive.gyroDriveVariableP(-power, (int) -Distance, turnAngle, PCoeff);
+
+//        gyroDrive.gyroDrive(-power, (int) -Distance, 0.0);
 
     }
 
@@ -462,6 +469,24 @@ public class LibraryGridNavigation {
         getTurnAngleBackwardsValuesOnly(xDestination, yDestination);
         System.out.println("driveToPositionBackwardsValueOnly to with turn angle " + turnAngle + " and Starting Angle " + StartingAngle);
 
+    }
+
+
+    public void strafeToPositionBackwardsValuesOnly(double xDestination, double yDestination, double power, double direction) {
+        getDriveDistance(xDestination, yDestination);
+
+        // Strafing Right
+        if (direction == 0) {
+            //gyroDrive.gyroStrafeLeft(power, (int) Distance, turnAngle);
+        }
+        // Strafing Left
+        else {
+            //gyroDrive.gyroStrafeRight(power, (int) Distance, turnAngle);
+        }
+        System.out.println("driveToPositionStrafingValueOnly to with turn angle " + turnAngle + " and Starting Angle " + StartingAngle);
+
+        xOrigin = xDestination;
+        yOrigin = yDestination;
     }
 }
 

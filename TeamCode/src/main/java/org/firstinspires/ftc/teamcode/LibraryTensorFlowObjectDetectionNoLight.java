@@ -32,9 +32,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -107,7 +109,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
 
         // sets the TensorFlow to read the mineral for at least 3 seconds to verify that it is the
         // correct mineral
-        while (System.currentTimeMillis() < (startTime + 3000)) { /**DEBUG CHANGED TO 30000*/
+        while (System.currentTimeMillis() < (startTime + 30000)) { /**DEBUG CHANGED TO 30000*/
 
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystone();
@@ -158,6 +160,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
                     // update telemetry to read the stone
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
 
+
                     // if the object identification is greater or equal
                     if (updatedRecognitions.size() >= 2) {
                         int Skystone1X = -1;
@@ -194,6 +197,7 @@ public class LibraryTensorFlowObjectDetectionNoLight {
 
                         Recognition recognition = null;
                         for (int i = 0; i < 2; i++) {
+                            telemetry.addData("Num Elem", updatedRecognitions.size());
                             telemetry.addData("iterate over first two elements: element ", i);
                             telemetry.addData("stone type", recognitionLinkedList.get(1).getLabel());
                             telemetry.addData("stone bottom", recognitionLinkedList.get(i).getBottom());
@@ -238,6 +242,8 @@ public class LibraryTensorFlowObjectDetectionNoLight {
                             }
                         }
                     }
+                    else
+                        telemetry.update();
                 }
             }
         }
@@ -264,12 +270,12 @@ public class LibraryTensorFlowObjectDetectionNoLight {
     /**
      * This method is called to start up the phone light
      *
-     * @param on This parameter is used to start up the phone light
+     * @param off This parameter is used to start up the phone light
      */
-    private void phoneLight(boolean on) {
+    private void phoneLight(boolean off) {
 
-        // if you set the phone light to true than it turns on the phone flashlight
-        com.vuforia.CameraDevice.getInstance().setFlashTorchMode(on);
+        // if you set the phone light to false than it doesn't turn on the webcams flashlight
+        com.vuforia.CameraDevice.getInstance().setFlashTorchMode(off);
 
     }
 

@@ -37,7 +37,8 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
     double offset = .31;
 
     /**
-     * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
+     * This method is the main body of our code which contains the set of commands carried out in our
+     * crater side autonomous program.
      */
     @Override
     public void runOpMode() {
@@ -56,11 +57,12 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
-        /*
+        /**
          * Use ultrasonic to read south wall
          * if > 1 set y pos to value
          * if < 1 set grid pos to (0.5,2.5)
          */
+
         // Set initial Grid Nav position
         robot.leftSonic.ping();
         robot.rightSonic.ping();
@@ -209,10 +211,10 @@ public class SkystoneRedDepotWithLightKatie extends LinearOpMode {
             default:
                 telemetry.addData("Telemetry", "Didn't see skystone pos");
                 telemetry.update();
-                gridNavigation.driveToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5);
-                gridNavigation.driveToPosition(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
+                gridNavigation.strafeToPosition(DEPOT_POS[X], DEPOT_POS[Y], .5,0);
+                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
                 sleep(2000);
-                gridNavigation.driveToPosition(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
+                gridNavigation.driveToPositionBackwards(FOUNDATION_POS[X], FOUNDATION_POS[Y], .5);
                 gridNavigation.driveToPosition(FACING_FOUNDATION[X], FACING_FOUNDATION[Y], .5);
                 gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
                 gridNavigation.driveToPosition(TOWARD_SKYSTONE[X], TOWARD_SKYSTONE[Y], .5);

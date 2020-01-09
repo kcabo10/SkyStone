@@ -118,18 +118,18 @@ public class TestingTensorFlowObjectDetectionWithLight extends LinearOpMode {
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {
             case ("Pos 1"):
-                telemetry.addData("Telemetry", "right");
+                telemetry.addData("Telemetry", "left");
                 telemetry.update();
-                SkystonePosition = "Pos 3";
+                SkystonePosition = "Pos 1";
                 break;
             case ("Pos 2"):
                 telemetry.addData("Telemetry", "Middle");
                 telemetry.update();
                 break;
             case ("Pos 3"):
-                telemetry.addData("Telemetry", "left");
+                telemetry.addData("Telemetry", "right");
                 telemetry.update();
-                SkystonePosition = "Pos 1";
+                SkystonePosition = "Pos 3";
                 break;
 
             // If it reads unknown than it goes to this default case
