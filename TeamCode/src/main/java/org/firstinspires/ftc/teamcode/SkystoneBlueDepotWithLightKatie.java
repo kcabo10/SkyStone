@@ -103,9 +103,9 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         double[] BACKING_UP3 = {1.2, 1.5};
 
         //Same end to each case
-        double[] DELIVERING_SKYSTONE = {5, 1.5};
-        double[] GRAB_FOUNDATION = {5, 1.75};
-        double[] BACK_UP = {5, 1.2};
+        double[] DELIVERING_SKYSTONE = {5.3, 1.5};
+        double[] GRAB_FOUNDATION = {5.3, 1.75};
+        double[] BACK_UP = {5.3, .9};
 //        double[] REPOSITION_FOUNDATION = {5, 1.2};
 //        double[] PARKING_POS = {3.3, 1.6};
 
@@ -214,30 +214,25 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         robot.leftIntake.setPower(0);
 
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.leftFront.setTargetPosition(3656);
-        robot.rightFront.setTargetPosition(-3656);
+        robot.leftBack.setTargetPosition(3656);
+        robot.rightBack.setTargetPosition(-3656);
 
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftFront.setPower(1);
-        robot.leftBack.setPower(.3);
-        robot.rightBack.setPower(.3);
-        robot.rightFront.setPower(1);
+        robot.leftBack.setPower(1);
+        robot.rightBack.setPower(1);
 
-        while (robot.rightFront.isBusy() && robot.leftFront.isBusy()) {
+        while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
         }
 
         robot.leftBack.setPower(0);
-        robot.leftFront.setPower(0);
         robot.rightBack.setPower(0);
-        robot.rightFront.setPower(0);
+
+        telemetry.addData("Should have turned", "");
+        telemetry.update();
 
     }
 

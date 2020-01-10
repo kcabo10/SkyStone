@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-
+@Disabled
 @Autonomous(name = "Testing Tensor Flow Object Detection With Light", group = "Beep")
 public class TestingTensorFlowObjectDetectionWithLight extends LinearOpMode {
 

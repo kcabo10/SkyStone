@@ -51,6 +51,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
+@Disabled
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam .4", group = "Concept")
 public class TensorFlowObjectDetectionWebcam4 extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";

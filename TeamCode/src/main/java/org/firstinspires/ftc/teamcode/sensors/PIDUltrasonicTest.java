@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.sensors;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareBeep;
 import org.firstinspires.ftc.teamcode.LibraryUltrasonicDrive;
 
-//@Disabled
+@Disabled
 @TeleOp(name = "PID Ultrasonic Test", group = "Test")
 public class PIDUltrasonicTest extends LinearOpMode {
     public ElapsedTime runtime = new ElapsedTime();

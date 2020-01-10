@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode.sensors;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareBeep;
-
+@Disabled
 @Autonomous(name = "Testing Ultrasonic Sensor", group = "Exercises")
 public class TestingMB1242Sensor extends LinearOpMode {
 

@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-
 @Autonomous(name = "Testing Gyro Strafe", group = "Beep")
 public class TestingGyroStrafe extends LinearOpMode {
 
@@ -52,30 +51,34 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
+//        robot.leftFront.setPower(.3);
+//        robot.leftBack.setPower(1);
+//        robot.rightBack.setPower(-1);
+//        robot.rightFront.setPower(.3);
+//
+//        sleep(1500);
+//
+//        robot.leftBack.setPower(0);
+//        robot.leftFront.setPower(0);
+//        robot.rightBack.setPower(0);
+//        robot.rightFront.setPower(0);
+
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.leftFront.setTargetPosition(3656);
-        robot.rightFront.setTargetPosition(-3656);
+        robot.leftBack.setTargetPosition(3656);
+        robot.rightBack.setTargetPosition(-3656);
 
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftFront.setPower(1);
-        robot.leftBack.setPower(.3);
-        robot.rightBack.setPower(.3);
-        robot.rightFront.setPower(1);
+        robot.leftBack.setPower(1);
+        robot.rightBack.setPower(1);
 
-        while (robot.rightFront.isBusy() && robot.leftFront.isBusy()) {
+        while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
         }
 
         robot.leftBack.setPower(0);
-        robot.leftFront.setPower(0);
         robot.rightBack.setPower(0);
-        robot.rightFront.setPower(0);
     }
 }
