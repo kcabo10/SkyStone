@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -51,25 +52,30 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
-        runtime.reset();
-        robot.rightIntake.setPower(-1);
-        robot.leftIntake.setPower(1);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        while (runtime.seconds() < 4){
+        robot.leftFront.setTargetPosition(3656);
+        robot.rightFront.setTargetPosition(-3656);
 
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.leftFront.setPower(1);
+        robot.leftBack.setPower(.3);
+        robot.rightBack.setPower(.3);
+        robot.rightFront.setPower(1);
+
+        while (robot.rightFront.isBusy() && robot.leftFront.isBusy()) {
         }
-        robot.leftIntake.setPower(0);
-        robot.rightIntake.setPower(0);
-//        gyroDrive.gyroStrafeLeft(.5,5000,0);
-//
-//        sleep(1000);
-//
-//        gyroDrive.gyroStrafeRight(.3, 5000, 0);
 
-//        gridNavigation.setGridPosition(1.5,.5,90);
-//
-//        gridNavigation.strafeToPosition(.5,.5,.2,0);
-//
-//        gridNavigation.driveToPositionBackwards(.5,1.5,.2);
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
     }
 }

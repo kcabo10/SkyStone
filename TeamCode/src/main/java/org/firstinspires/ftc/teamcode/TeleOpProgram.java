@@ -358,6 +358,8 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("foundation2 position", robot.foundation2.getPosition());
         telemetry.addData("claw position", robot.claw.getPosition());
         telemetry.addData("claw turner position", robot.clawTurner.getPosition());
+        telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
+        telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
         telemetry.update();
     }
 

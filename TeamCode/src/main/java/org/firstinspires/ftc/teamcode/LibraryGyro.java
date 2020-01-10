@@ -170,7 +170,7 @@ public class LibraryGyro {
 
         Setpoint = targetHeading;
         Input = getAngle();
-        telemetry.addData("Current Pos ", currentHeading);
+        telemetry.addData("turnGyro: Current Pos ", currentHeading);
         telemetry.addData("Setpoint ", Setpoint);
         telemetry.addData("Input ", Input);
         telemetry.update();
@@ -190,10 +190,10 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
         }
-        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (System.currentTimeMillis() < (startTime + 500)));
+        while ((Math.abs(Input - Setpoint) > TOLERANCE));
 
 
-        telemetry.addData("curHeading", Input);
+        telemetry.addData("turnGyro: curHeading", Input);
         telemetry.addData("tarHeading", Setpoint);
         telemetry.addData("leftPwr", -Output);
         telemetry.addData("rightPwr", Output);

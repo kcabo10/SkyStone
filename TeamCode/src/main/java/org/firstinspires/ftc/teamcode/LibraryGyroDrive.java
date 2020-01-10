@@ -64,7 +64,7 @@ public class LibraryGyroDrive {
         double rightSpeed;
 
         if (PRINT_TELEMETRY){
-            telemetry.addData("In Gyro Drive method", "");
+            telemetry.addData("In gyroDrive method", "");
             telemetry.update();
         }
 
@@ -108,9 +108,30 @@ public class LibraryGyroDrive {
         robot.rightFront.setPower(speed);
         robot.rightBack.setPower(speed);
 
+        double remainingTicksAvg =
+                ((Math.abs(robot.leftFront.getTargetPosition())-
+                        Math.abs(robot.leftFront.getCurrentPosition()))+
+                        (Math.abs(robot.leftBack.getTargetPosition())-
+                                Math.abs(robot.leftBack.getCurrentPosition()))+
+                        (Math.abs(robot.rightBack.getTargetPosition())-
+                                Math.abs(robot.rightBack.getCurrentPosition()))+
+                        (Math.abs(robot.rightFront.getTargetPosition())-
+                                Math.abs(robot.rightFront.getCurrentPosition())))/4;
+
         // keep looping while motors are still active, and BOTH motors are running.
-        while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
-                && robot.rightBack.isBusy()) {
+        while ((robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
+                && robot.rightBack.isBusy()) ||
+                remainingTicksAvg < 10)
+        {
+            remainingTicksAvg =
+                    ((Math.abs(robot.leftFront.getTargetPosition())-
+                            Math.abs(robot.leftFront.getCurrentPosition()))+
+                            (Math.abs(robot.leftBack.getTargetPosition())-
+                                    Math.abs(robot.leftBack.getCurrentPosition()))+
+                            (Math.abs(robot.rightBack.getTargetPosition())-
+                                    Math.abs(robot.rightBack.getCurrentPosition()))+
+                            (Math.abs(robot.rightFront.getTargetPosition())-
+                                    Math.abs(robot.rightFront.getCurrentPosition())))/4;
 
             // adjust relative speed based on heading error.
             error = getError(angle);
@@ -135,10 +156,11 @@ public class LibraryGyroDrive {
             robot.rightBack.setPower(rightSpeed);
 
             //telemetry
-            telemetry.addData("Error", error);
+            telemetry.addData("gD: Error", error);
             telemetry.addData("Steer", steer);
             telemetry.addData("L Speed", leftSpeed);
             telemetry.addData("R Speed", rightSpeed);
+            telemetry.addData("Remaining Ticks", remainingTicksAvg);
             telemetry.update();
 
         }
@@ -172,7 +194,7 @@ public class LibraryGyroDrive {
         double rightBackSpeed;
 
         if (PRINT_TELEMETRY){
-            telemetry.addData("In Gyro Drive method", "");
+            telemetry.addData("In gyroStrafeRight method", "");
             telemetry.update();
         }
 
@@ -242,7 +264,7 @@ public class LibraryGyroDrive {
             robot.rightBack.setPower(rightBackSpeed);
 
             //telemetry
-            telemetry.addData("Error", error);
+            telemetry.addData("gSR: Error", error);
             telemetry.addData("Steer", steer);
             telemetry.addData("L front Speed", leftFrontSpeed);
             telemetry.addData("L back Speed", leftBackSpeed);
@@ -279,7 +301,7 @@ public class LibraryGyroDrive {
         double rightFrontSpeed;
         double rightBackSpeed;
 
-        telemetry.addData("In Gyro Drive method", "");
+        telemetry.addData("In gyroStrafeLeft method", "");
         telemetry.update();
 
         // In order to use the encoders you need to follow a specific pattern. The first step is to
@@ -348,7 +370,7 @@ public class LibraryGyroDrive {
             robot.rightBack.setPower(rightBackSpeed);
 
             //telemetry
-            telemetry.addData("Error", error);
+            telemetry.addData("gSL: Error", error);
             telemetry.addData("Steer", steer);
             telemetry.addData("L front Speed", leftFrontSpeed);
             telemetry.addData("L back Speed", leftBackSpeed);
@@ -469,6 +491,10 @@ public class LibraryGyroDrive {
         double steer;
         double leftSpeed;
         double rightSpeed;
+        double leftSpeedRamp = 0;
+        double rightSpeedRamp = 0;
+        double INTERVAL = 0.05;
+
 
         telemetry.addData("In Gyro Drive method", "");
         telemetry.update();
@@ -503,11 +529,25 @@ public class LibraryGyroDrive {
         robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // keep looping while we are still active, and BOTH motors are running.
+
+        double remainingTicksAvg;
+        boolean rampReached = false;
+
+        // keep looping while motors are still active, and BOTH motors are running.
         do {
 
-            telemetry.addData("libgyrodr: target angle", angle);
-            telemetry.addData("libgyrodr: gyro angle", gyro.getAngle());
+            remainingTicksAvg =
+                    ((Math.abs(robot.leftFront.getTargetPosition())-
+                            Math.abs(robot.leftFront.getCurrentPosition()))+
+                            (Math.abs(robot.leftBack.getTargetPosition())-
+                                    Math.abs(robot.leftBack.getCurrentPosition()))+
+                            (Math.abs(robot.rightBack.getTargetPosition())-
+                                    Math.abs(robot.rightBack.getCurrentPosition()))+
+                            (Math.abs(robot.rightFront.getTargetPosition())-
+                                    Math.abs(robot.rightFront.getCurrentPosition())))/4;
+
+            telemetry.addData("libgyrodrVP: target angle", angle);
+            telemetry.addData("libgyrodrVP: gyro angle", gyro.getAngle());
             // adjust relative speed based on heading error.
             error = getError(angle);
 
@@ -523,6 +563,27 @@ public class LibraryGyroDrive {
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
 
+            // Ramup up the speed until speed is reached;
+            if (!rampReached) {
+
+                if (leftSpeedRamp < leftSpeed) {
+                    leftSpeedRamp = leftSpeedRamp + INTERVAL;
+                    telemetry.addData("LeftRampSpeed", leftSpeedRamp);
+                }
+                else
+                    rampReached = true;
+
+                if (rightSpeedRamp < rightSpeed) {
+                    rightSpeedRamp += INTERVAL;
+                    telemetry.addData("RightRampSpeed", rightSpeedRamp);
+                }
+                else
+                    rampReached = true;
+
+                leftSpeed = leftSpeedRamp;
+                rightSpeed = rightSpeedRamp;
+            }
+
             robot.leftFront.setPower(leftSpeed);
             robot.leftBack.setPower(leftSpeed);
             robot.rightFront.setPower(rightSpeed);
@@ -533,10 +594,13 @@ public class LibraryGyroDrive {
             telemetry.addData("Steer", steer);
             telemetry.addData("L Speed", leftSpeed);
             telemetry.addData("R Speed", rightSpeed);
+            telemetry.addData("Remaining Ticks Avg", remainingTicksAvg);
+            telemetry.addData("rampReached", rampReached);
             telemetry.update();
         }
-        while (robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
-                && robot.rightBack.isBusy());
+        while ((robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
+                && robot.rightBack.isBusy()) &&
+                remainingTicksAvg > 10);
 
         // Stop all motion;
         robot.leftFront.setPower(0);

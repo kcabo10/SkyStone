@@ -63,6 +63,8 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
+        robot.foundation1.setPosition(-1);
+        robot.foundation2.setPosition(1);
         //wait for start
         waitForStart();
 
@@ -70,7 +72,7 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
         runtime.reset();
         while (runtime.seconds() <= 3){
-            gridNavigation.driveToPositionBackwards(2.02,1,1);
+            gridNavigation.driveToPositionBackwards(2.02,1.15,.9);
             getSkystonePos();
         }
 
@@ -96,16 +98,16 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         double[] BACKING_UP2 = {1.6, 1.5};
 
         // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {1.6, 1.7};
-        double[] GRAB_SKYSTONE_POS_3 = {1.4, 1.9};
-        double[] BACKING_UP3 = {1.4, 1.5};
+        double[] SKYSTONE_POS_3 = {1.7, 1.7};
+        double[] GRAB_SKYSTONE_POS_3 = {1.2, 2.2};
+        double[] BACKING_UP3 = {1.2, 1.5};
 
         //Same end to each case
         double[] DELIVERING_SKYSTONE = {5, 1.5};
-        double[] GRAB_FOUNDATION = {5, 1.7};
-        double[] BACK_UP = {5, 1.4};
-        double[] REPOSITION_FOUNDATION = {5, 1.4};
-        double[] PARKING_POS = {3.3, 1.6};
+        double[] GRAB_FOUNDATION = {5, 1.75};
+        double[] BACK_UP = {5, 1.2};
+//        double[] REPOSITION_FOUNDATION = {5, 1.2};
+//        double[] PARKING_POS = {3.3, 1.6};
 
         // This is a switch block that plays the program in relation to the skystone position
         // Tensor Flow reads
@@ -117,35 +119,18 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 printTelemetry(20);
                 if (SkystonePosition == "Pos 1") {
 
-                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y],1);
+                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y],.9);
 
                     runtime.reset();
                     /**
                      * Intake Skystone
                      */
-                    robot.rightIntake.setPower(-1);
-                    robot.leftIntake.setPower(1);
+                    robot.rightIntake.setPower(1);
+                    robot.leftIntake.setPower(-1);
                     gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_1[X], GRAB_SKYSTONE_POS_1[Y],.4);
                     robot.rightIntake.setPower(0);
                     robot.leftIntake.setPower(0);
-                    gridNavigation.driveToPositionBackwards(BACKING_UP[X], BACKING_UP[Y],1);
-
-//                        robot.claw.setPosition(0);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250) {
-//                            //sleep
-//                        }
-//                        robot.clawAid.setPosition(1);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250){
-//                            //sleep
-//                        }
-//                        robot.claw.setPosition(1);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250){
-//                            //sleep
-//                        }
-//                        robot.clawAid.setPosition(0);
+                    gridNavigation.driveToPositionBackwards(BACKING_UP[X], BACKING_UP[Y],.9);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -159,37 +144,20 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 printTelemetry(40);
                 if (SkystonePosition == "Pos 2") {
 
-                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y],1);
+                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y],.9);
 
                     runtime.reset();
                     /**
                      * Intake Skystone
                      */
-                    robot.rightIntake.setPower(-1);
-                    robot.leftIntake.setPower(1);
+                    robot.rightIntake.setPower(1);
+                    robot.leftIntake.setPower(-1);
                     gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_2[X], GRAB_SKYSTONE_POS_2[Y],.4);
 
-                    gridNavigation.driveToPositionBackwards(BACKING_UP2[X], BACKING_UP2[Y],1);
+                    gridNavigation.driveToPositionBackwards(BACKING_UP2[X], BACKING_UP2[Y],.9);
 
                     robot.rightIntake.setPower(0);
                     robot.leftIntake.setPower(0);
-
-//                        robot.claw.setPosition(0);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250) {
-//                            //sleep
-//                        }
-//                        robot.clawAid.setPosition(1);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250){
-//                            //sleep
-//                        }
-//                        robot.claw.setPosition(1);
-//                        clawaidruntime.reset();
-//                        while (clawaidruntime.milliseconds() > 250){
-//                            //sleep
-//                        }
-//                        robot.clawAid.setPosition(0);
 
                 } else {
                     telemetry.addData("Telemetry", "No Position Found");
@@ -203,17 +171,17 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
                 printTelemetry(60);
                 if (SkystonePosition == "Pos 3") {
 
-                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y],.7);
+                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y],.9);
 
                     runtime.reset();
                     /**
                      * Intake Skystone
                      */
-                    robot.rightIntake.setPower(-1);
-                    robot.leftIntake.setPower(1);
-                    gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_3[X], GRAB_SKYSTONE_POS_3[Y],.2);
+                    robot.rightIntake.setPower(1);
+                    robot.leftIntake.setPower(-1);
+                    gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_3[X], GRAB_SKYSTONE_POS_3[Y],.4);
 
-                    gridNavigation.driveToPositionBackwards(BACKING_UP3[X], BACKING_UP3[Y],1);
+                    gridNavigation.driveToPositionBackwards(BACKING_UP3[X], BACKING_UP3[Y],.9);
                     robot.rightIntake.setPower(0);
                     robot.leftIntake.setPower(0);
 
@@ -234,20 +202,42 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         }
 
         gridNavigation.strafeToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y],1,0);
-//                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                    robot.outExtrusion.setTargetPosition(-1000);
-//                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    robot.outExtrusion.setPower(1);
 
         gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y],1);
-//                    robot.outExtrusion.setPower(0);
-        robot.rightIntake.setPower(1);
-        robot.leftIntake.setPower(-1);
+        robot.foundation1.setPosition(.5);
+        robot.foundation2.setPosition(.5);
+
+        robot.rightIntake.setPower(-1);
+        robot.leftIntake.setPower(1);
         gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y],1);
-        robot.rightIntake.setPower(1);
-        robot.leftIntake.setPower(-1);
-        gridNavigation.driveToPosition(REPOSITION_FOUNDATION[X], REPOSITION_FOUNDATION[Y],1);
-        gridNavigation.driveToPositionBackwards(PARKING_POS[X], PARKING_POS[Y],1);
+        robot.rightIntake.setPower(0);
+        robot.leftIntake.setPower(0);
+
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftFront.setTargetPosition(3656);
+        robot.rightFront.setTargetPosition(-3656);
+
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.leftFront.setPower(1);
+        robot.leftBack.setPower(.3);
+        robot.rightBack.setPower(.3);
+        robot.rightFront.setPower(1);
+
+        while (robot.rightFront.isBusy() && robot.leftFront.isBusy()) {
+        }
+
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
 
     }
 
