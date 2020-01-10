@@ -32,7 +32,11 @@ public class LibraryGridNavigation {
     //Y1 is starting Y coordinate
     double Distance;
     float turnAngle = 0f;
-    double GEAR_RATIO_SCALING_FACTOR = 0.5;//(35/45); //12604 tile base has a 1 to 1 ratio
+    double GEAR_RATIO_SCALING_FACTOR = 1.0;
+
+    //I changed it to 1.0 for junkbot. change back to 0.5 for the main robot.
+
+    //(35/45); //12604 tile base has a 1 to 1 ratio
     //    SensorMB1242 leftUS = robot.leftSonic;
 //    SensorMB1242 rightUS = robot.rightSonic;
     private ElapsedTime runtime = new ElapsedTime();

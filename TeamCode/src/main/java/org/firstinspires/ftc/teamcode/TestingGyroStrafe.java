@@ -45,7 +45,6 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive.gyroStrafeRight(1,500000000,0);
 
     }
 }

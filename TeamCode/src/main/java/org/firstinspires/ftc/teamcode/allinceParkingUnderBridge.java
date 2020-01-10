@@ -30,7 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -55,7 +57,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name = "Pushbot: Auto Drive By Time2", group = "Pushbot")
-public class allinceParkingUnderBridge extends LinearOpMode {
+public class  allinceParkingUnderBridge extends LinearOpMode {
 
     static final double FORWARD_SPEED = 0.6;
     /* Declare OpMode members. */
@@ -72,40 +74,78 @@ public class allinceParkingUnderBridge extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-
-        //driving tward bridge
-        robot.leftFront.setPower(FORWARD_SPEED);
-        robot.rightFront.setPower(FORWARD_SPEED);
-        robot.leftBack.setPower(FORWARD_SPEED);
-        robot.rightBack.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-
-
-        //parking under bridge
-        robot.leftFront.setPower(-FORWARD_SPEED);
-        robot.rightFront.setPower(FORWARD_SPEED);
-        robot.leftBack.setPower(FORWARD_SPEED);
-        robot.rightBack.setPower(-FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.7)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Status","thing Juan");
         telemetry.update();
-        sleep(1000);
+
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        telemetry.addData("Status","thing dos");
+        telemetry.update();
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        telemetry.addData("Status","thing 3 o'Clock");
+        telemetry.update();
+
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        telemetry.addData("Status","thing forf");
+        telemetry.update();
+
+        robot.leftFront.setTargetPosition(1120);
+        robot.leftBack.setTargetPosition(1120);
+        robot.rightFront.setTargetPosition(1120);
+        robot.rightBack.setTargetPosition(1120);
+
+        robot.leftFront.setPower(1);
+        robot.leftBack.setPower(1);
+        robot.rightFront.setPower(1);
+        robot.rightBack.setPower(1);
+
+        sleep(3873);
+
+//        //driving tward bridge
+//        robot.leftFront.setPower(FORWARD_SPEED);
+//        robot.rightFront.setPower(FORWARD_SPEED);
+//        robot.leftBack.setPower(FORWARD_SPEED);
+//        robot.rightBack.setPower(FORWARD_SPEED);
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+//            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+//
+//
+//
+//        //parking under bridge
+//        robot.leftFront.setPower(-FORWARD_SPEED);
+//        robot.rightFront.setPower(FORWARD_SPEED);
+//        robot.leftBack.setPower(FORWARD_SPEED);
+//        robot.rightBack.setPower(-FORWARD_SPEED);
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 0.7)) {
+//            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+//
+//        telemetry.addData("Path", "Complete");
+//        telemetry.update();
+//        sleep(1000);
 
     }
 }
