@@ -52,40 +52,22 @@ public class MichaelGyroTurnTest_Test {
 
     private void run() throws Exception {
 
-        //michaelGyroTurnTest();
-        //michaelGyroTurnTest2();
-        //michaelGyroTurnTest3();
-
 
         int X = 0;
         int Y = 1;
+        double[] DEPOT_POS = {.5, .4}; /* END_ANGLE = 0 */
+        double[] SKYSTONE_POS_1 = {.5, 1.5};
+        double[] GRABSKYSTONE_POS_1 = {.3, 1.8};
+        double[] BACKING_UP = {.5, .2};
+        double[] DRIVE_FORWARD = {.5, .5};
+        double[] DELIVER_SKYSTONE = {4, .5};
 
-        double[] RED_CRATER_LEFT = {.9, 1.8};
-        double[] RED_CRATER_RIGHT = {1.8, .9};
-        double[] RED_CRATER_CENTER = {1.35, 1.35};
-
-
-        double[] RED_CRATER_MARKER = {-1.5, 2.5};
-        double[] RED_CRATER_PARKING = {.4, 2.5};
-
-        double[] SKYSTONE_POS_1 = {.5, 1.8}; /* END_ANGLE = 0 */
-        // Skystone pos 2
-        double[] SKYSTONE_POS_2 = {.5, 1.8}; /* END_ANGLE = 0 */
-        // Skystone pos 3
-        double[] SKYSTONE_POS_3 = {.7, 1.8}; /* END_ANGLE = 0 */
-        // Foundation pos
-        double[] FOUNDATION_POS = {5, 1.8}; /* END_ANGLE = 0 */
-
-        //Initial touchdown
-//        testGridNav.setGridPosition(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], 90);
-//
-//        testGridNav.driveToPositionValuesOnly(FOUNDATION_POS[X], FOUNDATION_POS[Y], 45);
-
-        //Right mineral
-//        //Drive closer to lander
-        testGridNav.setGridPosition(1.5, .5, 90);
-        testGridNav.driveToPositionValuesOnly(.5, .5, .2);
-        testGridNav.driveToPositionBackwardsValuesOnly(.5, 1.5, .2);
+        testGridNav.setGridPosition(1.5,.5,270);
+        testGridNav.strafeToPositionBackwardsValuesOnly(DEPOT_POS[X], DEPOT_POS[Y], .5, 1);
+        testGridNav.driveToPositionBackwardsValuesOnly(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y],.2);
+        //testGridNav.driveToPositionBackwardsValuesOnly(GRABSKYSTONE_POS_1[X], GRABSKYSTONE_POS_1[Y], .2);
+        //testGridNav.driveToPositionValuesOnly(BACKING_UP[X], BACKING_UP[Y],.5);
+        //testGridNav.strafeToPositionBackwardsValuesOnly(DELIVER_SKYSTONE[X], DELIVER_SKYSTONE[Y], .5,0);
 
 //        testGridNav.setGridPosition(.9, .9, 180);
 //        testGridNav.driveToPositionValuesOnly(.1, 2.3, .7);

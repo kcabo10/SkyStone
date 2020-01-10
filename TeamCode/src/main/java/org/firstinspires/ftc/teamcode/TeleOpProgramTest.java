@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,15 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "TeleOp Program Test", group = "TankDrive")
 public class TeleOpProgramTest extends OpMode {
 
-    // Declaring timers for the arm and basket.
-    private ElapsedTime armtime = new ElapsedTime();
-    private ElapsedTime baskettime = new ElapsedTime();
-    // Setting arm_state, arm_extrusion_state, and basket_state values to zero for arm state machine.
-    private int arm_state = 0;
-    private int arm_extrusion_state = 0;
-    private int basket_state = 0;
     // Calling hardware map.
-    private TestHardwareBeep robot = new TestHardwareBeep();
+    private HardwareBeep robot = new HardwareBeep();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
@@ -32,6 +24,13 @@ public class TeleOpProgramTest extends OpMode {
     // Setting scaling to full speed.
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
+    private ElapsedTime foundationtime = new ElapsedTime();
+    public ElapsedTime clawaidruntime = new ElapsedTime();
+    private int foundation_state = 0;
+    private int claw_state = 0;
+    private int up_extrusion_state = 0;
+    private int clawAid_state = 0;
+
 
     /**
      * This method reverses the direction of the mecanum drive.
@@ -44,16 +43,16 @@ public class TeleOpProgramTest extends OpMode {
         }
     }
 
-    /**
-     * This method scales the speed of the robot to .5.
-     */
-    private void scaleFactor() {
-        if (scaleFactor == 0.5) {
-            scaleFactor = 1;
-        } else if (scaleFactor == 1) {
-            scaleFactor = 0.5;
-        }
-    }
+//    /**
+//     * This method scales the speed of the robot to .5.
+//     */
+//    private void scaleFactor() {
+//        if (scaleFactor == 0.5) {
+//            scaleFactor = 1;
+//        } else if (scaleFactor == 1) {
+//            scaleFactor = 0.5;
+//        }
+//    }
 
     /**
      * This method initializes hardware map.
@@ -67,6 +66,14 @@ public class TeleOpProgramTest extends OpMode {
      * This method sets motor power to zero
      */
     public void init_loop() {
+        //robot.leftIntake.setPower(0);
+//        //robot.rightIntake.setPower(0);
+//        robot.outExtrusion.setPower(0);
+//        robot.droidLifterLeft.setPower(0);
+//        robot.droidLifterRight.setPower(0);
+        //robot.leftIntake.setPower(0);
+        //robot.rightIntake.setPower(0);
+
     }
 
     /**
@@ -74,13 +81,13 @@ public class TeleOpProgramTest extends OpMode {
      */
     public void loop() {
 
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = -gamepad1.right_stick_x;
 
         // When the direction value is reversed this if statement inverts the addition and subtraction for turning.
         // Default mode: The robot starts with the scaleTurningSpeed set to 1, scaleFactor set to 1, and direction set to forward.
-        if (direction == -1) {
+        if (direction == 1) {
             final double v1 = (r * Math.cos(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v2 = (r * Math.sin(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v3 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
@@ -116,28 +123,6 @@ public class TeleOpProgramTest extends OpMode {
                     buttonYPressed = 0;
                 }
                 break;
-        }
-
-        // When the a button has been pressed and released the speed is scaled to .5 power.
-        switch (buttonAPressed) {
-            case (0):
-                if (gamepad1.a) {
-                    buttonAPressed = 1;
-                }
-                break;
-            case (1):
-                if (!gamepad1.a) {
-                    buttonAPressed = 0;
-                    scaleFactor();
-                }
-                break;
-        }
-
-        // When the button below the right joystick is pressed JUST the turning speed power is set to .5.
-        if (gamepad1.right_stick_button) {
-            scaleTurningSpeed = 0.5;
-        } else {
-            scaleTurningSpeed = 1;
         }
 
         // Telemetry

@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
 
-@Autonomous(name = "parking under bridge", group = "Beep")
-public class autonomousSkystoneJosh extends LinearOpMode {
+@Autonomous(name = "parking under bridge blue pos 1", group = "Beep")
+public class ParkingUnderBridgeBluePos1 extends LinearOpMode {
 
     // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
@@ -46,29 +46,15 @@ public class autonomousSkystoneJosh extends LinearOpMode {
         telemetry.update();
 
 
-        double SET_POS_X = 4.5;
-        double SET_POS_Y = 0.4;
-        double DRIVE_TO_SKYSTONE_X = 4.5;
-        double DRIVE_TO_SKYSTONE_Y = 1.8;
-        double POWER_FOR_MOTORS = 0.5;
-        double REVERSE_FROM_SKYSTONE_X = 4.5;
-        double REVERSE_FROM_SKYSTONE_Y = 1.2;
-
-
-        //TODO read the skystone in init phase.
         waitForStart();
+        //setting grid pos
+        gridNavigation.setGridPosition(2, 0.4,90);
 
-        gridNavigation.setGridPosition(SET_POS_X, SET_POS_Y,90);
+        //driving up on the Y axis
+        gridNavigation.driveToPosition(2, 1.5, .5);
 
-        gridNavigation.driveToPosition(DRIVE_TO_SKYSTONE_X, DRIVE_TO_SKYSTONE_Y, POWER_FOR_MOTORS);
-
-        gridNavigation.driveToPosition(REVERSE_FROM_SKYSTONE_X, REVERSE_FROM_SKYSTONE_Y, POWER_FOR_MOTORS);
-
-        gridNavigation.strafeToPosition(REVERSE_FROM_SKYSTONE_X, REVERSE_FROM_SKYSTONE_Y, POWER_FOR_MOTORS,0);
-
-
-
-
+        //driving under bridge. changing the X axis
+        gridNavigation.driveToPosition(3, 1.5, .5);
 
 
     }
