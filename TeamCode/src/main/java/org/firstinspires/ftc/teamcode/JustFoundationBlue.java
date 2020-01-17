@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Red Foundation", group = "Beep")
-public class RedFoundation extends LinearOpMode {
+@Autonomous(name = "Just Foundation Blue", group = "Beep")
+public class JustFoundationBlue extends LinearOpMode {
 
     // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
@@ -38,31 +38,22 @@ public class RedFoundation extends LinearOpMode {
         robot.foundation2.setPosition(1);
         //Grid nav set in perspective on positive x,y and blue build site
 
-        gridNavigation.setGridPosition(0.296,  2.1041, 0);
+        gridNavigation.setGridPosition(1.5,  0.296, 90);
 
-        gridNavigation.driveToPosition(2.375, 2.1041,.8);
-        gridNavigation.driveToPosition(2.375, 1.6,.8);
+        gridNavigation.strafeToPosition(.9, 0.296, 0.6, 1);
+
+        gridNavigation.driveToPosition(.9, 1.7,.6);
 
         robot.foundation1.setPosition(.5);
         robot.foundation2.setPosition(.5);
         sleep(500);
 
-        gyroDrive.gyroDrive(0.5, -500, 0);
-
-        gyroTurn.turnGyro(-45);
-
-        gyroDrive.gyroDrive(0.5, 1500, 0);
+        gridNavigation.driveToPositionBackwards(.9,0.296,.6);
 
         robot.foundation1.setPosition(-1);
         robot.foundation2.setPosition(1);
-        sleep(1000);
 
-        gyroTurn.turnGyro(70);
-
-        gyroDrive.gyroDrive(0.5, -4100, 0);
-
-        gyroDrive.gyroStrafeRight(.7, 2200, 0);
-
+        gridNavigation.strafeToPosition(3,.296,.6,0);
 
     }
 }

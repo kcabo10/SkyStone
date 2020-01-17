@@ -26,10 +26,12 @@ public class TeleOpProgram extends OpMode {
     private double scaleTurningSpeed = 1;
     private ElapsedTime foundationtime = new ElapsedTime();
     public ElapsedTime clawaidruntime = new ElapsedTime();
+    public ElapsedTime clawruntime = new ElapsedTime();
     private int foundation_state = 0;
     private int claw_state = 0;
     private int up_extrusion_state = 0;
     private int clawAid_state = 0;
+    private int clawAlone_state = 0;
 
 
     /**
@@ -85,6 +87,11 @@ public class TeleOpProgram extends OpMode {
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = -gamepad1.right_stick_x;
 
+        double rampV1 = 0, rampV2 = 0, rampV3 = 0, rampV4 = 0;
+        double prevV1 = 0, prevV2 = 0, prevV3 = 0, prevV4 = 0;
+        double INTERVAL = 0.05;
+
+
         // When the direction value is reversed this if statement inverts the addition and subtraction for turning.
         // Default mode: The robot starts with the scaleTurningSpeed set to 1, scaleFactor set to 1, and direction set to forward.
         if (direction == 1) {
@@ -93,10 +100,68 @@ public class TeleOpProgram extends OpMode {
             final double v3 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v4 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
 
-            robot.leftFront.setPower(v1);
-            robot.rightFront.setPower(v2);
-            robot.leftBack.setPower(v3);
-            robot.rightBack.setPower(v4);
+            // Ramup up the speed until speed is reached;
+            if ((v1 <= 0) && (prevV1 > v1))
+                rampV1 -= INTERVAL;
+            else
+                rampV1 = v1;
+
+            if ((v1 >= 0) && (prevV1 < v1)) {
+                rampV1 += INTERVAL;
+            }
+            else
+                rampV1 = v1;
+
+
+            // Ramup up the speed until speed is reached;
+            if ((v2 <= 0) && (prevV2 > v2))
+                rampV2 -= INTERVAL;
+            else
+                rampV2 = v2;
+
+            if ((v2 >= 0) && (prevV2 < v2)) {
+                rampV2 += INTERVAL;
+            }
+            else
+                rampV2 = v2;
+
+
+
+            // Ramup up the speed until speed is reached;
+            if ((v3 <= 0) && (prevV3 > v3))
+                rampV3 -= INTERVAL;
+            else
+                rampV3 = v3;
+
+            if ((v3 >= 0) && (prevV3 < v3)) {
+                rampV3 += INTERVAL;
+            }
+            else
+                rampV3 = v3;
+
+
+            // Ramup up the speed until speed is reached;
+            if ((v4 <= 0) && (prevV4 > v4))
+                rampV4 -= INTERVAL;
+            else
+                rampV4 = v4;
+
+            if ((v4 >= 0) && (prevV4 < v4)) {
+                rampV4 += INTERVAL;
+            }
+            else
+                rampV4 = v4;
+
+
+            robot.leftFront.setPower(rampV1);
+            robot.rightFront.setPower(rampV2);
+            robot.leftBack.setPower(rampV3);
+            robot.rightBack.setPower(rampV4);
+
+            prevV1 = v1;
+            prevV2 = v2;
+            prevV3 = v3;
+            prevV4 = v4;
 
         } else {
             final double v1 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
@@ -187,22 +252,30 @@ public class TeleOpProgram extends OpMode {
                 if (gamepad2.x) {
                     robot.claw.setPosition(0);
                     robot.clawAid.setPosition(1);
+                    telemetry.addData("Case 0", claw_state);
+                    telemetry.update();
                     claw_state++;
                 }
                 break;
             case (1):
                 if (robot.claw.getPosition() <= 0.1 && !gamepad2.x) {
+                    telemetry.addData("Case 1", claw_state);
+                    telemetry.update();
                     claw_state++;
                 }
                 break;
             case (2):
                 if (gamepad2.x) {
                     robot.claw.setPosition(1);
+                    telemetry.addData("Case 2", claw_state);
+                    telemetry.update();
                     claw_state++;
                 }
                 break;
             case (3):
                 if (robot.claw.getPosition() >= .9 && !gamepad2.x) {
+                    telemetry.addData("Case 3", claw_state);
+                    telemetry.update();
                     claw_state = 0;
                 }
                 break;
@@ -239,10 +312,22 @@ public class TeleOpProgram extends OpMode {
                 break;
         }
 
+        if (gamepad2.a) {
+            robot.claw.setPosition(1);
+            clawruntime.reset();
+            while (clawaidruntime.milliseconds() > 500) {
+                //sleep
+            }
+            robot.clawAid.setPosition(0);
+        }
+        else {
+
+        }
+
         switch (foundation_state) {
             case (0):
                 if (gamepad2.y) {
-                    robot.foundation1.setPosition(0);
+                    robot.foundation1.setPosition(-1);
                     robot.foundation2.setPosition(1);
                     foundation_state++;
                 }
@@ -254,13 +339,13 @@ public class TeleOpProgram extends OpMode {
                 break;
             case (2):
                 if (gamepad2.y) {
-                    robot.foundation1.setPosition(1);
-                    robot.foundation2.setPosition(0);
+                    robot.foundation1.setPosition(.5);
+                    robot.foundation2.setPosition(.5);
                     foundation_state++;
                 }
                 break;
             case (3):
-                if (robot.foundation1.getPosition() >= .9 && robot.foundation2.getPosition() <= 0.1 && !gamepad2.y) {
+                if (robot.foundation1.getPosition() >= .4 && robot.foundation2.getPosition() >= 0.4 && !gamepad2.y) {
                     foundation_state = 0;
                 }
                 break;
@@ -268,11 +353,11 @@ public class TeleOpProgram extends OpMode {
 
 
         if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            robot.outExtrusion.setPower(.5);
+            robot.outExtrusion.setPower(1);
             telemetry.addData("down dpad pressed", gamepad2.dpad_down);
             telemetry.update();
         } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.outExtrusion.setPower(-.5);
+            robot.outExtrusion.setPower(-1);
             telemetry.addData("up dpad pressed", gamepad2.dpad_up);
             telemetry.update();
         } else {
@@ -290,35 +375,37 @@ public class TeleOpProgram extends OpMode {
         } else {
             }
 
-        switch (up_extrusion_state) {
-            case 0:
-                // when the right bumper is being pressed and the touch sensor is not being set the armExtrusion power is set to 1 and the basket position is set to .5.
-                // Once those conditions are met the state advances to the next case.
-                // When the right trigger is being pressed the armExtrusion power is set to -1 and the basket position is set to .4.
-                // Otherwise the power is set to 0.
-                if (gamepad2.left_trigger > 0) {
-                    robot.droidLifterRight.setPower(1);
-                    robot.droidLifterLeft.setPower(-1);
-                    up_extrusion_state++;
+        robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
 
-                } else if (gamepad2.right_trigger > 0) {
-                    robot.droidLifterRight.setPower(-.5);
-                    robot.droidLifterLeft.setPower(.5);
-                } else {
-                    robot.droidLifterRight.setPower(0);
-                    robot.droidLifterLeft.setPower(0);
-                }
-                break;
-            case 1:
-                // This case sets the power to zero once the right bumper has been released and returns to state zero.
-                // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
-                if (gamepad2.left_trigger <= 0) {
-                    robot.droidLifterRight.setPower(0);
-                    robot.droidLifterLeft.setPower(0);
-                    up_extrusion_state = 0;
-                }
-                break;
-        }
+//        switch (up_extrusion_state) {
+//            case 0:
+//                // when the right bumper is being pressed and the touch sensor is not being set the armExtrusion power is set to 1 and the basket position is set to .5.
+//                // Once those conditions are met the state advances to the next case.
+//                // When the right trigger is being pressed the armExtrusion power is set to -1 and the basket position is set to .4.
+//                // Otherwise the power is set to 0.
+//                if (gamepad2.left_trigger > 0) {
+//                    robot.droidLifterRight.setPower(-1);
+//                    robot.droidLifterLeft.setPower(1);
+//                    up_extrusion_state++;
+//
+//                } else if (gamepad2.right_trigger > 0) {
+//                    robot.droidLifterRight.setPower(.5);
+//                    robot.droidLifterLeft.setPower(-.5);
+//                } else {
+//                    robot.droidLifterRight.setPower(0);
+//                    robot.droidLifterLeft.setPower(0);
+//                }
+//                break;
+//            case 1:
+//                // This case sets the power to zero once the right bumper has been released and returns to state zero.
+//                // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
+//                if (gamepad2.left_trigger <= 0) {
+//                    robot.droidLifterRight.setPower(0);
+//                    robot.droidLifterLeft.setPower(0);
+//                    up_extrusion_state = 0;
+//                }
+//                break;
+//        }
 
 //        if (gamepad2.right_trigger == 1) {
 //            robot.droidLifterLeft.setPower(1);
@@ -360,6 +447,7 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("claw turner position", robot.clawTurner.getPosition());
         telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
         telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
+        telemetry.addData("foundation state", foundation_state);
         telemetry.update();
     }
 

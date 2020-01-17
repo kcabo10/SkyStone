@@ -210,8 +210,6 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
         robot.rightIntake.setPower(-1);
         robot.leftIntake.setPower(1);
         gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y],1);
-        robot.rightIntake.setPower(0);
-        robot.leftIntake.setPower(0);
 
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -230,6 +228,9 @@ public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
+
+        robot.rightIntake.setPower(0);
+        robot.leftIntake.setPower(0);
 
         telemetry.addData("Should have turned", "");
         telemetry.update();

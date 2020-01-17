@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Red Foundation", group = "Beep")
-public class RedFoundation extends LinearOpMode {
+@Autonomous(name = "Just Foundation Red", group = "Beep")
+public class JustFoundationRed extends LinearOpMode {
 
     // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
@@ -38,31 +38,46 @@ public class RedFoundation extends LinearOpMode {
         robot.foundation2.setPosition(1);
         //Grid nav set in perspective on positive x,y and blue build site
 
-        gridNavigation.setGridPosition(0.296,  2.1041, 0);
+        gridNavigation.setGridPosition(0.296,  1.3, 0);
 
-        gridNavigation.driveToPosition(2.375, 2.1041,.8);
-        gridNavigation.driveToPosition(2.375, 1.6,.8);
+        gridNavigation.driveToPosition(1.7, 1.3,.6);
 
         robot.foundation1.setPosition(.5);
         robot.foundation2.setPosition(.5);
         sleep(500);
 
-        gyroDrive.gyroDrive(0.5, -500, 0);
+        gyroDrive.gyroDriveVariableP(0.5, -500, 0, .01);
 
         gyroTurn.turnGyro(-45);
 
-        gyroDrive.gyroDrive(0.5, 1500, 0);
+        gyroDrive.gyroDriveVariableP(0.5, 2300, 0,.01);
 
         robot.foundation1.setPosition(-1);
         robot.foundation2.setPosition(1);
         sleep(1000);
 
-        gyroTurn.turnGyro(70);
+        gridNavigation.driveToPositionBackwards(0.296, 1.3, 0.6);
 
-        gyroDrive.gyroDrive(0.5, -4100, 0);
+        gyroDrive.gyroStrafeLeft(0.6, 5500, 0);
 
-        gyroDrive.gyroStrafeRight(.7, 2200, 0);
-
-
+//        gridNavigation.driveToPosition(2.375, 1.6,.6);
+//
+//        robot.foundation1.setPosition(.5);
+//        robot.foundation2.setPosition(.5);
+//        sleep(500);
+//
+//        gyroDrive.gyroDriveVariableP(0.5, -500, 0, .01);
+//
+//        gyroTurn.turnGyro(-45);
+//
+//        gyroDrive.gyroDriveVariableP(0.5, 2300, 0,.01);
+//
+//        robot.foundation1.setPosition(-1);
+//        robot.foundation2.setPosition(1);
+//        sleep(1000);
+////
+////        gyroTurn.turnGyro(60);
+//
+//        gyroDrive.gyroDriveVariableP(0.5, -1500, 0,.01);
     }
 }

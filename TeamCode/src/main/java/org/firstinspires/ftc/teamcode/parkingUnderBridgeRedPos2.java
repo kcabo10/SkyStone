@@ -47,13 +47,13 @@ public class parkingUnderBridgeRedPos2 extends LinearOpMode {
 
         waitForStart();
         //setting grid pos
-        gridNavigation.setGridPosition(4.0, 0.4,90);
+        gridNavigation.setGridPosition(0.4, 4.0,90);
 
         //driving up on the Y axis
-        gridNavigation.driveToPosition(4, 0.5, .5);
+        gridNavigation.driveToPosition(0.5, 4, .5);
 
         //driving under bridge. changing the X axis
-        gridNavigation.driveToPosition(3, 0.5, .5);
+        gridNavigation.driveToPosition(0.5, 3, .5);
 
 
     }
