@@ -60,7 +60,7 @@ public class JoshPushbotAutoDriveByTime_Linear extends LinearOpMode {
 
     static final double FORWARD_SPEED = 0.6;
     /* Declare OpMode members. */
-    HardwareBeep robot = new HardwareBeep();   // Use a Pushbot's hardware
+    HardwareBeepTest robot = new HardwareBeepTest();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
