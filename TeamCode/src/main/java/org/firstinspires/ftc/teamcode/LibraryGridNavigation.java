@@ -277,7 +277,7 @@ public class LibraryGridNavigation {
 
         double yLeg = yDestination - yOrigin;
 
-        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 537.6 * GEAR_RATIO_SCALING_FACTOR;
+        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 145.6 * GEAR_RATIO_SCALING_FACTOR;
 
 //        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
 
@@ -365,7 +365,8 @@ public class LibraryGridNavigation {
      */
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
-        double PCoeff = .01;
+        double PCoeff = .03;
+        // ALERT THIS VALUE IS NOT USED BECAUSE WE SET IT MANUALLY IN GYRO DRIVE
 
         getDriveDistance(xDestination, yDestination);
         previousXPosition = getDriveDistance(xDestination, yDestination);
@@ -445,18 +446,14 @@ public class LibraryGridNavigation {
      * @param power        Input the power you want to run the robot at
      */
     public void driveToPositionBackwards(double xDestination, double yDestination, double power) {
-        double PCoeff = .01;
+        double PCoeff = .03;
         getDriveDistance(xDestination, yDestination);
         previousXPosition = getDriveDistance(xDestination, yDestination);
         getTurnAngleBackwards(xDestination, yDestination);
 
         gyroDrive.gyro.turnGyro(turnAngle);
         gyroDrive.gyroDriveVariableP(-power, (int) -Distance, turnAngle, PCoeff);
-
-//        gyroDrive.gyroDrive(-power, (int) -Distance, 0.0);
-
     }
-
     /**
      * @param xDestination When you call this method in another function you insert the x destination
      *                     * you want to go to on the grid

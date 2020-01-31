@@ -35,6 +35,7 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
             new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
+    String StoneColor = "";
 
     /**
      * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
@@ -219,4 +220,12 @@ public class SkystoneBlueDepotNoLight extends LinearOpMode {
 
         telemetry.update();
     }
+
+//    public void getStoneColor(){
+//
+//        StoneColor = robot.colorSensor.readSaturation(robot);
+//
+//        while (robot)
+//        }
+//    }
 }

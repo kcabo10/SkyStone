@@ -5,14 +5,19 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.WebcamConfiguration;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+//import org.firstinspires.ftc.teamcode.sensors.REVColorSensor;
+import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
 
 /**
@@ -44,10 +49,11 @@ public class HardwareBeep {
     public BNO055IMU imuActual = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
+    public NormalizedColorSensor colorSensor = null;
 //    public WebcamName webcam = null;
 
     // Set local OpMode Members
-    HardwareMap hwMap = null;
+    public HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
 
     // Constructor
@@ -87,7 +93,8 @@ public class HardwareBeep {
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
-//        webcam = hwMap.get(WebcamName.class, "webcam");
+        colorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color");
+        //        webcam = hwMap.get(WebcamName.class, "webcam");
         //rightSonic.changeI2cAddress(0xe2);
 
         // Set Motor and Servo Direction

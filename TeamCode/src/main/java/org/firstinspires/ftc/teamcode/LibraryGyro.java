@@ -50,7 +50,7 @@ public class LibraryGyro {
     /**
      * Resets the cumulative angle tracking to zero.
      */
-    private void resetAngle() {
+    public void resetAngle() {
         // We completely reset the gyro angle
         lastAngles = robot.imuActual.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;

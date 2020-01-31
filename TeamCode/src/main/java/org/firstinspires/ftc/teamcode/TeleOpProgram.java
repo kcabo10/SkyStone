@@ -438,6 +438,7 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("rf encoder ticks", robot.rightFront.getCurrentPosition());
         telemetry.addData("lb encoder ticks", robot.leftBack.getCurrentPosition());
         telemetry.addData("lf encoder ticks", robot.leftFront.getCurrentPosition());
+        telemetry.addData("gyro angle", robot.imuActual.getAngularOrientation().firstAngle);
         telemetry.addData("right intake", robot.rightIntake.getPower());
         telemetry.addData("foundation_state", foundation_state);
         telemetry.addData("claw_state", claw_state);

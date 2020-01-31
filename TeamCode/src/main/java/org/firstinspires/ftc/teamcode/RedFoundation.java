@@ -47,11 +47,11 @@ public class RedFoundation extends LinearOpMode {
         robot.foundation2.setPosition(.5);
         sleep(500);
 
-        gyroDrive.gyroDrive(0.5, -500, 0);
+        gyroDrive.gyroDriveVariableP(0.5, -500, 0,.01);
 
         gyroTurn.turnGyro(-45);
-
-        gyroDrive.gyroDrive(0.5, 1500, 0);
+//
+        gyroDrive.gyroDriveVariableP(0.5, 1500, 0,.01);
 
         robot.foundation1.setPosition(-1);
         robot.foundation2.setPosition(1);
@@ -59,7 +59,7 @@ public class RedFoundation extends LinearOpMode {
 
         gyroTurn.turnGyro(70);
 
-        gyroDrive.gyroDrive(0.5, -4100, 0);
+        gyroDrive.gyroDriveVariableP(0.5, -4100, 0,.01);
 
         gyroDrive.gyroStrafeRight(.7, 2200, 0);
 
