@@ -279,7 +279,7 @@ public class LibraryGridNavigation {
 
 //        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 145.6 * GEAR_RATIO_SCALING_FACTOR;
 
-       Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
+        Distance = ((Math.hypot(xLeg, yLeg) * 24) / 12.5663) * 1120 * GEAR_RATIO_SCALING_FACTOR_TileRunner;
 
         //3.94 is 100cm circumference. 1120 is the encoder ticks for Neverrest 40.
         /** The input for each grid coordiante is one tile, so first we multiply the input
