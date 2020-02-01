@@ -57,19 +57,19 @@ public class TestingGyroStrafe extends LinearOpMode {
         robot.rightFront.setPower(0);
         robot.rightBack.setPower(0);
 
-        gridNavigation.setGridPosition(1,0,90);
-
-        gyroDrive.setPIDCoeff(.03,.0006,.01);
-
-        gridNavigation.strafeToPosition(1, 1,.5, 0);
-
-        gyroDrive.setPIDCoeff(.03,.0006,.1);
-
-        gridNavigation.strafeToPosition(1, 2,.7,0);
-
-        gyroDrive.setPIDCoeff(.03,.0006,.3);
-
-        gridNavigation.strafeToPosition(1, 3,.9, 0);
+//        gridNavigation.setGridPosition(1,0,90);
+//
+//        gyroDrive.setPIDCoeff(.03,.0006,.01);
+//
+//        gridNavigation.strafeToPosition(1, 1,.5, 0);
+//
+//        gyroDrive.setPIDCoeff(.03,.0006,.1);
+//
+//        gridNavigation.strafeToPosition(1, 2,.7,0);
+//
+//        gyroDrive.setPIDCoeff(.03,.0006,.3);
+//
+//        gridNavigation.strafeToPosition(1, 3,.9, 0);
 
 
 
@@ -79,19 +79,67 @@ public class TestingGyroStrafe extends LinearOpMode {
 
 
 //
-//        gyroDrive.gyroDriveVariableP(-.5, -300, 0, .03);
+//        gyroDrive.gyroStrafeRight(.5, 300, 0);
 //        sleep(1000);
-//
-//        gyroDrive.gyroDriveVariableP(-.5, -300, 0, .05);
-//        sleep(1000);
-//
-//        gyroDrive.gyroDriveVariableP(-.5, -300, 0, .1);
-//        sleep(1000);
-//
-//        gyroDrive.gyroDriveVariableP(-.5, -300, 0, .2);
-//        sleep(1000);
-//
-//
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // The next step is to set the encoders to run
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        runtime.reset();
+
+        while (runtime.seconds() <= 1) {
+            robot.leftFront.setPower(.5);
+            robot.leftBack.setPower(.5);
+            robot.rightFront.setPower(.5);
+            robot.rightBack.setPower(.5);
+
+            telemetry.addData("rf Ticks", robot.rightFront.getCurrentPosition());
+            telemetry.addData("rb Ticks", robot.rightBack.getCurrentPosition());
+            telemetry.addData("lf Ticks", robot.leftFront.getCurrentPosition());
+            telemetry.addData("lb Ticks", robot.leftBack.getCurrentPosition());
+            telemetry.update();
+        }
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
+
+        sleep(1000);
+
+        runtime.reset();
+
+        while (runtime.seconds() <= 1) {
+            robot.leftFront.setPower(-.5);
+            robot.leftBack.setPower(-.5);
+            robot.rightFront.setPower(-.5);
+            robot.rightBack.setPower(-.5);
+            telemetry.addData("rf Ticks", robot.rightFront.getCurrentPosition());
+            telemetry.addData("rb Ticks", robot.rightBack.getCurrentPosition());
+            telemetry.addData("lf Ticks", robot.leftFront.getCurrentPosition());
+            telemetry.addData("lb Ticks", robot.leftBack.getCurrentPosition());
+            telemetry.update();
+        }
+
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
+
+        telemetry.addData("rf Ticks", robot.rightFront.getCurrentPosition());
+        telemetry.addData("rb Ticks", robot.rightBack.getCurrentPosition());
+        telemetry.addData("lf Ticks", robot.leftFront.getCurrentPosition());
+        telemetry.addData("lb Ticks", robot.leftBack.getCurrentPosition());
+        telemetry.update();
+
+        sleep(3000);
+
 
 
         // Kc = .05

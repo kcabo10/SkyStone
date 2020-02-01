@@ -27,6 +27,7 @@ public class TeleOpProgram extends OpMode {
     private ElapsedTime foundationtime = new ElapsedTime();
     public ElapsedTime clawaidruntime = new ElapsedTime();
     public ElapsedTime clawruntime = new ElapsedTime();
+    public ElapsedTime capstonetime = new ElapsedTime();
     private int foundation_state = 0;
     private int claw_state = 0;
     private int up_extrusion_state = 0;
@@ -100,68 +101,72 @@ public class TeleOpProgram extends OpMode {
             final double v3 = (r * Math.sin(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v4 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
 
-            // Ramup up the speed until speed is reached;
-            if ((v1 <= 0) && (prevV1 > v1))
-                rampV1 -= INTERVAL;
-            else
-                rampV1 = v1;
-
-            if ((v1 >= 0) && (prevV1 < v1)) {
-                rampV1 += INTERVAL;
-            }
-            else
-                rampV1 = v1;
-
-
-            // Ramup up the speed until speed is reached;
-            if ((v2 <= 0) && (prevV2 > v2))
-                rampV2 -= INTERVAL;
-            else
-                rampV2 = v2;
-
-            if ((v2 >= 0) && (prevV2 < v2)) {
-                rampV2 += INTERVAL;
-            }
-            else
-                rampV2 = v2;
-
-
-
-            // Ramup up the speed until speed is reached;
-            if ((v3 <= 0) && (prevV3 > v3))
-                rampV3 -= INTERVAL;
-            else
-                rampV3 = v3;
-
-            if ((v3 >= 0) && (prevV3 < v3)) {
-                rampV3 += INTERVAL;
-            }
-            else
-                rampV3 = v3;
-
-
-            // Ramup up the speed until speed is reached;
-            if ((v4 <= 0) && (prevV4 > v4))
-                rampV4 -= INTERVAL;
-            else
-                rampV4 = v4;
-
-            if ((v4 >= 0) && (prevV4 < v4)) {
-                rampV4 += INTERVAL;
-            }
-            else
-                rampV4 = v4;
-
-
-            robot.leftFront.setPower(rampV1);
-            robot.rightFront.setPower(rampV2);
-            robot.leftBack.setPower(rampV3);
-            robot.rightBack.setPower(rampV4);
-
-            prevV1 = v1;
-            prevV2 = v2;
-            prevV3 = v3;
-            prevV4 = v4;
+            robot.leftFront.setPower(v1);
+            robot.rightFront.setPower(v2);
+            robot.leftBack.setPower(v3);
+            robot.rightBack.setPower(v4);
+//            // Ramup up the speed until speed is reached;
+//            if ((v1 <= 0) && (prevV1 > v1))
+//                rampV1 -= INTERVAL;
+//            else
+//                rampV1 = v1;
+//
+//            if ((v1 >= 0) && (prevV1 < v1)) {
+//                rampV1 += INTERVAL;
+//            }
+//            else
+//                rampV1 = v1;
+//
+//
+//            // Ramup up the speed until speed is reached;
+//            if ((v2 <= 0) && (prevV2 > v2))
+//                rampV2 -= INTERVAL;
+//            else
+//                rampV2 = v2;
+//
+//            if ((v2 >= 0) && (prevV2 < v2)) {
+//                rampV2 += INTERVAL;
+//            }
+//            else
+//                rampV2 = v2;
+//
+//
+//
+//            // Ramup up the speed until speed is reached;
+//            if ((v3 <= 0) && (prevV3 > v3))
+//                rampV3 -= INTERVAL;
+//            else
+//                rampV3 = v3;
+//
+//            if ((v3 >= 0) && (prevV3 < v3)) {
+//                rampV3 += INTERVAL;
+//            }
+//            else
+//                rampV3 = v3;
+//
+//
+//            // Ramup up the speed until speed is reached;
+//            if ((v4 <= 0) && (prevV4 > v4))
+//                rampV4 -= INTERVAL;
+//            else
+//                rampV4 = v4;
+//
+//            if ((v4 >= 0) && (prevV4 < v4)) {
+//                rampV4 += INTERVAL;
+//            }
+//            else
+//                rampV4 = v4;
+//
+//
+//            robot.leftFront.setPower(rampV1);
+//            robot.rightFront.setPower(rampV2);
+//            robot.leftBack.setPower(rampV3);
+//            robot.rightBack.setPower(rampV4);
+//
+//            prevV1 = v1;
+//            prevV2 = v2;
+//            prevV3 = v3;
+//            prevV4 = v4;
 
         } else {
             final double v1 = (r * Math.cos(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
@@ -176,20 +181,20 @@ public class TeleOpProgram extends OpMode {
         }
 
         // When the y button has been pressed and released the direction is reversed.
-        switch (buttonYPressed) {
-            case (0):
-                if (gamepad1.y) {
-                    buttonYPressed = 1;
-                }
-                break;
-            case (1):
-                if (!gamepad1.y) {
-                    reverseDirection();
-                    buttonYPressed = 0;
-                }
-                break;
-        }
-
+//        switch (buttonYPressed) {
+//            case (0):
+//                if (gamepad1.y) {
+//                    buttonYPressed = 1;
+//                }
+//                break;
+//            case (1):
+//                if (!gamepad1.y) {
+//                    reverseDirection();
+//                    buttonYPressed = 0;
+//                }
+//                break;
+//        }
+//
 //        // When the a button has been pressed and released the speed is scaled to .5 power.
 //        switch (buttonAPressed) {
 //            case (0):
@@ -204,7 +209,7 @@ public class TeleOpProgram extends OpMode {
 //                }
 //                break;
 //        }
-//
+
 //        // When the button below the right joystick is pressed JUST the turning speed power is set to .5.
 //        if (gamepad1.right_stick_button) {
 //            scaleTurningSpeed = 0.5;
@@ -227,31 +232,35 @@ public class TeleOpProgram extends OpMode {
             robot.rightIntake.setPower(0);
         }
 
-        if (gamepad2.b) {
-            robot.claw.setPosition(0);
-            clawaidruntime.reset();
-            while (clawaidruntime.milliseconds() > 250){
-                //sleep
-            }
-            robot.clawAid.setPosition(1);
-            clawaidruntime.reset();
-            while (clawaidruntime.milliseconds() > 250){
-                //sleep
-            }
-            robot.claw.setPosition(1);
-            clawaidruntime.reset();
-            while (clawaidruntime.milliseconds() > 250){
-                //sleep
-            }
-            robot.clawAid.setPosition(0);
-            clawAid_state++;
-        }
+//        if (gamepad2.) {
+//            robot.capstone.setPosition(.5);
+//        }
+
+//        if (gamepad2.b) {
+//            robot.claw.setPosition(0);
+//            clawaidruntime.reset();
+//            while (clawaidruntime.milliseconds() > 250){
+//                //sleep
+//            }
+//            robot.clawAid.setPosition(1);
+//            clawaidruntime.reset();
+//            while (clawaidruntime.milliseconds() > 250){
+//                //sleep
+//            }
+//            robot.claw.setPosition(1);
+//            clawaidruntime.reset();
+//            while (clawaidruntime.milliseconds() > 250){
+//                //sleep
+//            }
+//            robot.clawAid.setPosition(0);
+//            clawAid_state++;
+//        }
 
         switch (claw_state) {
             case (0):
                 if (gamepad2.x) {
                     robot.claw.setPosition(0);
-                    robot.clawAid.setPosition(1);
+                    robot.clawAid.setPosition(0);
                     telemetry.addData("Case 0", claw_state);
                     telemetry.update();
                     claw_state++;
@@ -281,21 +290,24 @@ public class TeleOpProgram extends OpMode {
                 break;
         }
 
+        /**
+         * Move claw aid and claw
+         */
         switch (clawAid_state) {
             case (0):
                 if (gamepad2.b) {
-                    robot.claw.setPosition(1);
+//                    robot.claw.setPosition(1);
                     //sleep
                     robot.clawAid.setPosition(0);
                     //sleep
-                    robot.claw.setPosition(0);
+//                    robot.claw.setPosition(0);
                     //sleep
-                    robot.clawAid.setPosition(1);
+//                    robot.clawAid.setPosition(1);
                     clawAid_state++;
                 }
                 break;
             case (1):
-                if (robot.clawAid.getPosition() <= 0.1 && !gamepad2.b) {
+                if (robot.clawAid.getPosition() <= .1 && !gamepad2.b) {
                     clawAid_state++;
                 }
                 break;
@@ -312,17 +324,60 @@ public class TeleOpProgram extends OpMode {
                 break;
         }
 
-        if (gamepad2.a) {
-            robot.claw.setPosition(1);
-            clawruntime.reset();
-            while (clawaidruntime.milliseconds() > 500) {
-                //sleep
-            }
-            robot.clawAid.setPosition(0);
-        }
-        else {
+//        switch (clawAid_state) {
+//            case (0):
+//                if (gamepad2.b) {
+//                    robot.claw.setPosition(1);
+//                    //sleep
+//                    robot.clawAid.setPosition(0);
+//                    //sleep
+//                    robot.claw.setPosition(0);
+//                    //sleep
+//                    robot.clawAid.setPosition(1);
+//                    clawAid_state++;
+//                }
+//                break;
+//            case (1):
+//                if (!gamepad2.b) {
+//                    clawAid_state = 0;
+//
+////                if (robot.clawAid.getPosition() >= .9 && !gamepad2.b) {
+////                    clawAid_state = 0;
+////                        robot.claw.setPosition(0);
+////                        clawaidruntime.reset();
+////                        while (clawaidruntime.milliseconds() > 250){
+////                            //sleep
+////                        }
+////                        robot.clawAid.setPosition(1);
+////                        clawaidruntime.reset();
+////                        while (clawaidruntime.milliseconds() > 250){
+////                            //sleep
+////                        }
+////                        robot.claw.setPosition(1);
+////                        clawaidruntime.reset();
+////                        while (clawaidruntime.milliseconds() > 250){
+////                            //sleep
+////                        }
+////                        robot.clawAid.setPosition(0);
+//                    }
+//                break;
+//                }
+//
+//        if (gamepad2.a) {
+//            robot.claw.setPosition(1);
+//            clawruntime.reset();
+//            while (clawaidruntime.milliseconds() > 500) {
+//                //sleep
+//            }
+//            robot.clawAid.setPosition(0);
+//        }
+//        else {
+//
+//        }
 
-        }
+        /**
+         * Foundation
+         */
 
         switch (foundation_state) {
             case (0):
@@ -442,6 +497,8 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("right intake", robot.rightIntake.getPower());
         telemetry.addData("foundation_state", foundation_state);
         telemetry.addData("claw_state", claw_state);
+        telemetry.addData("clawAid_state", clawAid_state);
+        telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
         telemetry.addData("foundation1 position", robot.foundation1.getPosition());
         telemetry.addData("foundation2 position", robot.foundation2.getPosition());
         telemetry.addData("claw position", robot.claw.getPosition());

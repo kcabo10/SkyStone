@@ -46,6 +46,7 @@ public class HardwareBeep {
     public Servo foundation1 = null;
     public Servo foundation2 = null;
     public Servo clawAid = null;
+    public Servo capstone = null;
     public BNO055IMU imuActual = null;
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
@@ -88,6 +89,7 @@ public class HardwareBeep {
         foundation1 = hwMap.get(Servo.class, "foundation1");
         foundation2 = hwMap.get(Servo.class, "foundation2");
         clawAid = hwMap.get(Servo.class, "claw_aid");
+        //clawAid = hwMap.get(Servo.class, "capstone");
 
 
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");

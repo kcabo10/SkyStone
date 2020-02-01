@@ -12,8 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * This is our main teleOp program which controls the robot during the driver controlled period.
  */
-@Disabled
-@TeleOp(name = "TeleOp Program Test", group = "TankDrive")
+ @TeleOp(name = "TeleOp Program Test", group = "TankDrive")
 public class TeleOpProgramTest extends OpMode {
 
     // Calling hardware map.
@@ -23,6 +22,7 @@ public class TeleOpProgramTest extends OpMode {
     private int buttonAPressed = 0;
     // Setting initial direction to forward.
     private int direction = -1;
+    private int i = 1;
     // Setting scaling to full speed.
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
@@ -37,13 +37,6 @@ public class TeleOpProgramTest extends OpMode {
     /**
      * This method reverses the direction of the mecanum drive.
      */
-    private void reverseDirection() {
-        if (direction == 1) {
-            direction = -1;
-        } else if (direction == -1) {
-            direction = 1;
-        }
-    }
 
 //    /**
 //     * This method scales the speed of the robot to .5.
@@ -117,15 +110,23 @@ public class TeleOpProgramTest extends OpMode {
             case (0):
                 if (gamepad1.y) {
                     buttonYPressed = 1;
+                    robot.clawAid.setPosition(i);
                 }
                 break;
             case (1):
                 if (!gamepad1.y) {
-                    reverseDirection();
                     buttonYPressed = 0;
+                    if (i == 0) {
+                        i = 1;
+                    }
+                    else {
+                        i = 0;
+                    }
                 }
                 break;
         }
+
+
 
         // Telemetry
         telemetry.addData("Scale Factor", scaleFactor);
@@ -134,6 +135,8 @@ public class TeleOpProgramTest extends OpMode {
         telemetry.addData("left back power", robot.leftBack.getPower());
         telemetry.addData("right front power", robot.rightFront.getPower());
         telemetry.addData("right back power", robot.rightBack.getPower());
+        telemetry.addData("i", i);
+        telemetry.addData("claw_aid", robot.clawAid.getPosition());
         telemetry.update();
     }
 

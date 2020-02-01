@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -27,9 +28,6 @@ public class BlueDepotStrafeWithLightJosh extends LinearOpMode {
     // Calling the Library Grid Nav Library to use the grid navigation functions
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
-    // Calling the Library Tensor Flow No Light to use the Tensor Flow function without
-    LibraryTensorFlowObjectDetectionWithLight tensorFlow =
-            new LibraryTensorFlowObjectDetectionWithLight(robot, telemetry);
     // Declaring skystone position value to read what position Tensor Flow sees the skystone position
     String SkystonePosition = "";
     double offset = .31;
@@ -116,6 +114,13 @@ public class BlueDepotStrafeWithLightJosh extends LinearOpMode {
         double[] REPOSITIONING_POS = {-0.5, 5}; /* END_ANGLE = 0 */
         // Parking pos
         double[] PARKING_POS = {-0.5, 3}; /* END_ANGLE = -90 */
+
+        //Same end to each case
+        double[] DELIVERING_SKYSTONE = {5.3, 1.5};
+        double[] GRAB_FOUNDATION = {5.3, 1.75};
+        double[] BACK_UP = {5.3, .9};
+//        double[] REPOSITION_FOUNDATION = {5, 1.2};
+//        double[] PARKING_POS = {3.3, 1.6};
 
         // This is a switch block that plays the program in relation to the skystone position
         // Tensor Flow reads
@@ -221,16 +226,43 @@ public class BlueDepotStrafeWithLightJosh extends LinearOpMode {
 //                gridNavigation.driveToPosition(TOWARD_SKYSTONE[X], TOWARD_SKYSTONE[Y], .5);
                 break;
         }
-        // drive to foundation to deposit skystone
 
-        telemetry.addData("Foundation Coords X", FOUNDATION_POS[X]);
-        telemetry.addData("Foundation Coords Y", FOUNDATION_POS[Y]);
 
-        telemetry.addData("Orig Coords X", gridNavigation.xOrigin);
-        telemetry.addData("Orig Coords Y", gridNavigation.yOrigin);
+        gridNavigation.strafeToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y],1,0);
+
+        gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y],1);
+        robot.foundation1.setPosition(.5);
+        robot.foundation2.setPosition(.5);
+
+        robot.rightIntake.setPower(-1);
+        robot.leftIntake.setPower(1);
+        gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y],1);
+
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftBack.setTargetPosition(3656);
+        robot.rightBack.setTargetPosition(-3656);
+
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.leftBack.setPower(1);
+        robot.rightBack.setPower(1);
+
+        while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
+        }
+
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+
+        robot.rightIntake.setPower(0);
+        robot.leftIntake.setPower(0);
+
+        telemetry.addData("Should have turned", "");
         telemetry.update();
 
-
+    }
 //        /*
 //         * PLACE SKYSTONE
 //         */
@@ -241,9 +273,6 @@ public class BlueDepotStrafeWithLightJosh extends LinearOpMode {
 //        gridNavigation.driveToPositionBackwards(REPOSITIONING_POS[X], REPOSITIONING_POS[Y], .7);
 //        // parking under alliance sky bridge
 //        gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
-
-
-    }
 
     /**
      * This method prints telemetry for our autonomous program
@@ -266,7 +295,7 @@ public class BlueDepotStrafeWithLightJosh extends LinearOpMode {
         /*
          * UPDATE WITH NEW REPOSITORY
          */
-        SkystonePosition = tensorFlow.findSkystone();
+//        SkystonePosition = tensorFlow.findSkystone();
 
         // Switch block that indicated which skystone position it reads
         switch (SkystonePosition) {

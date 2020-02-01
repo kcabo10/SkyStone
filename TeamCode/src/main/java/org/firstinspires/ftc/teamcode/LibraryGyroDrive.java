@@ -363,10 +363,10 @@ public class LibraryGyroDrive {
         robot.rightFront.setTargetPosition(newRightTarget);
         robot.rightBack.setTargetPosition(newRightTarget);
 
-        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         double remainingTicksAvg;
@@ -385,6 +385,10 @@ public class LibraryGyroDrive {
                                     Math.abs(robot.rightBack.getCurrentPosition()))+
                             (Math.abs(robot.rightFront.getTargetPosition())-
                                     Math.abs(robot.rightFront.getCurrentPosition())))/4;
+
+            remainingTicksAvg =
+                    ((Math.abs(robot.leftBack.getTargetPosition())-
+                            Math.abs(robot.leftBack.getCurrentPosition())));
 
             telemetry.addData("libgyrodrVP: target angle", angle);
             telemetry.addData("libgyrodrVP: gyro angle", gyro.getAngle());
@@ -464,11 +468,13 @@ public class LibraryGyroDrive {
             telemetry.addData("PCoeff", PCoeff);
             telemetry.addData("ICoeff", ICoeff);
             telemetry.addData("DCoeff", DCoeff);
+            telemetry.addData("Encoder Ticks", robot.leftFront.getCurrentPosition());
             telemetry.update();
         }
-        while ((robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
-                && robot.rightBack.isBusy()) &&
-                remainingTicksAvg > 10);
+//        while ((robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()
+//                && robot.rightBack.isBusy()) &&
+//                remainingTicksAvg > 10);
+        while (remainingTicksAvg > 10);
 
         // Stop all motion;
         robot.leftFront.setPower(0);
