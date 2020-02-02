@@ -111,7 +111,10 @@ public class TeleOpProgramTest extends OpMode {
                 if (gamepad1.y) {
                     buttonYPressed = 1;
                     robot.clawAid.setPosition(i);
+                    robot.clawTurner.setPosition(i);
+                    robot.claw.setPosition(i);
                 }
+
                 break;
             case (1):
                 if (!gamepad1.y) {

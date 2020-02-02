@@ -89,7 +89,7 @@ public class HardwareBeep {
         foundation1 = hwMap.get(Servo.class, "foundation1");
         foundation2 = hwMap.get(Servo.class, "foundation2");
         clawAid = hwMap.get(Servo.class, "claw_aid");
-        //clawAid = hwMap.get(Servo.class, "capstone");
+        capstone = hwMap.get(Servo.class, "capstone");
 
 
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");

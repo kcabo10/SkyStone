@@ -25,7 +25,7 @@ public class TeleOpProgram extends OpMode {
     private double scaleFactor = 1;
     private double scaleTurningSpeed = 1;
     private ElapsedTime foundationtime = new ElapsedTime();
-    public ElapsedTime clawaidruntime = new ElapsedTime();
+    public ElapsedTime danceTime = new ElapsedTime();
     public ElapsedTime clawruntime = new ElapsedTime();
     public ElapsedTime capstonetime = new ElapsedTime();
     private int foundation_state = 0;
@@ -33,8 +33,9 @@ public class TeleOpProgram extends OpMode {
     private int up_extrusion_state = 0;
     private int clawAid_state = 0;
     private int clawAlone_state = 0;
-
-
+    private int capstone_pos = 0;
+    private int capstone_state = 0;
+    private int dance_state = 0;
     /**
      * This method reverses the direction of the mecanum drive.
      */
@@ -324,18 +325,62 @@ public class TeleOpProgram extends OpMode {
                 break;
         }
 
-//        switch (clawAid_state) {
-//            case (0):
-//                if (gamepad2.b) {
-//                    robot.claw.setPosition(1);
-//                    //sleep
-//                    robot.clawAid.setPosition(0);
-//                    //sleep
-//                    robot.claw.setPosition(0);
-//                    //sleep
-//                    robot.clawAid.setPosition(1);
-//                    clawAid_state++;
-//                }
+        /**
+         * Capstone
+         */
+
+
+        switch (capstone_state) {
+            case (0):
+                if (gamepad2.a) {
+                    capstone_state = 1;
+                    robot.capstone.setPosition(capstone_pos);
+                }
+                break;
+            case (1):
+                if (!gamepad2.a) {
+                    capstone_state = 0;
+                    if (capstone_pos == 0) {
+                        capstone_pos = 1;
+                    }
+                    else {
+                        capstone_pos = 0;
+                    }
+                }
+                break;
+        }
+
+        switch (dance_state) {
+            case (0): //opening claw & setting claw turner back to original pos
+                if (gamepad2.b) {
+                    robot.claw.setPosition(1);
+                    robot.clawTurner.setPosition(0);
+                    dance_state++;
+                    danceTime.reset();
+                }
+                break;
+            case (1): //claw aid pushing brick into claw
+                if (danceTime.seconds() > .5) {
+                    robot.clawAid.setPosition(1);
+                   dance_state++;
+                   danceTime.reset();
+                }
+                break;
+            case (2): //claw closing
+                if (danceTime.seconds() > .25) {
+                    robot.claw.setPosition(0);
+                    dance_state++;
+                    danceTime.reset();
+                }
+                break;
+            case (3): //claw aid moving back to original pos
+                if (danceTime.seconds() > .25) {
+                    robot.clawAid.setPosition(0);
+                    dance_state = 0;
+                }
+
+                break;
+            }
 //                break;
 //            case (1):
 //                if (!gamepad2.b) {
@@ -506,6 +551,11 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
         telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
         telemetry.addData("foundation state", foundation_state);
+        telemetry.addData("capstone state", capstone_state);
+        telemetry.addData("capstone pos", capstone_pos);
+        telemetry.addData("gamepad2.a", gamepad2.a);
+        telemetry.addData("dance state", dance_state);
+
         telemetry.update();
     }
 
