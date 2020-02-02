@@ -187,7 +187,7 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if (gamepad2.b || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
+                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
                     robot.clawTurner.setPosition(1); //ensure claw turner is straight
                     dance_state++;
@@ -232,25 +232,25 @@ public class TeleOpProgram extends OpMode {
         switch (foundation_state) {
             case (0):
                 if (gamepad2.y) {
-                    robot.foundation1.setPosition(-1);
-                    robot.foundation2.setPosition(1);
-                    foundation_state++;
-                }
-                break;
-            case (1):
-                if (robot.foundation1.getPosition() <= -.9 && robot.foundation2.getPosition() >= .9 && !gamepad2.y) {
-                    foundation_state++;
-                }
-                break;
-            case (2):
-                if (gamepad2.y) {
                     robot.foundation1.setPosition(.5);
                     robot.foundation2.setPosition(.5);
                     foundation_state++;
                 }
                 break;
+            case (1):
+                if (!gamepad2.y) {
+                    foundation_state++;
+                }
+                break;
+            case (2):
+                if (gamepad2.y) {
+                    robot.foundation1.setPosition(-1);
+                    robot.foundation2.setPosition(1);
+                    foundation_state++;
+                }
+                break;
             case (3):
-                if (robot.foundation1.getPosition() >= .4 && robot.foundation2.getPosition() >= 0.4 && !gamepad2.y) {
+                if (!gamepad2.y) {
                     foundation_state = 0;
                 }
                 break;
