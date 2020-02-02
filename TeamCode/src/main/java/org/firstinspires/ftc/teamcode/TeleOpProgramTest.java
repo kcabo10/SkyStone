@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
+
 /**
  * @author Beep Patrol
  * <p>
@@ -32,6 +34,7 @@ public class TeleOpProgramTest extends OpMode {
     private int claw_state = 0;
     private int up_extrusion_state = 0;
     private int clawAid_state = 0;
+    LibraryColorSensor stoneColorSensor = new LibraryColorSensor();
 
 
     /**
@@ -140,6 +143,9 @@ public class TeleOpProgramTest extends OpMode {
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("i", i);
         telemetry.addData("claw_aid", robot.clawAid.getPosition());
+
+        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+
         telemetry.update();
     }
 

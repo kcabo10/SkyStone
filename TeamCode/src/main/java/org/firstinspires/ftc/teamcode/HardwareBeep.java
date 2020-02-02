@@ -51,6 +51,7 @@ public class HardwareBeep {
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
     public NormalizedColorSensor colorSensor = null;
+    public NormalizedColorSensor stoneColorSensor = null;
 //    public WebcamName webcam = null;
 
     // Set local OpMode Members
@@ -92,10 +93,12 @@ public class HardwareBeep {
         capstone = hwMap.get(Servo.class, "capstone");
 
 
+
         imuActual = hwMap.get(BNO055IMU.class, "imu_actual");
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         colorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color");
+        stoneColorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color_dance");
         //        webcam = hwMap.get(WebcamName.class, "webcam");
         //rightSonic.changeI2cAddress(0xe2);
 
