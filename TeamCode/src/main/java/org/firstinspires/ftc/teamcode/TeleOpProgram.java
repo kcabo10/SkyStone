@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
+
 /**
  * @author Beep Patrol
  * <p>
@@ -36,6 +38,8 @@ public class TeleOpProgram extends OpMode {
     private int capstone_pos = 0;
     private int capstone_state = 0;
     private int dance_state = 0;
+
+    LibraryColorSensor stoneColorSensor = new LibraryColorSensor();
     /**
      * This method reverses the direction of the mecanum drive.
      */
@@ -352,30 +356,31 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if (gamepad2.b) {
-                    robot.claw.setPosition(1);
-                    robot.clawTurner.setPosition(0);
+                if (gamepad2.b || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75)) {
+                    robot.claw.setPosition(0);
+                    robot.clawTurner.setPosition(1);
                     dance_state++;
                     danceTime.reset();
                 }
                 break;
             case (1): //claw aid pushing brick into claw
-                if (danceTime.seconds() > .5) {
+                if (danceTime.seconds() > 1) {
                     robot.clawAid.setPosition(1);
                    dance_state++;
                    danceTime.reset();
                 }
                 break;
             case (2): //claw closing
-                if (danceTime.seconds() > .25) {
-                    robot.claw.setPosition(0);
+                if (danceTime.seconds() > 1) {
+                    robot.claw.setPosition(1);
+                    robot.clawAid.setPosition(0);
                     dance_state++;
                     danceTime.reset();
                 }
                 break;
             case (3): //claw aid moving back to original pos
-                if (danceTime.seconds() > .25) {
-                    robot.clawAid.setPosition(0);
+                if (danceTime.seconds() > 1 && ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .2))) {
+
                     dance_state = 0;
                 }
 
@@ -555,6 +560,9 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("capstone pos", capstone_pos);
         telemetry.addData("gamepad2.a", gamepad2.a);
         telemetry.addData("dance state", dance_state);
+        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+
+
 
         telemetry.update();
     }
