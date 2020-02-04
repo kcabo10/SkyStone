@@ -123,7 +123,7 @@ public class TeleOpProgram extends OpMode {
 
 
         /**
-         * Reverse Direction
+         * Just Claw Controls
          */
         // When the y button has been pressed and released the direction is reversed.
         switch (buttonXPressed) {
@@ -288,6 +288,10 @@ public class TeleOpProgram extends OpMode {
         } else {
             }
 
+
+        /**
+         * Claw Turner Controls
+         */
         robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
         robot.droidLifterRight.setPower(-gamepad2.left_stick_y);
 
@@ -353,7 +357,7 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("foundation_state", foundation_state);
         telemetry.addData("buttonXPressed", buttonXPressed);
         telemetry.addData("clawAid_state", clawAid_state);
-        telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
+        //telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
         telemetry.addData("foundation1 position", robot.foundation1.getPosition());
         telemetry.addData("foundation2 position", robot.foundation2.getPosition());
         telemetry.addData("claw position", robot.claw.getPosition());
@@ -363,9 +367,11 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("foundation state", foundation_state);
         telemetry.addData("capstone state", capstone_state);
         telemetry.addData("capstone pos", capstone_pos);
-        telemetry.addData("gamepad2.a", gamepad2.a);
+        //telemetry.addData("gamepad2.a", gamepad2.a);
         telemetry.addData("dance state", dance_state);
         telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
+        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
 
 
 
