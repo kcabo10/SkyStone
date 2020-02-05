@@ -98,14 +98,14 @@ public class BlueSkystoneWithColorSensor extends LinearOpMode {
             switch (readColorSensor) {
 
                 case 0:
-                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .3);
+                    gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .5);
                     sleep(1000);
                     StoneColor = colorSensorLib.readSaturation(robot, "sensor_color");
                     telemetry.addData("case 0 color sensor reading", StoneColor);
                     telemetry.update();
 
                     if (StoneColor >= .2) {
-                        gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .7, 1);
+                        gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .5, 1);
                         readColorSensor++;
 
                         telemetry.addData("Code Pos 10", "");
@@ -117,10 +117,10 @@ public class BlueSkystoneWithColorSensor extends LinearOpMode {
                         telemetry.update();
                         robot.rightIntake.setPower(1);
                         robot.leftIntake.setPower(-1);
-                        gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_1[X], GRAB_SKYSTONE_POS_1[Y], .3);
+                        gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_1[X], GRAB_SKYSTONE_POS_1[Y], .5);
                         robot.rightIntake.setPower(0);
                         robot.leftIntake.setPower(0);
-                        gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .4);
+                        gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
 
                         telemetry.addData("Code Pos 20", "");
                         telemetry.update();
@@ -139,7 +139,7 @@ public class BlueSkystoneWithColorSensor extends LinearOpMode {
                     telemetry.update();
 
                     if (StoneColor >= .2) {
-                        gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .7, 1);
+                        gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .5, 1);
                         readColorSensor++;
 
                         telemetry.addData("Code Pos 30", "");
@@ -151,7 +151,7 @@ public class BlueSkystoneWithColorSensor extends LinearOpMode {
                         telemetry.update();
                         robot.rightIntake.setPower(1);
                         robot.leftIntake.setPower(-1);
-                        gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_2[X], GRAB_SKYSTONE_POS_2[Y], .3);
+                        gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_2[X], GRAB_SKYSTONE_POS_2[Y], .5);
                         robot.rightIntake.setPower(0);
                         robot.leftIntake.setPower(0);
                         gridNavigation.driveToPosition(BACKING_UP_2[X], BACKING_UP_2[Y], .5);
@@ -208,15 +208,15 @@ public class BlueSkystoneWithColorSensor extends LinearOpMode {
 //        }
 //        telemetry.update();
 
-        gridNavigation.strafeToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y],1,0);
+        gridNavigation.strafeToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y],.5,1);
 
-        gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y],1);
+        gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y],.5);
         robot.foundation1.setPosition(.5);
         robot.foundation2.setPosition(.5);
 
         robot.rightIntake.setPower(-1);
         robot.leftIntake.setPower(1);
-        gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y],1);
+        gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y],.5);
 
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

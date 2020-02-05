@@ -327,7 +327,7 @@ public class LibraryGyroDrive {
         double rightSpeed;
         double leftSpeedRamp = 0;
         double rightSpeedRamp = 0;
-        double INTERVAL = 0.07;
+        double INTERVAL = 0.03;
         double integral = 0;
         double derivative = 0;
         double lastError = 0;
@@ -433,25 +433,26 @@ public class LibraryGyroDrive {
 //                rightSpeed = rightSpeedRamp;
 //            }
 //
-//            if ((remainingTicksAvg < (newLeftTarget*.1)) && !rampDnReached && rampReached)
-//            {
-//                if (leftSpeedRamp < .3) {
-//                    leftSpeedRamp -= INTERVAL;
-//                    telemetry.addData("LeftRampDnSpeed", leftSpeedRamp);
-//                }
-//                else
-//                    rampDnReached = true;
-//
-//                if (rightSpeedRamp < .3) {
-//                    rightSpeedRamp -= INTERVAL;
-//                    telemetry.addData("RightRampDnSpeed", rightSpeedRamp);
-//                }
-//                else
-//                    rampDnReached = true;
-//
-//                leftSpeed = leftSpeedRamp;
-//                rightSpeed = rightSpeedRamp;
-//            }
+            if ((remainingTicksAvg < (newLeftTarget*.5)) && !rampDnReached)
+            {
+                if (leftSpeedRamp < .3) {
+                    leftSpeedRamp -= INTERVAL;
+                    telemetry.addData("LeftRampDnSpeed", leftSpeedRamp);
+                }
+                else
+                    rampDnReached = true;
+
+                if (rightSpeedRamp < .3) {
+                    rightSpeedRamp -= INTERVAL;
+                    telemetry.addData("RightRampDnSpeed", rightSpeedRamp);
+                }
+                else
+                    rampDnReached = true;
+
+                leftSpeed = Range.clip(leftSpeedRamp, -.1, .1);
+                rightSpeed = Range.clip(rightSpeedRamp, -.1, .1);
+
+            }
 
             robot.leftFront.setPower(leftSpeed);
             robot.leftBack.setPower(leftSpeed);
@@ -464,7 +465,7 @@ public class LibraryGyroDrive {
             telemetry.addData("L Speed", leftSpeed);
             telemetry.addData("R Speed", rightSpeed);
             telemetry.addData("Remaining Ticks Avg", remainingTicksAvg);
-            telemetry.addData("rampReached", rampReached);
+            telemetry.addData("rampDnReached", rampDnReached);
             telemetry.addData("PCoeff", PCoeff);
             telemetry.addData("ICoeff", ICoeff);
             telemetry.addData("DCoeff", DCoeff);

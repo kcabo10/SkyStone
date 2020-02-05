@@ -35,7 +35,7 @@ public class TestingREVColorSensor extends LinearOpMode {
 
     LibraryColorSensor colorSensorLib = new LibraryColorSensor();
 
-
+    LibraryOpenCV opencv;
 
     /**
      * This method is the main body of our code which contains the set of commands carried out in our crater side autonomous program.
@@ -46,6 +46,7 @@ public class TestingREVColorSensor extends LinearOpMode {
         telemetry.update();
         //initializing the hardware map
         robot.init(hardwareMap);
+        opencv = new LibraryOpenCV(robot, telemetry);
         //initializing the gyro turn function
         gyroTurn.init(robot, telemetry);
         //initializing the gyro drive function
@@ -58,14 +59,14 @@ public class TestingREVColorSensor extends LinearOpMode {
 
         waitForStart();
 
-
-
-        while (true){
-
-            StoneColor = colorSensorLib.readSaturation(robot, "sensor_color");
-
-            telemetry.addData("Read Color Sensor Saturation",StoneColor);
-            telemetry.update();
-        }
+        opencv.findSkystone();
+//
+//        while (true){
+//
+//            StoneColor = colorSensorLib.readSaturation(robot, "sensor_color");
+//
+//            telemetry.addData("Read Color Sensor Saturation",StoneColor);
+//            telemetry.update();
+//        }
     }
 }
