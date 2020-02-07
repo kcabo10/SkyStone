@@ -34,6 +34,7 @@ public class TeleOpProgram extends OpMode {
     private int buttonXPressed = 0;
     private int up_extrusion_state = 0;
     private int clawAid_state = 0;
+    private int lifter_state = 0;
     private int clawAlone_state = 0;
     private int capstone_pos = 0;
     private int capstone_state = 0;
@@ -189,7 +190,6 @@ public class TeleOpProgram extends OpMode {
             case (0): //opening claw & setting claw turner back to original pos
                 if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
-                    robot.clawTurner.setPosition(1); //ensure claw turner is straight
                     dance_state++;
                     danceTime.reset();
                     danceDoOver = false;
@@ -198,8 +198,8 @@ public class TeleOpProgram extends OpMode {
             case (1): //claw aid pushing brick into claw
                 if (danceTime.seconds() > 1) { //wait 1 second
                     robot.clawAid.setPosition(1); //move the claw aid up
-                   dance_state++;
-                   danceTime.reset();
+                    dance_state++;
+                    danceTime.reset();
                 }
                 break;
             case (2): //claw closing
@@ -274,72 +274,25 @@ public class TeleOpProgram extends OpMode {
         }
 
         /**
-         * Claw Turner Controls
+         * Up Extrusion Lifter Controls
          */
 
-        if(gamepad2.dpad_right && !gamepad2.dpad_left) {
-            robot.clawTurner.setPosition(1.0);
-            telemetry.addData("right dpad pressed", gamepad2.dpad_right);
-            telemetry.update();
-        } else if (gamepad2.dpad_left && !gamepad2.dpad_right){
-                robot.clawTurner.setPosition(0);
-                telemetry.addData("left dpad pressed", gamepad2.dpad_left);
-                telemetry.update();
-        } else {
-            }
-
-
-        /**
-         * Claw Turner Controls
-         */
         robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
         robot.droidLifterRight.setPower(-gamepad2.left_stick_y);
 
-//        switch (up_extrusion_state) {
-//            case 0:
-//                if (gamepad2.left_trigger > 0) {
-//                    robot.droidLifterRight.setPower(-1);
-//                    robot.droidLifterLeft.setPower(1);
-//                    up_extrusion_state++;
+//        double rightSpeedRamp = robot.droidLifterRight.getPower();
+//        double INTERVAL = .01;
 //
-//                } else if (gamepad2.right_trigger > 0) {
-//                    robot.droidLifterRight.setPower(.5);
-//                    robot.droidLifterLeft.setPower(-.5);
-//                } else {
-//                    robot.droidLifterRight.setPower(0);
-//                    robot.droidLifterLeft.setPower(0);
-//                }
-//                break;
-//            case 1:
-//                // This case sets the power to zero once the right bumper has been released and returns to state zero.
-//                // This allows the drivers to terminate the movement of the arm to avoid damage to the robot.
-//                if (gamepad2.left_trigger <= 0) {
-//                    robot.droidLifterRight.setPower(0);
-//                    robot.droidLifterLeft.setPower(0);
-//                    up_extrusion_state = 0;
-//                }
-//                break;
+//        if (gamepad2.left_stick_y != 0 && robot.droidLifterRight.getCurrentPosition() <= 1000) {
+//                    robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
+//                    robot.droidLifterRight.setPower(-gamepad2.left_stick_y);
+//                    //calculate till max point
+//        }
+//        if (gamepad2.left_stick_y != 0 && robot.droidLifterRight.getCurrentPosition() >= 1000 && rightSpeedRamp > .1){
+//                    robot.droidLifterLeft.setPower(gamepad2.left_stick_y - INTERVAL);
+//                    robot.droidLifterRight.setPower(-gamepad2.left_stick_y + INTERVAL);
 //        }
 
-//        if (gamepad2.right_trigger == 1) {
-//            robot.droidLifterLeft.setPower(1);
-//            robot.droidLifterRight.setPower(-1);
-//            telemetry.addData("right dpad pressed", gamepad2.dpad_right);
-//            telemetry.update();
-//        } else if (gamepad2.right_trigger == 0) {
-//            robot.droidLifterLeft.setPower(0);
-//            robot.droidLifterRight.setPower(0);
-//        }
-//
-//        if (gamepad2.left_trigger == 1) {
-//            robot.droidLifterLeft.setPower(-.25);
-//            robot.droidLifterRight.setPower(.25);
-//            telemetry.addData("left dpad pressed", gamepad2.dpad_left);
-//            telemetry.update();
-//        } else if (gamepad2.left_trigger == 0) {
-//            robot.droidLifterLeft.setPower(0);
-//            robot.droidLifterRight.setPower(0);
-//        }
 
         // Telemetry
         telemetry.addData("Scale Factor", scaleFactor);
@@ -361,7 +314,6 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("foundation1 position", robot.foundation1.getPosition());
         telemetry.addData("foundation2 position", robot.foundation2.getPosition());
         telemetry.addData("claw position", robot.claw.getPosition());
-        telemetry.addData("claw turner position", robot.clawTurner.getPosition());
         telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
         telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
         telemetry.addData("foundation state", foundation_state);
@@ -372,8 +324,7 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
         telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
         telemetry.addData("droid_right", robot.droidLifterRight.getPower());
-
-
+        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
 
         telemetry.update();
     }

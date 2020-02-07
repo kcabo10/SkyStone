@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
 
-@Autonomous(name = "parking under bridge red pos 2", group = "Beep")
-public class parkingUnderBridgeRedPos2 extends LinearOpMode {
+@Autonomous(name = "Red Parking Wall", group = "Beep")
+public class RedParkingWall extends LinearOpMode {
 
     // Declaring a timer
     public ElapsedTime runtime = new ElapsedTime();
@@ -47,13 +47,10 @@ public class parkingUnderBridgeRedPos2 extends LinearOpMode {
 
         waitForStart();
         //setting grid pos
-        gridNavigation.setGridPosition(0.4, 4.0,90);
-
-        //driving up on the Y axis
-        gridNavigation.driveToPosition(0.5, 4, .5);
+        gridNavigation.setGridPosition(4.0, 0.4,90);
 
         //driving under bridge. changing the X axis
-        gridNavigation.driveToPosition(0.5, 3, .5);
+        gridNavigation.strafeToPosition(3, 0.5, .2,1);
 
 
     }

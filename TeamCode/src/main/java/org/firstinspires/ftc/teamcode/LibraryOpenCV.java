@@ -29,8 +29,7 @@ public class LibraryOpenCV {
     Telemetry telemetry;
     ElapsedTime timer;
 
-    public LibraryOpenCV(HardwareBeep newHardwareBeep, Telemetry
-            newTelemetry) {
+    public LibraryOpenCV(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
         robot = newHardwareBeep;
         telemetry = newTelemetry;
@@ -126,23 +125,26 @@ public class LibraryOpenCV {
         timer.reset();
 
         // while mineral position is not found and the timer counts 6 seconds
-        while (currentPos == "" && timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
+        while (currentPos == "" && timer.seconds() < 2) { /**DEBUG CHANGED TO 600 */
 
             // If the skystone is positioned more toward the right of the phones camera view
             // then the x position will increase
 
             // If the skystone is at a position greater than 100 than we assume the skystone
             // is in position
-            if (skyStoneDetector.getScreenPosition().x <= 100 && skyStoneDetector.getScreenPosition().x <= 300) {
-                telemetry.addData("Skystone Position", "Pos 3");
-                currentPos = "Pos 3";
+            if (skyStoneDetector.getScreenPosition().y <= 100) {
+                telemetry.addData("Skystone Position", "Pos 1");
+                telemetry.update();
+                currentPos = "Pos 1";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().x > 100 && skyStoneDetector.getScreenPosition().x <= 300) {
+            } else if (skyStoneDetector.getScreenPosition().y > 100 && skyStoneDetector.getScreenPosition().x <= 180) {
                 telemetry.addData("Skystone Position", "Pos 2");
                 currentPos = "Pos 2";
-            } else {
-                currentPos = "Pos 1";
+            } else if (skyStoneDetector.getScreenPosition().x > 180 && skyStoneDetector.getScreenPosition().x <= 270) {
+                telemetry.addData("Skystone Position", "Pos 3");
+                telemetry.update();
+                currentPos = "Pos 3";
             }
         }
         // returns the current skystone position

@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+@Disabled
 @Autonomous(name = "Skystone Blue Depot With Light Katie", group = "Beep")
 public class SkystoneBlueDepotWithLightKatie extends LinearOpMode {
 

@@ -136,10 +136,10 @@ public class LibraryGyroDrive {
             steer = getSteer(error, PCoeff, integral, ICoeff, derivative, DCoeff);
 
             // read the steer to determine the speed for the motors on both sides of the robot
-            leftFrontSpeed = speed - steer;
-            leftBackSpeed = speed + steer;
-            rightFrontSpeed = speed + steer;
-            rightBackSpeed = speed - steer;
+            leftFrontSpeed = speed + steer;
+            leftBackSpeed = speed - steer;
+            rightFrontSpeed = speed - steer;
+            rightBackSpeed = speed + steer;
 
             // set speed clip for the motors on both sides of the robot
 //            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
@@ -267,10 +267,10 @@ public class LibraryGyroDrive {
             steer = getSteer(error, PCoeff, integral, ICoeff, derivative, DCoeff);
 
             // read the steer to determine the speed for the motors on both sides of the robot
-            leftFrontSpeed = speed + steer;
-            leftBackSpeed = speed - steer;
-            rightFrontSpeed = speed - steer;
-            rightBackSpeed = speed + steer;
+            leftFrontSpeed = speed - steer;
+            leftBackSpeed = speed + steer;
+            rightFrontSpeed = speed + steer;
+            rightBackSpeed = speed - steer;
 
             // set speed clip for the motors on both sides of the robot
 //            leftFrontSpeed = Range.clip(leftFrontSpeed, -.5, .5);
@@ -373,18 +373,20 @@ public class LibraryGyroDrive {
         boolean rampReached = false;
         boolean rampDnReached = false;
 
+        INTERVAL = 33.0/(double)newLeftTarget;
+
         // keep looping while motors are still active, and BOTH motors are running.
         do {
 
-            remainingTicksAvg =
-                    ((Math.abs(robot.leftFront.getTargetPosition())-
-                            Math.abs(robot.leftFront.getCurrentPosition()))+
-                            (Math.abs(robot.leftBack.getTargetPosition())-
-                                    Math.abs(robot.leftBack.getCurrentPosition()))+
-                            (Math.abs(robot.rightBack.getTargetPosition())-
-                                    Math.abs(robot.rightBack.getCurrentPosition()))+
-                            (Math.abs(robot.rightFront.getTargetPosition())-
-                                    Math.abs(robot.rightFront.getCurrentPosition())))/4;
+//            remainingTicksAvg =
+//                    ((Math.abs(robot.leftFront.getTargetPosition())-
+//                            Math.abs(robot.leftFront.getCurrentPosition()))+
+//                            (Math.abs(robot.leftBack.getTargetPosition())-
+//                                    Math.abs(robot.leftBack.getCurrentPosition()))+
+//                            (Math.abs(robot.rightBack.getTargetPosition())-
+//                                    Math.abs(robot.rightBack.getCurrentPosition()))+
+//                            (Math.abs(robot.rightFront.getTargetPosition())-
+//                                    Math.abs(robot.rightFront.getCurrentPosition())))/4;
 
             remainingTicksAvg =
                     ((Math.abs(robot.leftBack.getTargetPosition())-
@@ -401,13 +403,19 @@ public class LibraryGyroDrive {
             steer = getSteer(error, PCoeff, integral, ICoeff, derivative, DCoeff);
 
             // if driving in reverse, the motor correction also needs to be reversed
-            if (encoderTicks < 0)
+            if ((encoderTicks < 0) && (speed > 0))
                 steer *= -1.0;
 
 
             //INVERTED THIS 1/31 12:20am
-            leftSpeed = speed + steer;
-            rightSpeed = speed - steer;
+            //REVERTED THIS 2/5 10:49pm
+            leftSpeed = speed - steer;
+            rightSpeed = speed + steer;
+//
+//            if (speed < 0){
+//                leftSpeed = speed + steer;
+//                rightSpeed = speed - steer;
+//            }
 
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
@@ -433,31 +441,31 @@ public class LibraryGyroDrive {
 //                rightSpeed = rightSpeedRamp;
 //            }
 //
-            if ((remainingTicksAvg < (newLeftTarget*.5)) && !rampDnReached)
-            {
-                if (leftSpeedRamp < .3) {
-                    leftSpeedRamp -= INTERVAL;
-                    telemetry.addData("LeftRampDnSpeed", leftSpeedRamp);
-                }
-                else
-                    rampDnReached = true;
 
-                if (rightSpeedRamp < .3) {
-                    rightSpeedRamp -= INTERVAL;
-                    telemetry.addData("RightRampDnSpeed", rightSpeedRamp);
-                }
-                else
-                    rampDnReached = true;
 
-                leftSpeed = Range.clip(leftSpeedRamp, -.1, .1);
-                rightSpeed = Range.clip(rightSpeedRamp, -.1, .1);
 
-            }
+//            if ((remainingTicksAvg < (newLeftTarget/2)) && !rampDnReached)
+//            {
+//                if ((leftSpeedRamp > .1)) {
+//                    leftSpeedRamp -= INTERVAL;
+//                    rightSpeedRamp -= INTERVAL;
+//                    telemetry.addData("LeftRampDnSpeed", leftSpeedRamp);
+//                }
+//                else
+//                    rampDnReached = true;
+//
+//                leftSpeed = leftSpeedRamp;
+//                rightSpeed = rightSpeedRamp;
+//
+//            }
 
             robot.leftFront.setPower(leftSpeed);
             robot.leftBack.setPower(leftSpeed);
             robot.rightFront.setPower(rightSpeed);
             robot.rightBack.setPower(rightSpeed);
+
+            leftSpeedRamp = leftSpeed;
+            rightSpeedRamp = rightSpeed;
 
             // Display drive status for the driver.
             telemetry.addData("Error", error);
@@ -470,6 +478,9 @@ public class LibraryGyroDrive {
             telemetry.addData("ICoeff", ICoeff);
             telemetry.addData("DCoeff", DCoeff);
             telemetry.addData("Encoder Ticks", robot.leftFront.getCurrentPosition());
+            telemetry.addData("leftSpeedRamp", leftSpeedRamp);
+            telemetry.addData("rightSpeedRamp", rightSpeedRamp);
+            telemetry.addData("INTERVAL", INTERVAL);
             telemetry.update();
         }
 //        while ((robot.leftFront.isBusy() && robot.leftBack.isBusy() && robot.rightFront.isBusy()

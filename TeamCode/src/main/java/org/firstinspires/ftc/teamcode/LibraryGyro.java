@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -28,6 +30,8 @@ public class LibraryGyro {
     double Input, Output, Setpoint;
     double errSum, lastErr;
     double kp, ki, kd;
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     /**
      * The hardware class needs to be initialized before this function is called
@@ -177,9 +181,15 @@ public class LibraryGyro {
 
         Output *= polarity;
 
+        runtime.reset();
+
         do {
 
             ComputePID();
+
+
+            Output = Range.clip(Output, -.8, .8);
+
             robot.leftFront.setPower(-Output);
             robot.leftBack.setPower(-Output);
             robot.rightFront.setPower(Output);
@@ -190,7 +200,7 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
         }
-        while ((Math.abs(Input - Setpoint) > TOLERANCE));
+        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (runtime.seconds() > 3));
 
 
         telemetry.addData("turnGyro: curHeading", Input);

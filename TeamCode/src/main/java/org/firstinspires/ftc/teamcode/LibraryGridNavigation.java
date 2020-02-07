@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -32,7 +33,7 @@ public class LibraryGridNavigation {
     //Y1 is starting Y coordinate
     double Distance;
     float turnAngle = 0f;
-    double GEAR_RATIO_SCALING_FACTOR = 1;//(35/45);
+    double GEAR_RATIO_SCALING_FACTOR = 2;//(35/45);
     double Direction;
     double GEAR_RATIO_SCALING_FACTOR_TileRunner = 1;//(35/45); //12604 tile base has a 1 to 1 ratio
     //    SensorMB1242 leftUS = robot.leftSonic;
@@ -365,6 +366,13 @@ public class LibraryGridNavigation {
      */
     public void driveToPosition(double xDestination, double yDestination, double power) {
 
+        // Encoder count is 145.6 rasius of wheel is 2
+        // 2 * R means one ration of a wheel is 12.56 inches
+        // Since its a 2-1 ratio that means it takes two times the distance to make it one rotation
+        // Based on that, if we take away 1 motor rotation than that reduces the targed position my 6.28 inches
+        // Which is approximately out error
+
+
         double PCoeff = .03;
         // ALERT THIS VALUE IS NOT USED BECAUSE WE SET IT MANUALLY IN GYRO DRIVE
 
@@ -374,11 +382,26 @@ public class LibraryGridNavigation {
 
         gyroDrive.gyro.turnGyro(turnAngle);
 
-        gyroDrive.gyroDriveVariableP(power, (int) Distance, turnAngle, PCoeff);
 
+        //THE HACK
+
+        double myEncoderTicksPerInch = 145.6/6;
+
+
+        if (power >= .3){
+            Distance = Distance - (8 * myEncoderTicksPerInch);
+        }
+
+        gyroDrive.gyroDriveVariableP(power, (int) Distance, 0, PCoeff);
+        //
         telemetry.addData("Get drive distance", getDriveDistance(xDestination, yDestination));
         telemetry.addData("Distance parameter", (int) Distance);
+        telemetry.addData("What's my angle", StartingAngle);
+        telemetry.addData("Turn Angle", turnAngle);
+        telemetry.addData("xOrigin", xOrigin);
+        telemetry.addData("yOrigin", yOrigin);
         telemetry.update();
+
     }
 
     public void strafeToPosition(double xDestination, double yDestination, double power, double direction) {
@@ -418,6 +441,7 @@ public class LibraryGridNavigation {
         telemetry.addData("Turn Angle", (int) turnAngle);
         telemetry.update();
 
+
         xOrigin = xDestination;
         yOrigin = yDestination;
     }
@@ -452,7 +476,27 @@ public class LibraryGridNavigation {
         getTurnAngleBackwards(xDestination, yDestination);
 
         gyroDrive.gyro.turnGyro(turnAngle);
-        gyroDrive.gyroDriveVariableP(-power, (int) -Distance, turnAngle, PCoeff);
+
+
+
+        //THE HACK
+
+        double myEncoderTicksPerInch = 145.6/6;
+
+        if (power >= .3){
+            Distance = Distance - (8 * myEncoderTicksPerInch);
+        }
+
+        gyroDrive.gyroDriveVariableP(-power, (int) -Distance, 0, PCoeff);
+
+        //
+
+
+        telemetry.addData("What's my angle", StartingAngle);
+        telemetry.addData("Turn Angle", turnAngle);
+        telemetry.addData("xOrigin", xOrigin);
+        telemetry.addData("yOrigin", yOrigin);
+        telemetry.update();
     }
     /**
      * @param xDestination When you call this method in another function you insert the x destination
