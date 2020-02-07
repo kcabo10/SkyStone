@@ -54,8 +54,8 @@ public class LibraryOpenCV {
         startTime = System.currentTimeMillis();
 
         // sets the OpenCV to read the mineral for at least 3 seconds to verify that it is the
-        // correct mineral
-        while (System.currentTimeMillis() < (startTime + 3000)) { /**DEBUG CHANGED TO 30000*/
+        // correct skystone
+        while (System.currentTimeMillis() < (startTime + 2000)) { /**DEBUG CHANGED TO 30000*/
 
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystonePos();

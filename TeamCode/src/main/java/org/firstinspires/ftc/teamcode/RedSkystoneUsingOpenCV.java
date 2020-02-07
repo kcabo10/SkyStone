@@ -56,6 +56,10 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
         gridNavigation.init(robot, gyroTurn, telemetry);
 
+        // Start position for foundation hooks
+        robot.foundation1.setPosition(1);
+        robot.foundation2.setPosition(-1);
+
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
@@ -63,31 +67,28 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-        double[] SKYSTONE_POS_1 = {1.9, 2.4};
+        double[] SKYSTONE_POS_1 = {1.95, 2.9};
         double[] SKYSTONE_POS_2 = {1.4, 2.9};
-        double[] SKYSTONE_POS_3 = {1.7, 2};
-        double[] BACKING_UP_1 = {1.9, 1.4};
+        double[] SKYSTONE_POS_3 = {.8, 2.9};
+        double[] BACKING_UP_1 = {2, 1.4};
         double[] BACKING_UP_2 = {1.5, 1.4};
-        double[] BACKING_UP_3 = {1.1, 1.4};
+        double[] BACKING_UP_3 = {1.4, 1.4};
 
 
-        double[] SKYSTONE2_POS_1 = {.9, 1.4};
+        double[] SKYSTONE2_POS_1 = {1, 1.4};
         double[] SKYSTONE2_POS_2 = {.5, 1.4};
-        double[] SKYSTONE2_POS_3 = {1.7, 1.4};
-        double[] GRAB_SKYSTONE2_POS_1 = {.9, 2.4};
+        double[] SKYSTONE2_POS_3 = {.8, 1.3};
+        double[] GRAB_SKYSTONE2_POS_1 = {1, 2.6};
         double[] GRAB_SKYSTONE2_POS_2 = {.5, 2.6};
-        double[] BACKING_UP2_1 = {1.8, 1.4};
+        double[] GRAB_SKYSTONE2_POS_3 = {.3, 1.7};
+        double[] BACKING_UP2_1 = {.9, 1.4};
         double[] BACKING_UP2_2 = {.5, 1.4};
-        double[] BACKING_UP2_3 = {1.1, 1.4};
+        double[] BACKING_UP2_3 = {.6, 1.4};
 
 
         //Same end to each case
         double[] DELIVERING_SKYSTONE = {3.5, 1.4};
-        double[] PARKING_POS = {3, 1.4};
-
-        // Start position for foundation hooks
-        robot.foundation1.setPosition(1);
-        robot.foundation2.setPosition(-1);
+        double[] PARKING_POS = {2.9, 1.4};
 
         waitForStart();
 
@@ -97,12 +98,46 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
 
         switch (SkystonePosition) {
+            /**
+             * This first pos is working just need to add second Skystone
+             */
+            //Right Skystone position
+            case "Pos 1":
 
-            default: {
+            telemetry.addData("Telemetry", "Skystone Pos = 1");
+                telemetry.update();
+
+            intakeSkystone();
+            gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
+            gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
+
+            sleep(500);
+
+            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+            pushOutSkystone();
+            sleep(500);
+
+            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+            intakeSkystone();
+            sleep(500);
+            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
+
+            gridNavigation.driveToPosition(BACKING_UP2_1[X], BACKING_UP2_1[Y], .5);
+            sleep(500);
+
+            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+            pushOutSkystone();
+            sleep(400);
+
+            gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
+
+                break;
+
+            //Middle Skystone position
+            case "Pos 2":
 
                 /**
                  * This second pos is working just needs a bit of tuning
-                 *
                  * We should come at an angle for the second stone in order to save time
                  */
 
@@ -131,99 +166,71 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
-            }
+                break;
+
+            //Position closest to skybridge
+            case "Pos 3":
+
+                telemetry.addData("Telemetry", "Skystone Pos = 3");
+                telemetry.update();
+
+                intakeSkystone();
+                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
+                gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
+
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(1000);
+
+                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                intakeSkystone();
+                sleep(500);
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+                sleep(500);
+                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(400);
+
+                gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
                 break;
-            /**
-             * This first pos is working just need to add second Skystone
-             */
-            //Right Skystone position
-//            case "Pos 1":
-//
-//                telemetry.addData("Telemetry", "Skystone Pos = 1");
-//                telemetry.update();
-//
-//                robot.rightIntake.setPower(-1);
-//                robot.leftIntake.setPower(1);
-//                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
-//                gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
-//                robot.rightIntake.setPower(0);
-//                robot.leftIntake.setPower(0);
-//
-//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .7);
-//                robot.rightBack.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//                sleep(500);
-//                robot.rightIntake.setPower(0);
-//                robot.leftIntake.setPower(0);
-//
-////                gridNavigation.strafeToPositionBackwards(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5,1);
-////                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
-//
-//                break;
 
-//            //Middle Skystone position
-//            case "Pos 2":
-//
-//                telemetry.addData("Telemetry", "Skystone Pos = 2");
-//                telemetry.update();
-//
-//                gridNavigation.driveToPositionBackwards(TO_SKYSTONE_2[X], TO_SKYSTONE_2[Y], .2);
-//                robot.rightIntake.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//                gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .7, 0);
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_2[X], GRAB_SKYSTONE_POS_2[Y], .3);
-//                robot.rightIntake.setPower(0);
-//                robot.leftIntake.setPower(0);
-//                gridNavigation.strafeToPositionBackwards(BACKING_UP_2[X], BACKING_UP_2[Y], .7,1);
-//                moveFoundationPlaceSkystone();
-//
-//                break;
-//
-//            //Position closest to skybridge
-//            case "Pos 3":
-//
-//                telemetry.addData("Telemetry", "Skystone Pos = 3");
-//                telemetry.update();
-//
-//                // Turning so we can strafe into stones
-//                gyroTurn.turnGyro(90);
-//                gridNavigation.setGridPosition(1.6, .3645, 360);
-//
-//                robot.rightIntake.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//                gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .7, 0);
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_3[X], GRAB_SKYSTONE_POS_3[Y], .3);
-//                robot.rightIntake.setPower(0);
-//                robot.leftIntake.setPower(0);
-//
-//                gridNavigation.strafeToPositionBackwards(BACKING_UP_3[X], BACKING_UP_3[Y], .7, 1);
-//
-//                moveFoundationPlaceSkystone();
-//
-//                break;
-//
-//            // should never get to this case but in case it can't find the skystone position
-//            // it goes to this default case
-//            default:
-//
-//                // Turning so we can strafe into stones
-//                telemetry.addData("No pos found","");
-//                telemetry.update();
-//                gyroTurn.turnGyro(90);
-//                gridNavigation.setGridPosition(1.6, .3645, 360);
-//
-//                robot.rightIntake.setPower(1);
-//                robot.leftIntake.setPower(-1);
-//                gridNavigation.strafeToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .7, 0);
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE_POS_3[X], GRAB_SKYSTONE_POS_3[Y], .3);
-//                robot.rightIntake.setPower(0);
-//                robot.leftIntake.setPower(0);
-//
-//                gridNavigation.strafeToPositionBackwards(BACKING_UP_3[X], BACKING_UP_3[Y], .7, 1);
-//
-//                moveFoundationPlaceSkystone();
-//                break;
+            // should never get to this case but in case it can't find the skystone position
+            // it goes to this default case
+            default:
+
+                telemetry.addData("Unknown Position", "Playing Pos 3");
+                telemetry.update();
+
+                intakeSkystone();
+                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
+                gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
+
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(1000);
+
+                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                intakeSkystone();
+                sleep(500);
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+                sleep(500);
+                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(400);
+
+                gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
+            break;
         }
 
     }
