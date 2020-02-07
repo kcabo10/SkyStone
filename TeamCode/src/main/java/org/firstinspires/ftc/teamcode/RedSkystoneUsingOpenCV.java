@@ -63,17 +63,27 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-        double[] TO_SKYSTONE_1 = {1.9, 2.34};
-        double[] TO_SKYSTONE_2 = {2, .3645};
-        double[] SKYSTONE_POS_1 = {2, 2.4};
-        double[] SKYSTONE_POS_2 = {2, 2};
+        double[] SKYSTONE_POS_1 = {1.9, 2.4};
+        double[] SKYSTONE_POS_2 = {1.4, 2.9};
         double[] SKYSTONE_POS_3 = {1.7, 2};
-        double[] GRAB_SKYSTONE_POS_1 = {1.8, 2};
-        double[] GRAB_SKYSTONE_POS_2 = {1.5, 2};
-        double[] GRAB_SKYSTONE_POS_3 = {1.1, 2};
-        double[] BACKING_UP_1 = {1.81, 1.5};
-        double[] BACKING_UP_2 = {1.5, 1.5};
-        double[] BACKING_UP_3 = {1.1, 1.5};
+        double[] BACKING_UP_1 = {1.9, 1.4};
+        double[] BACKING_UP_2 = {1.5, 1.4};
+        double[] BACKING_UP_3 = {1.1, 1.4};
+
+
+        double[] SKYSTONE2_POS_1 = {.9, 1.4};
+        double[] SKYSTONE2_POS_2 = {.5, 1.4};
+        double[] SKYSTONE2_POS_3 = {1.7, 1.4};
+        double[] GRAB_SKYSTONE2_POS_1 = {.9, 2.4};
+        double[] GRAB_SKYSTONE2_POS_2 = {.5, 2.6};
+        double[] BACKING_UP2_1 = {1.8, 1.4};
+        double[] BACKING_UP2_2 = {.5, 1.4};
+        double[] BACKING_UP2_3 = {1.1, 1.4};
+
+
+        //Same end to each case
+        double[] DELIVERING_SKYSTONE = {3.5, 1.4};
+        double[] PARKING_POS = {3, 1.4};
 
         // Start position for foundation hooks
         robot.foundation1.setPosition(1);
@@ -90,20 +100,67 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
             default: {
 
-                telemetry.addData("Telemetry", "Skystone Pos = 1");
+                /**
+                 * This second pos is working just needs a bit of tuning
+                 *
+                 * We should come at an angle for the second stone in order to save time
+                 */
+
+                telemetry.addData("Telemetry", "Skystone Pos = 2");
                 telemetry.update();
 
-                robot.rightIntake.setPower(1);
-                robot.leftIntake.setPower(-1);
-                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
-                robot.rightIntake.setPower(0);
-                robot.leftIntake.setPower(0);
-                gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
-//
-//                moveFoundationPlaceSkystone();
+                intakeSkystone();
+                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .2);
+                gridNavigation.driveToPosition(BACKING_UP_2[X], BACKING_UP_2[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(1000);
+
+                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
+                intakeSkystone();
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], GRAB_SKYSTONE2_POS_2[Y], .2);
+
+                gridNavigation.driveToPosition(BACKING_UP2_2[X], BACKING_UP2_2[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(1000);
+
+                gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
+
             }
 
                 break;
+            /**
+             * This first pos is working just need to add second Skystone
+             */
+            //Right Skystone position
+//            case "Pos 1":
+//
+//                telemetry.addData("Telemetry", "Skystone Pos = 1");
+//                telemetry.update();
+//
+//                robot.rightIntake.setPower(-1);
+//                robot.leftIntake.setPower(1);
+//                gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
+//                gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
+//                robot.rightIntake.setPower(0);
+//                robot.leftIntake.setPower(0);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .7);
+//                robot.rightBack.setPower(1);
+//                robot.leftIntake.setPower(-1);
+//                sleep(500);
+//                robot.rightIntake.setPower(0);
+//                robot.leftIntake.setPower(0);
+//
+////                gridNavigation.strafeToPositionBackwards(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5,1);
+////                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
+//
+//                break;
 
 //            //Middle Skystone position
 //            case "Pos 2":
@@ -171,83 +228,93 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
     }
 
-    int X = 0;
-    int Y = 1;
+//    int X = 0;
+//    int Y = 1;
+//
+//    //Same end to each case
+//    double[] DELIVERING_SKYSTONE = {5.3, 1.5};
+//    double[] GRAB_FOUNDATION = {5.3, 1.75};
+//    double[] BACK_UP = {5.3, .9};
+//    double[] PARKING_POS = {3.3, 1.6};
+//
+//        public void moveFoundationPlaceSkystone (){
+//
+//            /**
+//             * Setting up the claw for Delivering Stones
+//             */
+//            robot.claw.setPosition(0); //open claw
+//            robot.clawTurner.setPosition(1); //ensure claw turner is straight
+//
+//            gridNavigation.driveToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+//
+//            robot.clawAid.setPosition(1); //move the claw aid up
+//
+//            robot.claw.setPosition(1); //close claw
+//            robot.clawAid.setPosition(0); //reset claw aid
+//
+//            gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y], .5);
+//            robot.foundation1.setPosition(.5);
+//            robot.foundation2.setPosition(.5);
+//
+//            /**
+//             * Place Stone on Foundation
+//             */
+//            runtime.reset();
+//            while (runtime.milliseconds() == .3) {
+//                robot.outExtrusion.setPower(.7); //Extend out extrusions over foundation
+//            }
+//
+//            robot.outExtrusion.setPower(0);
+//
+//            robot.claw.setPosition(0); // open claw to drop stone
+//
+//            gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y], .5);
+//
+//            /**
+//             * Bring back out extrusions
+//             */
+//            runtime.reset();
+//            while (runtime.milliseconds() == .2) {
+//                robot.outExtrusion.setPower(-.7);
+//            }
+//            robot.outExtrusion.setPower(0);
+//
+//            /**
+//             * Turn foundation into building site
+//             */
+//
+//            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//            robot.leftBack.setTargetPosition(3656);
+//            robot.rightBack.setTargetPosition(-3656);
+//
+//            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            robot.leftBack.setPower(1);
+//            robot.rightBack.setPower(1);
+//
+//            while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
+//            }
+//
+//            robot.leftBack.setPower(0);
+//            robot.rightBack.setPower(0);
+//        }
+//
+//        public void placeSecondSkystone () {
+//
+//
+//        }
 
-    //Same end to each case
-    double[] DELIVERING_SKYSTONE = {5.3, 1.5};
-    double[] GRAB_FOUNDATION = {5.3, 1.75};
-    double[] BACK_UP = {5.3, .9};
-    double[] PARKING_POS = {3.3, 1.6};
+        public void intakeSkystone (){
+            robot.rightIntake.setPower(-1);
+            robot.leftIntake.setPower(1);
+    }
 
-        public void moveFoundationPlaceSkystone (){
-
-            /**
-             * Setting up the claw for Delivering Stones
-             */
-            robot.claw.setPosition(0); //open claw
-            robot.clawTurner.setPosition(1); //ensure claw turner is straight
-
-            gridNavigation.driveToPosition(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-
-            robot.clawAid.setPosition(1); //move the claw aid up
-
-            robot.claw.setPosition(1); //close claw
-            robot.clawAid.setPosition(0); //reset claw aid
-
-            gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y], .5);
-            robot.foundation1.setPosition(.5);
-            robot.foundation2.setPosition(.5);
-
-            /**
-             * Place Stone on Foundation
-             */
-            runtime.reset();
-            while (runtime.milliseconds() == .3) {
-                robot.outExtrusion.setPower(.7); //Extend out extrusions over foundation
-            }
-
-            robot.outExtrusion.setPower(0);
-
-            robot.claw.setPosition(0); // open claw to drop stone
-
-            gridNavigation.driveToPositionBackwards(BACK_UP[X], BACK_UP[Y], .5);
-
-            /**
-             * Bring back out extrusions
-             */
-            runtime.reset();
-            while (runtime.milliseconds() == .2) {
-                robot.outExtrusion.setPower(-.7);
-            }
-            robot.outExtrusion.setPower(0);
-
-            /**
-             * Turn foundation into building site
-             */
-
-            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            robot.leftBack.setTargetPosition(3656);
-            robot.rightBack.setTargetPosition(-3656);
-
-            robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            robot.leftBack.setPower(1);
-            robot.rightBack.setPower(1);
-
-            while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
-            }
-
-            robot.leftBack.setPower(0);
-            robot.rightBack.setPower(0);
-        }
-
-        public void placeSecondSkystone () {
-
-
+        public void pushOutSkystone (){
+            robot.rightIntake.setPower(1);
+            robot.leftIntake.setPower(-1);
         }
 
 
@@ -265,7 +332,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 case ("Pos 1"):
                     telemetry.addData("Telemetry", "left");
                     telemetry.update();
-                    SkystonePosition = "Pos 1";
+                    SkystonePosition = "Pos 3";
                     break;
                 case ("Pos 2"):
                     telemetry.addData("Telemetry", "Middle");
@@ -275,7 +342,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 case ("Pos 3"):
                     telemetry.addData("Telemetry", "right");
                     telemetry.update();
-                    SkystonePosition = "Pos 3";
+                    SkystonePosition = "Pos 1";
                     break;
 
                 // If it reads unknown than it goes to this default case

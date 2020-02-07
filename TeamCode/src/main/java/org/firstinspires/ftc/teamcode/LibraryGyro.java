@@ -200,7 +200,7 @@ public class LibraryGyro {
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
         }
-        while ((Math.abs(Input - Setpoint) > TOLERANCE) || (runtime.seconds() > 3));
+        while ((Math.abs(Input - Setpoint) > TOLERANCE) && (runtime.seconds() < 2));
 
 
         telemetry.addData("turnGyro: curHeading", Input);
