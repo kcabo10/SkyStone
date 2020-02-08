@@ -47,10 +47,10 @@ public class BlueParkingWall extends LinearOpMode {
 
         waitForStart();
         //setting grid pos
-        gridNavigation.setGridPosition(2, .4,270);
+        gridNavigation.setGridPosition(2, .4,90);
 
         //driving under bridge. changing the X axis
-        gridNavigation.driveToPosition(3, .5, .2);
+        gridNavigation.strafeToPosition(3, 0.5, .2,0);
 
 
     }

@@ -39,6 +39,7 @@ public class TeleOpProgram extends OpMode {
     private int capstone_pos = 0;
     private int capstone_state = 0;
     private int dance_state = 0;
+    private int droidLifter_state = 0;
     private boolean danceDoOver = false;
 
     LibraryColorSensor stoneColorSensor = new LibraryColorSensor();
@@ -277,22 +278,20 @@ public class TeleOpProgram extends OpMode {
          * Up Extrusion Lifter Controls
          */
 
-        robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
-        robot.droidLifterRight.setPower(-gamepad2.left_stick_y);
+                if (gamepad2.left_stick_y < 0) {
+                    robot.droidLifterLeft.setPower(.5);
+                    robot.droidLifterRight.setPower(-.5);
+                }
 
-//        double rightSpeedRamp = robot.droidLifterRight.getPower();
-//        double INTERVAL = .01;
-//
-//        if (gamepad2.left_stick_y != 0 && robot.droidLifterRight.getCurrentPosition() <= 1000) {
-//                    robot.droidLifterLeft.setPower(gamepad2.left_stick_y);
-//                    robot.droidLifterRight.setPower(-gamepad2.left_stick_y);
-//                    //calculate till max point
-//        }
-//        if (gamepad2.left_stick_y != 0 && robot.droidLifterRight.getCurrentPosition() >= 1000 && rightSpeedRamp > .1){
-//                    robot.droidLifterLeft.setPower(gamepad2.left_stick_y - INTERVAL);
-//                    robot.droidLifterRight.setPower(-gamepad2.left_stick_y + INTERVAL);
-//        }
+                else if (gamepad2.left_stick_y > 0){
+                    robot.droidLifterLeft.setPower(-gamepad2.left_stick_y);
+                    robot.droidLifterRight.setPower(gamepad2.left_stick_y);
+                }
 
+                else {
+                robot.droidLifterRight.setPower(0);
+                robot.droidLifterLeft.setPower(0);
+                }
 
         // Telemetry
         telemetry.addData("Scale Factor", scaleFactor);

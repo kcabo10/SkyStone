@@ -48,7 +48,7 @@ public class BlueParkingSkybridge extends LinearOpMode {
 
         waitForStart();
         //setting grid pos
-        gridNavigation.setGridPosition(2, 0.4,270);
+        gridNavigation.setGridPosition(2, 0.4,90);
 
         //driving up on the Y axis
         gridNavigation.driveToPosition(2, 1.5, .2);
