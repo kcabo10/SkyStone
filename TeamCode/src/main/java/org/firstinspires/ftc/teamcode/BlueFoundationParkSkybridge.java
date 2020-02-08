@@ -85,6 +85,6 @@ public class BlueFoundationParkSkybridge extends LinearOpMode {
     }
 
     private double translateForBlue(double blue) {
-        return 6+blue;
+        return 6-blue;
     }
 }

@@ -141,6 +141,8 @@ public class TeleOpProgram extends OpMode {
                 }
                 break;
         }
+        //TODO: Implement auto up and in once the claw is opened, but have to check encoder counts
+        //TODO: so we don't overextend the extrusions at max height
 
 
         /**
@@ -199,6 +201,8 @@ public class TeleOpProgram extends OpMode {
             case (1): //claw aid pushing brick into claw
                 if (danceTime.seconds() > 1) { //wait 1 second
                     robot.clawAid.setPosition(1); //move the claw aid up
+                    robot.clawAid.setPosition(1); //move the claw aid back
+                    robot.clawAid.setPosition(1); //move the claw aid up again
                     dance_state++;
                     danceTime.reset();
                 }
@@ -258,6 +262,8 @@ public class TeleOpProgram extends OpMode {
         }
 
 
+
+
         /**
          * Out Extrusion Controls
          */
@@ -278,14 +284,14 @@ public class TeleOpProgram extends OpMode {
          * Up Extrusion Lifter Controls
          */
 
-                if (gamepad2.left_stick_y < 0) {
-                    robot.droidLifterLeft.setPower(.5);
-                    robot.droidLifterRight.setPower(-.5);
+                if (gamepad2.right_stick_y < 0) {
+                    robot.droidLifterLeft.setPower(-1);
+                    robot.droidLifterRight.setPower(1);
                 }
 
-                else if (gamepad2.left_stick_y > 0){
-                    robot.droidLifterLeft.setPower(-gamepad2.left_stick_y);
-                    robot.droidLifterRight.setPower(gamepad2.left_stick_y);
+                else if (gamepad2.right_stick_y > 0){
+                    robot.droidLifterLeft.setPower(.5);
+                    robot.droidLifterRight.setPower(-.5);
                 }
 
                 else {
@@ -293,39 +299,40 @@ public class TeleOpProgram extends OpMode {
                 robot.droidLifterLeft.setPower(0);
                 }
 
-        // Telemetry
-        telemetry.addData("Scale Factor", scaleFactor);
-        telemetry.addData("Direction", direction);
-        telemetry.addData("left front power", robot.leftFront.getPower());
-        telemetry.addData("left back power", robot.leftBack.getPower());
-        telemetry.addData("right front power", robot.rightFront.getPower());
-        telemetry.addData("right back power", robot.rightBack.getPower());
-        telemetry.addData("rb encoder ticks", robot.rightBack.getCurrentPosition());
-        telemetry.addData("rf encoder ticks", robot.rightFront.getCurrentPosition());
-        telemetry.addData("lb encoder ticks", robot.leftBack.getCurrentPosition());
-        telemetry.addData("lf encoder ticks", robot.leftFront.getCurrentPosition());
-        telemetry.addData("gyro angle", robot.imuActual.getAngularOrientation().firstAngle);
-        telemetry.addData("right intake", robot.rightIntake.getPower());
-        telemetry.addData("foundation_state", foundation_state);
-        telemetry.addData("buttonXPressed", buttonXPressed);
-        telemetry.addData("clawAid_state", clawAid_state);
-        //telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
-        telemetry.addData("foundation1 position", robot.foundation1.getPosition());
-        telemetry.addData("foundation2 position", robot.foundation2.getPosition());
-        telemetry.addData("claw position", robot.claw.getPosition());
-        telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
-        telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
-        telemetry.addData("foundation state", foundation_state);
-        telemetry.addData("capstone state", capstone_state);
-        telemetry.addData("capstone pos", capstone_pos);
-        //telemetry.addData("gamepad2.a", gamepad2.a);
-        telemetry.addData("dance state", dance_state);
-        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
-        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
-        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
-        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
-
-        telemetry.update();
+//        // Telemetry
+//        telemetry.addData("Scale Factor", scaleFactor);
+//        telemetry.addData("Direction", direction);
+//        telemetry.addData("left front power", robot.leftFront.getPower());
+//        telemetry.addData("left back power", robot.leftBack.getPower());
+//        telemetry.addData("right front power", robot.rightFront.getPower());
+//        telemetry.addData("right back power", robot.rightBack.getPower());
+//        telemetry.addData("rb encoder ticks", robot.rightBack.getCurrentPosition());
+//        telemetry.addData("rf encoder ticks", robot.rightFront.getCurrentPosition());
+//        telemetry.addData("lb encoder ticks", robot.leftBack.getCurrentPosition());
+//        telemetry.addData("lf encoder ticks", robot.leftFront.getCurrentPosition());
+//        telemetry.addData("gyro angle", robot.imuActual.getAngularOrientation().firstAngle);
+//        telemetry.addData("right intake", robot.rightIntake.getPower());
+//        telemetry.addData("foundation_state", foundation_state);
+//        telemetry.addData("buttonXPressed", buttonXPressed);
+//        telemetry.addData("clawAid_state", clawAid_state);
+//        //telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
+//        telemetry.addData("foundation1 position", robot.foundation1.getPosition());
+//        telemetry.addData("foundation2 position", robot.foundation2.getPosition());
+//        telemetry.addData("claw position", robot.claw.getPosition());
+//        telemetry.addData("foundation1 servo pos", robot.foundation1.getPosition());
+//        telemetry.addData("foundation2 servo pos", robot.foundation2.getPosition());
+//        telemetry.addData("foundation state", foundation_state);
+//        telemetry.addData("capstone state", capstone_state);
+//        telemetry.addData("capstone pos", capstone_pos);
+//        //telemetry.addData("gamepad2.a", gamepad2.a);
+//        telemetry.addData("dance state", dance_state);
+//        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+//        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
+//        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
+//        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
+//        telemetry.addData("droid_left", robot.droidLifterLeft.getCurrentPosition());
+//
+//        telemetry.update();
     }
 
     /**

@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -21,7 +17,7 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
-public class LibraryOpenCV {
+public class LibraryOpenCVBlue {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
     HardwareBeep robot;
@@ -29,7 +25,7 @@ public class LibraryOpenCV {
     Telemetry telemetry;
     ElapsedTime timer;
 
-    public LibraryOpenCV(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
+    public LibraryOpenCVBlue(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
         robot = newHardwareBeep;
         telemetry = newTelemetry;
@@ -132,21 +128,25 @@ public class LibraryOpenCV {
 
             // If the skystone is at a position greater than 100 than we assume the skystone
             // is in position
-            if (skyStoneDetector.getScreenPosition().y >= 195) { //209
-                telemetry.addData("LibOpCV: Skystone Position 1", skyStoneDetector.getScreenPosition().y);
+
+            // On Blue Side, Stone 1 read 137, Stone 2 read 229, and Stone 3 read 317
+            if (skyStoneDetector.getScreenPosition().y < 200) {
+                telemetry.addData("LibOpCVBlu: Skystone Position 3", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 1";
+                currentPos = "Pos 3";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().y >= 100) { //187
-                telemetry.addData("LibOpCV: Skystone Position 2", skyStoneDetector.getScreenPosition().y);
+            } else if (skyStoneDetector.getScreenPosition().y < 290) {
+                telemetry.addData("LibOpCVBlu: Skystone Position 2", skyStoneDetector.getScreenPosition().y);
                 currentPos = "Pos 2";
             } else //if (skyStoneDetector.getScreenPosition().y > 170 && skyStoneDetector.getScreenPosition().y <= 190) {
             {
-                telemetry.addData("LibOpCV: Skystone Position 3", skyStoneDetector.getScreenPosition().y);
+                telemetry.addData("LibOpCVBlu: Skystone Position 1", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 3"; //24
+                currentPos = "Pos 1"; //24
             }
+            telemetry.addData("y value", skyStoneDetector.getScreenPosition().y);
+            telemetry.update();
         }
         // returns the current skystone position
         return currentPos;

@@ -117,17 +117,17 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
             pushOutSkystone();
             sleep(500);
 
-            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
-            intakeSkystone();
-            sleep(500);
-            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
-
-            gridNavigation.driveToPosition(BACKING_UP2_1[X], BACKING_UP2_1[Y], .5);
-            sleep(500);
-
-            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-            pushOutSkystone();
-            sleep(400);
+//            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+//            intakeSkystone();
+//            sleep(500);
+//            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
+//
+//            gridNavigation.driveToPosition(BACKING_UP2_1[X], BACKING_UP2_1[Y], .5);
+//            sleep(500);
+//
+//            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+//            pushOutSkystone();
+//            sleep(400);
 
             gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -153,16 +153,16 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 pushOutSkystone();
                 sleep(1000);
 
-                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
-                intakeSkystone();
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], GRAB_SKYSTONE2_POS_2[Y], .2);
-
-                gridNavigation.driveToPosition(BACKING_UP2_2[X], BACKING_UP2_2[Y], .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-                pushOutSkystone();
-                sleep(1000);
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
+//                intakeSkystone();
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], GRAB_SKYSTONE2_POS_2[Y], .2);
+//
+//                gridNavigation.driveToPosition(BACKING_UP2_2[X], BACKING_UP2_2[Y], .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+//                pushOutSkystone();
+//                sleep(1000);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -184,17 +184,17 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 pushOutSkystone();
                 sleep(1000);
 
-                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
-                intakeSkystone();
-                sleep(500);
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
-                sleep(500);
-                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-                pushOutSkystone();
-                sleep(400);
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+//                intakeSkystone();
+//                sleep(500);
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+//                sleep(500);
+//                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+//                pushOutSkystone();
+//                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -216,18 +216,18 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
                 pushOutSkystone();
                 sleep(1000);
-
-                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
-                intakeSkystone();
-                sleep(500);
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
-                sleep(500);
-                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-                pushOutSkystone();
-                sleep(400);
+//
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+//                intakeSkystone();
+//                sleep(500);
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+//                sleep(500);
+//                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+//                pushOutSkystone();
+//                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
             break;
@@ -260,7 +260,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 case ("Pos 1"):
                     telemetry.addData("Telemetry", "left");
                     telemetry.update();
-                    SkystonePosition = "Pos 3";
+                    SkystonePosition = "Pos 1";
                     break;
                 case ("Pos 2"):
                     telemetry.addData("Telemetry", "Middle");
@@ -270,7 +270,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 case ("Pos 3"):
                     telemetry.addData("Telemetry", "right");
                     telemetry.update();
-                    SkystonePosition = "Pos 1";
+                    SkystonePosition = "Pos 3";
                     break;
 
                 // If it reads unknown than it goes to this default case

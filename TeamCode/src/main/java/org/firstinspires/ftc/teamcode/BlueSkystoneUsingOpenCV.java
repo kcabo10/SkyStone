@@ -29,7 +29,7 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
 
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
-    LibraryOpenCV opencv;
+    LibraryOpenCVBlue opencv;
 
     private int readColorSensor = 0;
 
@@ -49,7 +49,7 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
         //initializing the gyro drive function
         gyroDrive.init(robot, telemetry, robot.rightBack);
 
-        opencv = new LibraryOpenCV(robot, telemetry);
+        opencv = new LibraryOpenCVBlue(robot, telemetry);
 
         gridNavigation.init(robot, gyroTurn, telemetry);
 
@@ -114,17 +114,17 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
             pushOutSkystone();
             sleep(500);
 
-            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], translateForBlue(SKYSTONE2_POS_1[Y]), .5);
-            intakeSkystone();
-            sleep(500);
-            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], translateForBlue(GRAB_SKYSTONE2_POS_1[Y]), .2);
-
-            gridNavigation.driveToPosition(BACKING_UP2_1[X], translateForBlue(BACKING_UP2_1[Y]), .5);
-            sleep(500);
-
-            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
-            pushOutSkystone();
-            sleep(400);
+//            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], translateForBlue(SKYSTONE2_POS_1[Y]), .5);
+//            intakeSkystone();
+//            sleep(500);
+//            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], translateForBlue(GRAB_SKYSTONE2_POS_1[Y]), .2);
+//
+//            gridNavigation.driveToPosition(BACKING_UP2_1[X], translateForBlue(BACKING_UP2_1[Y]), .5);
+//            sleep(500);
+//
+//            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
+//            pushOutSkystone();
+//            sleep(400);
 
             gridNavigation.driveToPosition(PARKING_POS[X], translateForBlue(PARKING_POS[Y]), .5);
 
@@ -143,23 +143,23 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
 
                 intakeSkystone();
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], translateForBlue(SKYSTONE_POS_2[Y]), .2);
-                gridNavigation.driveToPosition(BACKING_UP_2[X], BACKING_UP_2[Y], .5);
+                gridNavigation.driveToPosition(BACKING_UP_2[X], translateForBlue(BACKING_UP_2[Y]), .5);
                 sleep(500);
 
                 gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
                 pushOutSkystone();
                 sleep(1000);
 
-                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], translateForBlue(SKYSTONE2_POS_2[Y]), .5);
-                intakeSkystone();
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], translateForBlue(GRAB_SKYSTONE2_POS_2[Y]), .2);
-
-                gridNavigation.driveToPosition(BACKING_UP2_2[X], translateForBlue(BACKING_UP2_2[Y]), .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
-                pushOutSkystone();
-                sleep(1000);
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], translateForBlue(SKYSTONE2_POS_2[Y]), .5);
+//                intakeSkystone();
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], translateForBlue(GRAB_SKYSTONE2_POS_2[Y]), .2);
+//
+//                gridNavigation.driveToPosition(BACKING_UP2_2[X], translateForBlue(BACKING_UP2_2[Y]), .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
+//                pushOutSkystone();
+//                sleep(1000);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], translateForBlue(PARKING_POS[Y]), .5);
 
@@ -181,17 +181,17 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
                 pushOutSkystone();
                 sleep(1000);
 
-                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], translateForBlue(SKYSTONE2_POS_3[Y]), .5);
-                intakeSkystone();
-                sleep(500);
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], translateForBlue(GRAB_SKYSTONE2_POS_3[Y]), .2);
-                sleep(500);
-                gridNavigation.driveToPosition(BACKING_UP2_3[X], translateForBlue(BACKING_UP2_3[Y]), .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
-                pushOutSkystone();
-                sleep(400);
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], translateForBlue(SKYSTONE2_POS_3[Y]), .5);
+//                intakeSkystone();
+//                sleep(500);
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], translateForBlue(GRAB_SKYSTONE2_POS_3[Y]), .2);
+//                sleep(500);
+//                gridNavigation.driveToPosition(BACKING_UP2_3[X], translateForBlue(BACKING_UP2_3[Y]), .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
+//                pushOutSkystone();
+//                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], translateForBlue(PARKING_POS[Y]), .5);
 
@@ -214,17 +214,17 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
                 pushOutSkystone();
                 sleep(1000);
 
-                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], translateForBlue(SKYSTONE2_POS_3[Y]), .5);
-                intakeSkystone();
-                sleep(500);
-                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], translateForBlue(GRAB_SKYSTONE2_POS_3[Y]), .2);
-                sleep(500);
-                gridNavigation.driveToPosition(BACKING_UP2_3[X], translateForBlue(BACKING_UP2_3[Y]), .5);
-                sleep(500);
-
-                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
-                pushOutSkystone();
-                sleep(400);
+//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], translateForBlue(SKYSTONE2_POS_3[Y]), .5);
+//                intakeSkystone();
+//                sleep(500);
+//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], translateForBlue(GRAB_SKYSTONE2_POS_3[Y]), .2);
+//                sleep(500);
+//                gridNavigation.driveToPosition(BACKING_UP2_3[X], translateForBlue(BACKING_UP2_3[Y]), .5);
+//                sleep(500);
+//
+//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], translateForBlue(DELIVERING_SKYSTONE[Y]), .5);
+//                pushOutSkystone();
+//                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], translateForBlue(PARKING_POS[Y]), .5);
             break;
@@ -243,7 +243,7 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
         }
 
         private double translateForBlue(double blue) {
-            return 6+blue;
+            return 6-blue;
         }
 
         public void getSkystonePos () {

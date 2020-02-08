@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
-@Disabled
 @Autonomous(name = "Testing REV Color Sensor", group = "Beep")
 public class TestingREVColorSensor extends LinearOpMode {
 
@@ -46,15 +45,7 @@ public class TestingREVColorSensor extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Telemetry", "robot initializing");
         telemetry.update();
-        //initializing the hardware map
-        robot.init(hardwareMap);
         opencv = new LibraryOpenCV(robot, telemetry);
-        //initializing the gyro turn function
-        gyroTurn.init(robot, telemetry);
-        //initializing the gyro drive function
-        gyroDrive.init(robot, telemetry, robot.rightBack);
-
-        gridNavigation.init(robot, gyroTurn, telemetry);
 
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
