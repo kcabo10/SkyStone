@@ -32,6 +32,7 @@ public class TeleOpProgram extends OpMode {
     public ElapsedTime capstonetime = new ElapsedTime();
     private int foundation_state = 0;
     private int buttonXPressed = 0;
+    private int buttonBPressed = 0;
     private int up_extrusion_state = 0;
     private int clawAid_state = 0;
     private int lifter_state = 0;
@@ -43,6 +44,7 @@ public class TeleOpProgram extends OpMode {
     private boolean danceDoOver = false;
 
     LibraryColorSensor stoneColorSensor = new LibraryColorSensor();
+
     /**
      * This method reverses the direction of the mecanum drive.
      */
@@ -54,16 +56,16 @@ public class TeleOpProgram extends OpMode {
         }
     }
 
-//    /**
-//     * This method scales the speed of the robot to .5.
-//     */
-//    private void scaleFactor() {
-//        if (scaleFactor == 0.5) {
-//            scaleFactor = 1;
-//        } else if (scaleFactor == 1) {
-//            scaleFactor = 0.5;
-//        }
-//    }
+    /**
+     * This method scales the speed of the robot to .5.
+     */
+    private void scaleFactor() {
+        if (scaleFactor == 0.5) {
+            scaleFactor = 1;
+        } else if (scaleFactor == 1) {
+            scaleFactor = 0.5;
+        }
+    }
 
     /**
      * This method initializes hardware map.
@@ -101,6 +103,7 @@ public class TeleOpProgram extends OpMode {
 
         // When the direction value is reversed this if statement inverts the addition and subtraction for turning.
         // Default mode: The robot starts with the scaleTurningSpeed set to 1, scaleFactor set to 1, and direction set to forward.
+
         if (direction == 1) {
             final double v1 = (r * Math.cos(robotAngle) - (rightX * scaleTurningSpeed)) * scaleFactor * direction;
             final double v2 = (r * Math.sin(robotAngle) + (rightX * scaleTurningSpeed)) * scaleFactor * direction;
@@ -123,6 +126,10 @@ public class TeleOpProgram extends OpMode {
             robot.rightBack.setPower(v4);
         }
 
+        /**
+         *
+         */
+
 
         /**
          * Just Claw Controls
@@ -143,7 +150,6 @@ public class TeleOpProgram extends OpMode {
         }
         //TODO: Implement auto up and in once the claw is opened, but have to check encoder counts
         //TODO: so we don't overextend the extrusions at max height
-
 
         /**
          * Intake Controls
@@ -177,8 +183,7 @@ public class TeleOpProgram extends OpMode {
                     capstone_state = 0;
                     if (capstone_pos == 0) {
                         capstone_pos = 1;
-                    }
-                    else {
+                    } else {
                         capstone_pos = 0;
                     }
                 }
@@ -191,7 +196,7 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
+                if ((gamepad2.b && !gamepad2.start) || danceDoOver) {//(stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
                     dance_state++;
                     danceTime.reset();
@@ -201,7 +206,7 @@ public class TeleOpProgram extends OpMode {
             case (1): //claw aid pushing brick into claw
                 if (danceTime.seconds() > 1) { //wait 1 second
                     robot.clawAid.setPosition(1); //move the claw aid up
-                    robot.clawAid.setPosition(1); //move the claw aid back
+                    robot.clawAid.setPosition(0); //move the claw aid back
                     robot.clawAid.setPosition(1); //move the claw aid up again
                     dance_state++;
                     danceTime.reset();
@@ -216,7 +221,7 @@ public class TeleOpProgram extends OpMode {
                 }
                 break;
             case (3): //claw aid moving back to original pos
-                if (danceTime.seconds() > 1 && ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .2))) {
+                if (danceTime.seconds() > 1){ //&& ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .1))) {
 
                     dance_state = 0;
                 }
@@ -228,7 +233,7 @@ public class TeleOpProgram extends OpMode {
                 }
 
                 break;
-            }
+        }
 
         /**
          * Foundation Hook Controls
@@ -262,8 +267,6 @@ public class TeleOpProgram extends OpMode {
         }
 
 
-
-
         /**
          * Out Extrusion Controls
          */
@@ -284,20 +287,16 @@ public class TeleOpProgram extends OpMode {
          * Up Extrusion Lifter Controls
          */
 
-                if (gamepad2.right_stick_y < 0) {
-                    robot.droidLifterLeft.setPower(-1);
-                    robot.droidLifterRight.setPower(1);
-                }
-
-                else if (gamepad2.right_stick_y > 0){
-                    robot.droidLifterLeft.setPower(.5);
-                    robot.droidLifterRight.setPower(-.5);
-                }
-
-                else {
-                robot.droidLifterRight.setPower(0);
-                robot.droidLifterLeft.setPower(0);
-                }
+        if (gamepad2.right_stick_y < 0) {
+            robot.droidLifterLeft.setPower(-1);
+            robot.droidLifterRight.setPower(1);
+        } else if (gamepad2.right_stick_y > 0) {
+            robot.droidLifterLeft.setPower(.5);
+            robot.droidLifterRight.setPower(-.5);
+        } else {
+            robot.droidLifterRight.setPower(0);
+            robot.droidLifterLeft.setPower(0);
+        }
 
 //        // Telemetry
 //        telemetry.addData("Scale Factor", scaleFactor);
