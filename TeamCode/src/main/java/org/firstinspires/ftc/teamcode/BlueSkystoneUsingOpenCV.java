@@ -57,6 +57,8 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
         robot.foundation1.setPosition(1);
         robot.foundation2.setPosition(-1);
 
+        getSkystonePos();
+
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
 
@@ -88,8 +90,6 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
         double[] PARKING_POS = {2.9, 1.4};
 
         waitForStart();
-
-        getSkystonePos();
 
         gridNavigation.setGridPosition(1.7, translateForBlue(.3645), 90);
 

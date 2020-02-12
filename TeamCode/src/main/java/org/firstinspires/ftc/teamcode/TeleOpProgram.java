@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
@@ -271,16 +272,28 @@ public class TeleOpProgram extends OpMode {
          * Out Extrusion Controls
          */
 
-        if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-            robot.outExtrusion.setPower(1);
-            telemetry.addData("down dpad pressed", gamepad2.dpad_down);
-            telemetry.update();
-        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-            robot.outExtrusion.setPower(-1);
-            telemetry.addData("up dpad pressed", gamepad2.dpad_up);
-            telemetry.update();
-        } else {
-            robot.outExtrusion.setPower(0);
+//        if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+//            robot.outExtrusion.setPower(1);
+//            telemetry.addData("down dpad pressed", gamepad2.dpad_down);
+//            telemetry.update();
+//        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+//            robot.outExtrusion.setPower(-1);
+//            telemetry.addData("up dpad pressed", gamepad2.dpad_up);
+//            telemetry.update();
+//        } else {
+//            robot.outExtrusion.setPower(0);
+//        }
+        if (gamepad2.dpad_up && !gamepad2.dpad_down){
+            robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.outExtrusion.setTargetPosition(-520);
+            robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.outExtrusion.setPower(.75);
+        }
+        else if (gamepad2.dpad_down && !gamepad2.dpad_up && robot.outExtrusion.getCurrentPosition() >= 500){
+            robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.outExtrusion.setTargetPosition(520);
+            robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.outExtrusion.setPower(.75);
         }
 
         /**
@@ -331,7 +344,8 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getCurrentPosition());
 //
-//        telemetry.update();
+        telemetry.addData("Out Extrusion Encoders", robot.outExtrusion.getCurrentPosition());
+        telemetry.update();
     }
 
     /**

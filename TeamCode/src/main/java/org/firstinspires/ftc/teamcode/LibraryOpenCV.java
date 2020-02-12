@@ -125,7 +125,8 @@ public class LibraryOpenCV {
         timer.reset();
 
         // while mineral position is not found and the timer counts 6 seconds
-        while (timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
+        while (timer.seconds() < 3) { /** Read while
+//        while (timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
 
             // If the skystone is positioned more toward the right of the phones camera view
             // then the x position will increase
