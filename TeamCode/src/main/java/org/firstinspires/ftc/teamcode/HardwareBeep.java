@@ -19,6 +19,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.teamcode.sensors.REVColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.SensorMB1242;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+
 
 /**
  * @author Beep Patrol
@@ -51,7 +53,8 @@ public class HardwareBeep {
     public SensorMB1242 rightSonic = null;
     public SensorMB1242 leftSonic = null;
     public NormalizedColorSensor colorSensor = null;
-    public NormalizedColorSensor stoneColorSensor = null;
+//    public NormalizedColorSensor stoneColorSensor = null;
+    public DigitalChannel touchSensor = null;
 //    public WebcamName webcam = null;
 
     // Set local OpMode Members
@@ -98,7 +101,9 @@ public class HardwareBeep {
         leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
         rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         colorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color");
-        stoneColorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color_dance");
+//        stoneColorSensor = hwMap.get(NormalizedColorSensor.class, "sensor_color_dance");
+        touchSensor = hwMap.get(DigitalChannel.class, "sensor_digital");
+
         //        webcam = hwMap.get(WebcamName.class, "webcam");
         //rightSonic.changeI2cAddress(0xe2);
 

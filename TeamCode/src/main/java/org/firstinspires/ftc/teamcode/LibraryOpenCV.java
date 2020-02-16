@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,6 +22,7 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
+//@Disabled
 public class LibraryOpenCV {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
@@ -28,6 +30,8 @@ public class LibraryOpenCV {
     HardwareMap hardwareMap;
     Telemetry telemetry;
     ElapsedTime timer;
+    private boolean openCVIsActive = true;
+
 
     public LibraryOpenCV(HardwareBeep newHardwareBeep, Telemetry newTelemetry) {
 
@@ -44,7 +48,8 @@ public class LibraryOpenCV {
      */
     public String findSkystone() {
 
-        initOpenCV();
+        //Init was moved to the calling class
+        //initOpenCV();
 
         long startTime = 0;
         String previousPosition = "";
@@ -60,6 +65,7 @@ public class LibraryOpenCV {
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystonePos();
 
+
             /*
              * Send some stats to the telemetry
              */
@@ -73,12 +79,10 @@ public class LibraryOpenCV {
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
             telemetry.update();
 //        }
-        phoneCam.stopStreaming();
         return SkystonePosition;
-
     }
 
-    private void initOpenCV() {
+    public void initOpenCV() {
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using the phone's internal camera. We pass it a
@@ -118,14 +122,16 @@ public class LibraryOpenCV {
          */
         phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
     }
+    public void shutDownOpenCV() {
+        phoneCam.stopStreaming();
+    }
 
     public String readSkystonePos() {
         String currentPos = "";
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
-
         // while mineral position is not found and the timer counts 6 seconds
-        while (timer.seconds() < 3) { /** Read while
+        //while (openCVIsActive) { // Read while
 //        while (timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
 
             // If the skystone is positioned more toward the right of the phones camera view
@@ -134,22 +140,25 @@ public class LibraryOpenCV {
             // If the skystone is at a position greater than 100 than we assume the skystone
             // is in position
             if (skyStoneDetector.getScreenPosition().y >= 195) { //209
-                telemetry.addData("LibOpCV: Skystone Position 1", skyStoneDetector.getScreenPosition().y);
+                telemetry.addData("LibOpCV: Skystone Position right", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
                 currentPos = "Pos 1";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
             } else if (skyStoneDetector.getScreenPosition().y >= 100) { //187
-                telemetry.addData("LibOpCV: Skystone Position 2", skyStoneDetector.getScreenPosition().y);
+                telemetry.addData("LibOpCV: Skystone Position middle", skyStoneDetector.getScreenPosition().y);
+                telemetry.update();
                 currentPos = "Pos 2";
             } else //if (skyStoneDetector.getScreenPosition().y > 170 && skyStoneDetector.getScreenPosition().y <= 190) {
             {
-                telemetry.addData("LibOpCV: Skystone Position 3", skyStoneDetector.getScreenPosition().y);
+                telemetry.addData("LibOpCV: Skystone Position left", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 3"; //24
+                currentPos = "Pos 3";
             }
-        }
         // returns the current skystone position
         return currentPos;
+    }
+    public void openCVIsNotActive (){
+        openCVIsActive = false;
     }
 }

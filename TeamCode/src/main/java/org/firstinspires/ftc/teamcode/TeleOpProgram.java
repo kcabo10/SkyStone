@@ -29,15 +29,12 @@ public class TeleOpProgram extends OpMode {
     private double scaleTurningSpeed = 1;
     private ElapsedTime foundationtime = new ElapsedTime();
     public ElapsedTime danceTime = new ElapsedTime();
+    public ElapsedTime extrusionTime = new ElapsedTime();
     public ElapsedTime clawruntime = new ElapsedTime();
     public ElapsedTime capstonetime = new ElapsedTime();
     private int foundation_state = 0;
+    private int out_extrusion_state = 0;
     private int buttonXPressed = 0;
-    private int buttonBPressed = 0;
-    private int up_extrusion_state = 0;
-    private int clawAid_state = 0;
-    private int lifter_state = 0;
-    private int clawAlone_state = 0;
     private int capstone_pos = 0;
     private int capstone_state = 0;
     private int dance_state = 0;
@@ -61,10 +58,10 @@ public class TeleOpProgram extends OpMode {
      * This method scales the speed of the robot to .5.
      */
     private void scaleFactor() {
-        if (scaleFactor == 0.5) {
+        if (scaleFactor == 1) {
+            scaleFactor = .5;
+        } else if (scaleFactor == .5) {
             scaleFactor = 1;
-        } else if (scaleFactor == 1) {
-            scaleFactor = 0.5;
         }
     }
 
@@ -126,11 +123,39 @@ public class TeleOpProgram extends OpMode {
             robot.leftBack.setPower(v3);
             robot.rightBack.setPower(v4);
         }
+        /**
+         * When the y button has been pressed and released the direction is reversed.
+         */
+        switch (buttonYPressed) {
+            case (0):
+                if (gamepad1.x) {
+                    buttonYPressed = 1;
+                }
+                break;
+            case (1):
+                if (!gamepad1.x) {
+                    reverseDirection();
+                    buttonYPressed = 0;
+                }
+                break;
+        }
 
         /**
-         *
+         * When the a button has been pressed and released the speed is scaled to .5 power.
          */
-
+        switch (buttonAPressed) {
+            case (0):
+                if (gamepad1.a) {
+                    buttonAPressed = 1;
+                }
+                break;
+            case (1):
+                if (!gamepad1.a) {
+                    buttonAPressed = 0;
+                    scaleFactor();
+                }
+                break;
+        }
 
         /**
          * Just Claw Controls
@@ -156,12 +181,12 @@ public class TeleOpProgram extends OpMode {
          * Intake Controls
          */
 
-        if (gamepad2.right_bumper) {
-            robot.leftIntake.setPower(-1);
-            robot.rightIntake.setPower(1);
-        } else if (gamepad2.left_bumper) {
-            robot.leftIntake.setPower(1);
-            robot.rightIntake.setPower(-1);
+        if (gamepad2.right_trigger > 0) {
+            robot.leftIntake.setPower(-.8);
+            robot.rightIntake.setPower(.8);
+        } else if (gamepad2.left_trigger > 0) {
+            robot.leftIntake.setPower(.8);
+            robot.rightIntake.setPower(-.8);
         } else {
             robot.leftIntake.setPower(0);
             robot.rightIntake.setPower(0);
@@ -197,7 +222,7 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if ((gamepad2.b && !gamepad2.start) || danceDoOver) {//(stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
+                if ((gamepad2.b && !gamepad2.start) || !robot.touchSensor.getState() || danceDoOver) {//(stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
                     dance_state++;
                     danceTime.reset();
@@ -222,7 +247,7 @@ public class TeleOpProgram extends OpMode {
                 }
                 break;
             case (3): //claw aid moving back to original pos
-                if (danceTime.seconds() > 1){ //&& ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .1))) {
+                if (danceTime.seconds() > 1 && !robot.touchSensor.getState()){ //&& ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .1))) {
 
                     dance_state = 0;
                 }
@@ -242,26 +267,26 @@ public class TeleOpProgram extends OpMode {
 
         switch (foundation_state) {
             case (0):
-                if (gamepad2.y) {
+                if (gamepad1.y) {
                     robot.foundation1.setPosition(.5);
                     robot.foundation2.setPosition(.5);
                     foundation_state++;
                 }
                 break;
             case (1):
-                if (!gamepad2.y) {
+                if (!gamepad1.y) {
                     foundation_state++;
                 }
                 break;
             case (2):
-                if (gamepad2.y) {
+                if (gamepad1.y) {
                     robot.foundation1.setPosition(-1);
                     robot.foundation2.setPosition(1);
                     foundation_state++;
                 }
                 break;
             case (3):
-                if (!gamepad2.y) {
+                if (!gamepad1.y) {
                     foundation_state = 0;
                 }
                 break;
@@ -272,44 +297,82 @@ public class TeleOpProgram extends OpMode {
          * Out Extrusion Controls
          */
 
-//        if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-//            robot.outExtrusion.setPower(1);
-//            telemetry.addData("down dpad pressed", gamepad2.dpad_down);
-//            telemetry.update();
-//        } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-//            robot.outExtrusion.setPower(-1);
-//            telemetry.addData("up dpad pressed", gamepad2.dpad_up);
-//            telemetry.update();
-//        } else {
-//            robot.outExtrusion.setPower(0);
-//        }
-        if (gamepad2.dpad_up && !gamepad2.dpad_down){
-            robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.outExtrusion.setTargetPosition(-520);
-            robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.outExtrusion.setPower(.75);
-        }
-        else if (gamepad2.dpad_down && !gamepad2.dpad_up && robot.outExtrusion.getCurrentPosition() >= 500){
-            robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.outExtrusion.setTargetPosition(520);
-            robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.outExtrusion.setPower(.75);
+        switch (out_extrusion_state) {
+            case (0):
+
+                if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+                    robot.outExtrusion.setPower(1);
+                    telemetry.addData("down dpad pressed", gamepad2.dpad_down);
+                    telemetry.update();
+                } else if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+                    robot.outExtrusion.setPower(-1);
+                    telemetry.addData("up dpad pressed", gamepad2.dpad_up);
+                    telemetry.update();
+                } else {
+                    robot.outExtrusion.setPower(0);
+                }
+
+
+                if (gamepad2.right_bumper) {
+                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.outExtrusion.setTargetPosition(-520);
+                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.outExtrusion.setPower(1);
+                    out_extrusion_state = 1;
+
+                } else if (gamepad2.left_bumper) {
+                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.outExtrusion.setTargetPosition(520);
+                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.outExtrusion.setPower(1);
+                    out_extrusion_state = 1;
+                }
+                break;
+
+            case (1):
+
+                extrusionTime.reset();
+                if (robot.outExtrusion.isBusy()) {
+                    out_extrusion_state = 2; // moving
+                }
+                break;
+
+            case (2):
+                if (!robot.outExtrusion.isBusy() || extrusionTime.seconds() >= 4) {
+                    out_extrusion_state = 0;
+                    robot.outExtrusion.setPower(0);
+                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                }
+                break;
         }
 
         /**
          * Up Extrusion Lifter Controls
          */
+//        switch (droidLifter_state){
+//            case (0):
+            if (gamepad2.right_stick_y < 0) {
+                robot.droidLifterLeft.setPower(-1);
+                robot.droidLifterRight.setPower(1);
+            } else if (gamepad2.right_stick_y > 0) {
+                robot.droidLifterLeft.setPower(.5);
+                robot.droidLifterRight.setPower(-.5);
+            } else {
+                robot.droidLifterRight.setPower(0);
+                robot.droidLifterLeft.setPower(0);
+            }
 
-        if (gamepad2.right_stick_y < 0) {
-            robot.droidLifterLeft.setPower(-1);
-            robot.droidLifterRight.setPower(1);
-        } else if (gamepad2.right_stick_y > 0) {
-            robot.droidLifterLeft.setPower(.5);
-            robot.droidLifterRight.setPower(-.5);
-        } else {
-            robot.droidLifterRight.setPower(0);
-            robot.droidLifterLeft.setPower(0);
-        }
+//            if (gamepad2.y) {
+//                robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                robot.outExtrusion.setTargetPosition(520);
+//                robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                robot.outExtrusion.setPower(1);
+//                out_extrusion_state = 1;
+//            }
+//            case (1):
+
+//        }
 
 //        // Telemetry
 //        telemetry.addData("Scale Factor", scaleFactor);
@@ -345,6 +408,11 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getCurrentPosition());
 //
         telemetry.addData("Out Extrusion Encoders", robot.outExtrusion.getCurrentPosition());
+        telemetry.addData("outExtrusion State: ", out_extrusion_state);
+        telemetry.addData("Droid Lifter Right", robot.droidLifterRight.getCurrentPosition());
+        telemetry.addData("Droid Lifter Left", robot.droidLifterLeft.getCurrentPosition());
+        telemetry.addData("touch sensor", robot.touchSensor.getState());
+
         telemetry.update();
     }
 

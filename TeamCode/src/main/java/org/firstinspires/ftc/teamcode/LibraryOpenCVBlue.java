@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -17,6 +18,7 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
+//@Disabled
 public class LibraryOpenCVBlue {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
@@ -138,6 +140,7 @@ public class LibraryOpenCVBlue {
                 // it sets the current skystone position as CENTER
             } else if (skyStoneDetector.getScreenPosition().y < 290) {
                 telemetry.addData("LibOpCVBlu: Skystone Position 2", skyStoneDetector.getScreenPosition().y);
+                telemetry.update();
                 currentPos = "Pos 2";
             } else //if (skyStoneDetector.getScreenPosition().y > 170 && skyStoneDetector.getScreenPosition().y <= 190) {
             {

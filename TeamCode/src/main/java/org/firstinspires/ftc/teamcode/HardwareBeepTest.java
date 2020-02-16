@@ -169,8 +169,8 @@ public class HardwareBeepTest {
     public DcMotor leftBack = null;
     public DcMotor rightFront = null;
     public DcMotor rightBack = null;
-    public SensorMB1242 rightSonic = null;
-    public SensorMB1242 leftSonic = null;
+//    public SensorMB1242 rightSonic = null;
+//    public SensorMB1242 leftSonic = null;
     public BNO055IMU imuActual = null;
 
     // Set local OpMode Members
@@ -199,8 +199,8 @@ public class HardwareBeepTest {
         leftBack = hwMap.get(DcMotor.class, "left_back");
         rightFront = hwMap.get(DcMotor.class, "right_front");
         rightBack = hwMap.get(DcMotor.class, "right_back");
-        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
-        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
+//        leftSonic = hwMap.get(SensorMB1242.class, "left_sonic");
+//        rightSonic = hwMap.get(SensorMB1242.class, "right_sonic");
         imuActual = hwMap.get(BNO055IMU.class, "imu");
 
         // Set Motor and Servo Direction

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
 public class TeleOpProgramTest extends OpMode {
 
     // Calling hardware map.
-    private HardwareBeep robot = new HardwareBeep();
+    private HardwareBeepTest robot = new HardwareBeepTest();
     // Setting value to track whether the Y and A buttons are pressed to zero which is not pressed.
     private int buttonYPressed = 0;
     private int buttonAPressed = 0;
@@ -109,28 +109,28 @@ public class TeleOpProgramTest extends OpMode {
         }
 
         // When the y button has been pressed and released the direction is reversed.
-        switch (buttonYPressed) {
-            case (0):
-                if (gamepad1.y) {
-                    buttonYPressed = 1;
-                    robot.clawAid.setPosition(i);
-                    robot.clawTurner.setPosition(i);
-                    robot.claw.setPosition(i);
-                }
-
-                break;
-            case (1):
-                if (!gamepad1.y) {
-                    buttonYPressed = 0;
-                    if (i == 0) {
-                        i = 1;
-                    }
-                    else {
-                        i = 0;
-                    }
-                }
-                break;
-        }
+//        switch (buttonYPressed) {
+//            case (0):
+//                if (gamepad1.y) {
+//                    buttonYPressed = 1;
+//                    robot.clawAid.setPosition(i);
+//                    robot.clawTurner.setPosition(i);
+//                    robot.claw.setPosition(i);
+//                }
+//
+//                break;
+//            case (1):
+//                if (!gamepad1.y) {
+//                    buttonYPressed = 0;
+//                    if (i == 0) {
+//                        i = 1;
+//                    }
+//                    else {
+//                        i = 0;
+//                    }
+//                }
+//                break;
+//        }
 
 
 
@@ -142,9 +142,9 @@ public class TeleOpProgramTest extends OpMode {
         telemetry.addData("right front power", robot.rightFront.getPower());
         telemetry.addData("right back power", robot.rightBack.getPower());
         telemetry.addData("i", i);
-        telemetry.addData("claw_aid", robot.clawAid.getPosition());
+//        telemetry.addData("claw_aid", robot.clawAid.getPosition());
 
-        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+//        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
 
         telemetry.update();
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.sensors.LibraryColorSensor;
  * This is our autonomous program for the depot side on the blue side of the field. This program runs
  * without the phone light for Tensor Flow. This is the go to program. This program... .
  */
+//@Disabled
 @Autonomous(name = "Red Side Skystone Delivery", group = "Beep")
 public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
@@ -52,13 +54,33 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         //initializing the gyro drive function
         gyroDrive.init(robot, telemetry, robot.rightBack);
 
-        opencv = new LibraryOpenCV(robot, telemetry);
-
         gridNavigation.init(robot, gyroTurn, telemetry);
 
         // Start position for foundation hooks
         robot.foundation1.setPosition(1);
         robot.foundation2.setPosition(-1);
+
+        opencv = new LibraryOpenCV(robot, telemetry);
+        opencv.initOpenCV();
+
+        telemetry.addData("OpenCV initialized","");
+        telemetry.update();
+        sleep(5000);
+
+        while (!isStarted())
+        {
+            opencv.findSkystone();
+            synchronized (this) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+        }
+
+        opencv.shutDownOpenCV();
 
         telemetry.addData("Telemetry", "run opMode start");
         telemetry.update();
@@ -90,9 +112,9 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         double[] DELIVERING_SKYSTONE = {3.5, 1.4};
         double[] PARKING_POS = {2.9, 1.4};
 
-        waitForStart();
+        //waitForStart();
 
-        getSkystonePos();
+        //opencv.openCVIsNotActive();
 
         gridNavigation.setGridPosition(1.7, .3645, 270);
 
@@ -243,45 +265,5 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         public void pushOutSkystone (){
             robot.rightIntake.setPower(1);
             robot.leftIntake.setPower(-1);
-        }
-
-
-        public void getSkystonePos () {
-            int debounceCount = 0;
-            long startTime = 0;
-            String previousPosition;
-            /*
-             * UPDATE WITH NEW REPOSITORY
-             */
-            SkystonePosition = opencv.findSkystone();
-
-            // Switch block that indicated which skystone position it reads
-            switch (SkystonePosition) {
-                case ("Pos 1"):
-                    telemetry.addData("Telemetry", "left");
-                    telemetry.update();
-                    SkystonePosition = "Pos 1";
-                    break;
-                case ("Pos 2"):
-                    telemetry.addData("Telemetry", "Middle");
-                    telemetry.update();
-                    SkystonePosition = "Pos 2";
-                    break;
-                case ("Pos 3"):
-                    telemetry.addData("Telemetry", "right");
-                    telemetry.update();
-                    SkystonePosition = "Pos 3";
-                    break;
-
-                // If it reads unknown than it goes to this default case
-                default:
-                    telemetry.addData("Telemetry", "Unknown Position");
-                    telemetry.update();
-                    // sets skystone pos to center as default
-                    SkystonePosition = "Pos 3";
-                    break;
-            }
-
-            telemetry.update();
         }
     }
