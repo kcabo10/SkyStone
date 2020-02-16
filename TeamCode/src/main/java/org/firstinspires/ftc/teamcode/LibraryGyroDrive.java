@@ -424,14 +424,14 @@ public class LibraryGyroDrive {
 //            if (!rampReached) {
 //
 //                if (leftSpeedRamp < leftSpeed) {
-//                    leftSpeedRamp = leftSpeedRamp + INTERVAL;
+//                    leftSpeedRamp = leftSpeedRamp - INTERVAL;
 //                    telemetry.addData("LeftRampSpeed", leftSpeedRamp);
 //                }
 //                else
 //                    rampReached = true;
 //
 //                if (rightSpeedRamp < rightSpeed) {
-//                    rightSpeedRamp += INTERVAL;
+//                    rightSpeedRamp -= INTERVAL;
 //                    telemetry.addData("RightRampSpeed", rightSpeedRamp);
 //                }
 //                else
@@ -440,7 +440,7 @@ public class LibraryGyroDrive {
 //                leftSpeed = leftSpeedRamp;
 //                rightSpeed = rightSpeedRamp;
 //            }
-//
+
 
 
 

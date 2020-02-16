@@ -69,7 +69,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
         while (!isStarted())
         {
-            opencv.findSkystone();
+            SkystonePosition = opencv.findSkystone();
             synchronized (this) {
                 try {
                     this.wait();
@@ -89,17 +89,17 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-        double[] SKYSTONE_POS_1 = {1.95, 2.9};
-        double[] SKYSTONE_POS_2 = {1.4, 2.9};
-        double[] SKYSTONE_POS_3 = {.8, 2.9};
-        double[] BACKING_UP_1 = {2, 1.4};
-        double[] BACKING_UP_2 = {1.5, 1.4};
-        double[] BACKING_UP_3 = {1.4, 1.4};
+        double[] SKYSTONE_POS_1 = {1.8, 1.75};
+        double[] SKYSTONE_POS_2 = {1.5, 1.75};
+        double[] SKYSTONE_POS_3 = {1.1, 2.1};
+        double[] BACKING_UP_1 = {1.9, 1.4};
+        double[] BACKING_UP_2 = {1.4, 1.4};
+        double[] BACKING_UP_3 = {1.1, 1.4};
 
 
-        double[] SKYSTONE2_POS_1 = {1, 1.4};
-        double[] SKYSTONE2_POS_2 = {.5, 1.4};
-        double[] SKYSTONE2_POS_3 = {.8, 1.3};
+        double[] SKYSTONE2_POS_1 = {1, 1.5};
+        double[] SKYSTONE2_POS_2 = {.5, 1.5};
+        double[] SKYSTONE2_POS_3 = {.8, 1.4};
         double[] GRAB_SKYSTONE2_POS_1 = {1, 2.6};
         double[] GRAB_SKYSTONE2_POS_2 = {.5, 2.6};
         double[] GRAB_SKYSTONE2_POS_3 = {.3, 1.7};
@@ -124,13 +124,14 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
              * This first pos is working just need to add second Skystone
              */
             //Right Skystone position
-            case "Pos 1":
+            case "right":
 
-            telemetry.addData("Telemetry", "Skystone Pos = 1");
+            telemetry.addData("Telemetry", "Skystone Pos = 3/right");
                 telemetry.update();
 
             intakeSkystone();
             gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
+            sleep(1000);
             gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
 
             sleep(500);
@@ -156,18 +157,19 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 break;
 
             //Middle Skystone position
-            case "Pos 2":
+            case "middle":
 
                 /**
                  * This second pos is working just needs a bit of tuning
                  * We should come at an angle for the second stone in order to save time
                  */
 
-                telemetry.addData("Telemetry", "Skystone Pos = 2");
+                telemetry.addData("Telemetry", "Skystone Pos = 2/middle");
                 telemetry.update();
 
                 intakeSkystone();
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .2);
+                sleep(1000);
                 gridNavigation.driveToPosition(BACKING_UP_2[X], BACKING_UP_2[Y], .5);
                 sleep(500);
 
@@ -191,13 +193,14 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 break;
 
             //Position closest to skybridge
-            case "Pos 3":
+            case "left":
 
-                telemetry.addData("Telemetry", "Skystone Pos = 3");
+                telemetry.addData("Telemetry", "Skystone Pos = 1/left");
                 telemetry.update();
 
                 intakeSkystone();
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
+                sleep(1000);
                 gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
 
                 sleep(500);
@@ -231,6 +234,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
                 intakeSkystone();
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
+                sleep(1000);
                 gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
 
                 sleep(500);
@@ -258,12 +262,12 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
     }
 
         public void intakeSkystone (){
-            robot.rightIntake.setPower(-1);
-            robot.leftIntake.setPower(1);
+            robot.rightIntake.setPower(.85);
+            robot.leftIntake.setPower(-.5);
     }
 
         public void pushOutSkystone (){
-            robot.rightIntake.setPower(1);
-            robot.leftIntake.setPower(-1);
+            robot.rightIntake.setPower(-.8);
+            robot.leftIntake.setPower(.8);
         }
     }

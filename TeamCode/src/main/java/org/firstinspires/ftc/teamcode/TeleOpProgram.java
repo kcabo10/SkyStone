@@ -389,7 +389,7 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("right intake", robot.rightIntake.getPower());
 //        telemetry.addData("foundation_state", foundation_state);
 //        telemetry.addData("buttonXPressed", buttonXPressed);
-//        telemetry.addData("clawAid_state", clawAid_state);
+//        //telemetry.addData("clawAid_state", clawAid_state);
 //        //telemetry.addData("claw_aid Pos", robot.clawAid.getPosition());
 //        telemetry.addData("foundation1 position", robot.foundation1.getPosition());
 //        telemetry.addData("foundation2 position", robot.foundation2.getPosition());
@@ -401,7 +401,7 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("capstone pos", capstone_pos);
 //        //telemetry.addData("gamepad2.a", gamepad2.a);
 //        telemetry.addData("dance state", dance_state);
-//        telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+//        //telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());

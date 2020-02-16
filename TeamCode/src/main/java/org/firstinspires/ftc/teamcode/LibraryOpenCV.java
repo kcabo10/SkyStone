@@ -142,18 +142,18 @@ public class LibraryOpenCV {
             if (skyStoneDetector.getScreenPosition().y >= 195) { //209
                 telemetry.addData("LibOpCV: Skystone Position right", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 1";
+                currentPos = "right";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().y >= 100) { //187
+            } else if (skyStoneDetector.getScreenPosition().y >= 120) { //187
                 telemetry.addData("LibOpCV: Skystone Position middle", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 2";
+                currentPos = "middle";
             } else //if (skyStoneDetector.getScreenPosition().y > 170 && skyStoneDetector.getScreenPosition().y <= 190) {
             {
                 telemetry.addData("LibOpCV: Skystone Position left", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 3";
+                currentPos = "left";
             }
         // returns the current skystone position
         return currentPos;
