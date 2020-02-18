@@ -222,7 +222,7 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if ((gamepad2.b && !gamepad2.start) || !robot.touchSensor.getState() || danceDoOver) {//(stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
+                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
                     dance_state++;
                     danceTime.reset();
@@ -247,7 +247,7 @@ public class TeleOpProgram extends OpMode {
                 }
                 break;
             case (3): //claw aid moving back to original pos
-                if (danceTime.seconds() > 1 && !robot.touchSensor.getState()){ //&& ((stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .1))) {
+                if (danceTime.seconds() > 1 && stoneColorSensor.readSaturation(robot, "sensor_color_dance") < .1) {
 
                     dance_state = 0;
                 }
@@ -280,8 +280,8 @@ public class TeleOpProgram extends OpMode {
                 break;
             case (2):
                 if (gamepad1.y) {
-                    robot.foundation1.setPosition(-1);
-                    robot.foundation2.setPosition(1);
+                    robot.foundation1.setPosition(1);
+                    robot.foundation2.setPosition(-1);
                     foundation_state++;
                 }
                 break;
@@ -297,8 +297,8 @@ public class TeleOpProgram extends OpMode {
          * Out Extrusion Controls
          */
 
-        switch (out_extrusion_state) {
-            case (0):
+//        switch (out_extrusion_state) {
+//            case (0):
 
                 if (gamepad2.dpad_down && !gamepad2.dpad_up) {
                     robot.outExtrusion.setPower(1);
@@ -313,39 +313,39 @@ public class TeleOpProgram extends OpMode {
                 }
 
 
-                if (gamepad2.right_bumper) {
-                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.outExtrusion.setTargetPosition(-520);
-                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.outExtrusion.setPower(1);
-                    out_extrusion_state = 1;
-
-                } else if (gamepad2.left_bumper) {
-                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.outExtrusion.setTargetPosition(520);
-                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.outExtrusion.setPower(1);
-                    out_extrusion_state = 1;
-                }
-                break;
-
-            case (1):
-
-                extrusionTime.reset();
-                if (robot.outExtrusion.isBusy()) {
-                    out_extrusion_state = 2; // moving
-                }
-                break;
-
-            case (2):
-                if (!robot.outExtrusion.isBusy() || extrusionTime.seconds() >= 4) {
-                    out_extrusion_state = 0;
-                    robot.outExtrusion.setPower(0);
-                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                }
-                break;
-        }
+//                if (gamepad2.right_bumper) {
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.outExtrusion.setTargetPosition(-520);
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.outExtrusion.setPower(1);
+//                    out_extrusion_state = 1;
+//
+//                } else if (gamepad2.left_bumper) {
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.outExtrusion.setTargetPosition(520);
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    robot.outExtrusion.setPower(1);
+//                    out_extrusion_state = 1;
+//                }
+//                break;
+//
+//            case (1):
+//
+//                extrusionTime.reset();
+//                if (robot.outExtrusion.isBusy()) {
+//                    out_extrusion_state = 2; // moving
+//                }
+//                break;
+//
+//            case (2):
+//                if (!robot.outExtrusion.isBusy() || extrusionTime.seconds() >= 4) {
+//                    out_extrusion_state = 0;
+//                    robot.outExtrusion.setPower(0);
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                    robot.outExtrusion.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                }
+//                break;
+//        }
 
         /**
          * Up Extrusion Lifter Controls
@@ -401,7 +401,7 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("capstone pos", capstone_pos);
 //        //telemetry.addData("gamepad2.a", gamepad2.a);
 //        telemetry.addData("dance state", dance_state);
-//        //telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+          telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
@@ -411,7 +411,8 @@ public class TeleOpProgram extends OpMode {
         telemetry.addData("outExtrusion State: ", out_extrusion_state);
         telemetry.addData("Droid Lifter Right", robot.droidLifterRight.getCurrentPosition());
         telemetry.addData("Droid Lifter Left", robot.droidLifterLeft.getCurrentPosition());
-        telemetry.addData("touch sensor", robot.touchSensor.getState());
+//        telemetry.addData("touch sensor", robot.touchSensor.getState());
+
 
         telemetry.update();
     }

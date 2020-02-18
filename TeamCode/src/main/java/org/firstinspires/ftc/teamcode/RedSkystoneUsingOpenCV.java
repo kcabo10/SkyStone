@@ -34,6 +34,8 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
     LibraryGridNavigation gridNavigation = new LibraryGridNavigation();
 
+    LibraryColorSensor stoneColorSensor = new LibraryColorSensor();
+
     LibraryOpenCV opencv;
 
     private int readColorSensor = 0;
@@ -59,6 +61,8 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         // Start position for foundation hooks
         robot.foundation1.setPosition(1);
         robot.foundation2.setPosition(-1);
+
+        robot.claw.setPosition(0);
 
         opencv = new LibraryOpenCV(robot, telemetry);
         opencv.initOpenCV();
@@ -89,16 +93,16 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         int X = 0;
         int Y = 1;
 
-        double[] SKYSTONE_POS_1 = {1.8, 1.75};
-        double[] SKYSTONE_POS_2 = {1.5, 1.75};
-        double[] SKYSTONE_POS_3 = {1.1, 2.1};
+        double[] SKYSTONE_POS_1 = {1.9, 2.5};
+        double[] SKYSTONE_POS_2 = {1.5, 2.5};
+        double[] SKYSTONE_POS_3 = {1.1, 2.5};
         double[] BACKING_UP_1 = {1.9, 1.4};
-        double[] BACKING_UP_2 = {1.4, 1.4};
+        double[] BACKING_UP_2 = {1.5, 1.4};
         double[] BACKING_UP_3 = {1.1, 1.4};
 
 
-        double[] SKYSTONE2_POS_1 = {1, 1.5};
-        double[] SKYSTONE2_POS_2 = {.5, 1.5};
+        double[] SKYSTONE2_POS_1 = {1, 1.4};
+        double[] SKYSTONE2_POS_2 = {.5, 1.4};
         double[] SKYSTONE2_POS_3 = {.8, 1.4};
         double[] GRAB_SKYSTONE2_POS_1 = {1, 2.6};
         double[] GRAB_SKYSTONE2_POS_2 = {.5, 2.6};
@@ -111,12 +115,13 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         //Same end to each case
         double[] DELIVERING_SKYSTONE = {3.5, 1.4};
         double[] PARKING_POS = {2.9, 1.4};
+        double[] STARTING_POS = {1.7, .3645};
 
         //waitForStart();
 
         //opencv.openCVIsNotActive();
 
-        gridNavigation.setGridPosition(1.7, .3645, 270);
+        gridNavigation.setGridPosition(STARTING_POS[X], STARTING_POS[Y], 270);
 
 
         switch (SkystonePosition) {
@@ -127,12 +132,30 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
             case "right":
 
             telemetry.addData("Telemetry", "Skystone Pos = 3/right");
-                telemetry.update();
+            telemetry.update();
 
             intakeSkystone();
+
+//            double testX = calcTargetX(STARTING_POS,SKYSTONE_POS_1,1.4);
+//            telemetry.addData("Drive to X ", testX);
+//            telemetry.addData("Drive to Y ", 1.4);
+//            telemetry.update();
+//            sleep(1000);
+
+            gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_1,1.4), 1.4,.5);
             gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
-            sleep(1000);
-            gridNavigation.driveToPosition(BACKING_UP_1[X], BACKING_UP_1[Y], .5);
+            sleep(500);
+
+            if (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= .75)
+                robot.clawAid.setPosition(1); //move the claw aid up
+                robot.clawAid.setPosition(0); //move the claw aid back
+                robot.clawAid.setPosition(1); //move the claw aid up again
+
+                robot.claw.setPosition(1); //close claw
+                robot.clawAid.setPosition(0); //reset claw aid
+
+
+            gridNavigation.driveToPosition(calcTargetX(STARTING_POS,SKYSTONE_POS_1,1.4), BACKING_UP_1[Y], .5);
 
             sleep(500);
 
@@ -140,17 +163,17 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
             pushOutSkystone();
             sleep(500);
 
-//            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
-//            intakeSkystone();
-//            sleep(500);
-//            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
-//
-//            gridNavigation.driveToPosition(BACKING_UP2_1[X], BACKING_UP2_1[Y], .5);
-//            sleep(500);
-//
-//            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-//            pushOutSkystone();
-//            sleep(400);
+            gridNavigation.driveToPosition(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+            intakeSkystone();
+            sleep(500);
+            gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
+
+            gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_1,GRAB_SKYSTONE2_POS_1,1.4), BACKING_UP2_1[Y], .5);
+            sleep(500);
+
+            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+            pushOutSkystone();
+            sleep(400);
 
             gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -168,25 +191,27 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 telemetry.update();
 
                 intakeSkystone();
+                gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_2,1.4), 1.4,.5);
+
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .2);
                 sleep(1000);
-                gridNavigation.driveToPosition(BACKING_UP_2[X], BACKING_UP_2[Y], .5);
+                gridNavigation.driveToPosition(calcTargetX(STARTING_POS,SKYSTONE_POS_2,1.4), BACKING_UP_2[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(500);
+
+                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
+                intakeSkystone();
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], GRAB_SKYSTONE2_POS_2[Y], .2);
+
+                gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_2,GRAB_SKYSTONE2_POS_2,1.4), BACKING_UP2_2[Y], .5);
                 sleep(500);
 
                 gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
                 pushOutSkystone();
                 sleep(1000);
-
-//                gridNavigation.driveToPosition(SKYSTONE2_POS_2[X], SKYSTONE2_POS_2[Y], .5);
-//                intakeSkystone();
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_2[X], GRAB_SKYSTONE2_POS_2[Y], .2);
-//
-//                gridNavigation.driveToPosition(BACKING_UP2_2[X], BACKING_UP2_2[Y], .5);
-//                sleep(500);
-//
-//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-//                pushOutSkystone();
-//                sleep(1000);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -199,27 +224,27 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 telemetry.update();
 
                 intakeSkystone();
+                gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_3,1.4), 1.4,.5);
+
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
                 sleep(1000);
-                gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
+                gridNavigation.driveToPosition(calcTargetX(STARTING_POS,SKYSTONE_POS_3,1.4), BACKING_UP_3[Y], .5);
+                sleep(500);
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(500);
 
+                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                intakeSkystone();
+                sleep(500);
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+                sleep(500);
+                gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_3,GRAB_SKYSTONE2_POS_3,1.4), BACKING_UP2_3[Y], .5);
                 sleep(500);
 
                 gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
                 pushOutSkystone();
-                sleep(1000);
-
-//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
-//                intakeSkystone();
-//                sleep(500);
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
-//                sleep(500);
-//                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
-//                sleep(500);
-//
-//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-//                pushOutSkystone();
-//                sleep(400);
+                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
 
@@ -233,27 +258,29 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
                 telemetry.update();
 
                 intakeSkystone();
+                gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_3,1.4), 1.4,.5);
+
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_3[X], SKYSTONE_POS_3[Y], .2);
                 sleep(1000);
-                gridNavigation.driveToPosition(BACKING_UP_3[X], BACKING_UP_3[Y], .5);
+                gridNavigation.driveToPosition(calcTargetX(STARTING_POS,SKYSTONE_POS_3,1.4), BACKING_UP_3[Y], .5);
 
                 sleep(500);
 
                 gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
                 pushOutSkystone();
-                sleep(1000);
-//
-//                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
-//                intakeSkystone();
-//                sleep(500);
-//                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
-//                sleep(500);
-//                gridNavigation.driveToPosition(BACKING_UP2_3[X], BACKING_UP2_3[Y], .5);
-//                sleep(500);
-//
-//                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
-//                pushOutSkystone();
-//                sleep(400);
+                sleep(500);
+
+                gridNavigation.driveToPosition(SKYSTONE2_POS_3[X], SKYSTONE2_POS_3[Y], .5);
+                intakeSkystone();
+                sleep(500);
+                gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_3[X], GRAB_SKYSTONE2_POS_3[Y], .2);
+                sleep(500);
+                gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_3,GRAB_SKYSTONE2_POS_3,1.4), BACKING_UP2_3[Y], .5);
+                sleep(500);
+
+                gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .5);
+                pushOutSkystone();
+                sleep(400);
 
                 gridNavigation.driveToPosition(PARKING_POS[X], PARKING_POS[Y], .5);
             break;
@@ -263,11 +290,40 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
         public void intakeSkystone (){
             robot.rightIntake.setPower(.85);
-            robot.leftIntake.setPower(-.5);
+            robot.leftIntake.setPower(-.85);
     }
 
         public void pushOutSkystone (){
             robot.rightIntake.setPower(-.8);
             robot.leftIntake.setPower(.8);
         }
+        public double calcTargetX(double[] origPos, double[] newPos, double targetY){
+        int X = 0;
+        int Y = 1;
+
+
+        double deltaX = newPos[X] - origPos[X];
+        double deltaY = newPos[Y]  - origPos[Y];
+
+        double r2 = newPos[Y] - targetY;
+
+        double r1 = r2 * deltaX/deltaY;
+
+        double targetX = newPos[X] - r1;
+
+//        telemetry.addData("cTX deltaX ", deltaX);
+//        telemetry.addData("cTX deltaY ", deltaY);
+//        telemetry.addData("cTX r2 ", r2);
+//        telemetry.addData("cTX r1 ", r1);
+//        telemetry.addData("cTX targetX ", targetX);
+//        telemetry.addData("cTX origPos x ", origPos[X]);
+//        telemetry.addData("cTX origPos y ", origPos[Y]);
+//        telemetry.addData("cTX newPos x ", newPos[X]);
+//        telemetry.addData("cTX newPos y ", newPos[Y]);
+//        telemetry.update();
+//        sleep(3000);
+
+
+        return targetX;
+    }
     }
