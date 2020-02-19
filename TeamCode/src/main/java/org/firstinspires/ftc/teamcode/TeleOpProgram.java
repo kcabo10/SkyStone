@@ -192,6 +192,17 @@ public class TeleOpProgram extends OpMode {
             robot.rightIntake.setPower(0);
         }
 
+        if (gamepad1.right_trigger > 0) {
+            robot.leftIntake.setPower(-.8);
+            robot.rightIntake.setPower(.8);
+        } else if (gamepad1.left_trigger > 0) {
+            robot.leftIntake.setPower(.8);
+            robot.rightIntake.setPower(-.8);
+        } else {
+            robot.leftIntake.setPower(0);
+            robot.rightIntake.setPower(0);
+        }
+
 
         /**
          * Capstone Controls
