@@ -56,7 +56,7 @@ public class TestingGridNav extends LinearOpMode {
 
         waitForStart();
 
-        gridNavigation.setGridPosition(0, 0, 0);
+        gridNavigation.setGridPosition(0, 0, 270);
 //
 //        gridNavigation.strafeToPosition(1, 0, .5, 0);
 //
@@ -67,11 +67,11 @@ public class TestingGridNav extends LinearOpMode {
 //
 ////        sleep(3000);
 //
-        gridNavigation.strafeToPositionBackwards(2, 0, .5, 0);
-//
+        gridNavigation.driveToPositionBackwards(0, 2, .5);
+
         sleep(3000);
-//
-        gridNavigation.strafeToPositionBackwards(0, 0, .7, 1);
+
+        gridNavigation.driveToPositionBackwards(1, 2, .7);
 //
 //        gridNavigation.driveToPosition(0, 1, .3);
 //

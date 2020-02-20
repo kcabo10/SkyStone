@@ -25,6 +25,8 @@ public class LibraryGyro {
     double angle_variable;
     double speed;
     boolean aButton, bButton, touched;
+    private boolean toloranceReached = false;
+
 
     long lastTime;
     double Input, Output, Setpoint;
@@ -32,6 +34,7 @@ public class LibraryGyro {
     double kp, ki, kd;
 
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime toloranceTime = new ElapsedTime();
 
     /**
      * The hardware class needs to be initialized before this function is called
@@ -120,7 +123,7 @@ public class LibraryGyro {
         errSum += (error * timeChange);
         double dErr = (error - lastErr);
 
-        Output = kp * error + ki * errSum + kd * dErr;
+        Output = kp * error + ki / errSum + kd * dErr;
         lastErr = error;
         lastTime = now;
 
@@ -157,6 +160,7 @@ public class LibraryGyro {
         //
         double TOLERANCE = .5;
         double timer = 0;
+        double tolorance = 0;
         double currentHeading = 0.0;
         long startTime = 0;
         double polarity = 1;
@@ -170,7 +174,9 @@ public class LibraryGyro {
 
         startTime = System.currentTimeMillis();
         currentHeading = getAngle();
-        SetTunings(.02, 0, 0.1);
+//        SetTunings(.06, .885, 0.2);
+//        SetTunings(.02, 0, 0.1); //Original
+        SetTunings(0.05, .885, .13);
 
         Setpoint = targetHeading;
         Input = getAngle();
@@ -182,6 +188,7 @@ public class LibraryGyro {
         Output *= polarity;
 
         runtime.reset();
+        toloranceTime.reset();
 
         do {
 
@@ -199,16 +206,31 @@ public class LibraryGyro {
             telemetry.addData("curHeading", Input);
             telemetry.addData("tarHeading", Setpoint);
             telemetry.update();
+
+            if ((Math.abs(Input - Setpoint) <= TOLERANCE) && (toloranceTime.milliseconds() > 200)){
+                toloranceReached = true;
+            }
+            else {
+                toloranceReached = false;
+                toloranceTime.reset();
+            }
+
         }
-        while ((Math.abs(Input - Setpoint) > TOLERANCE) && (runtime.seconds() < 2));
+//        while ((runtime.seconds() < 5));
+//        while ((Math.abs(Input - Setpoint) >= TOLERANCE) && (runtime.seconds() < 2.5));{
+        while ((runtime.seconds() < 2) && !toloranceReached);
 
 
         telemetry.addData("turnGyro: curHeading", Input);
         telemetry.addData("tarHeading", Setpoint);
-        telemetry.addData("leftPwr", -Output);
-        telemetry.addData("rightPwr", Output);
+        //telemetry.addData("leftPwr", -Output);
+        //telemetry.addData("rightPwr", Output);
         telemetry.addData("DRIVEGAIN", DRIVEGAIN);
+        telemetry.addData("tolerance reached", toloranceReached);
+        telemetry.addData("runtime.seconds", runtime.seconds());
+        telemetry.addData("tolerancetime.seconds", toloranceTime.seconds());
         telemetry.update();
+
 
         robot.leftFront.setPower(0);
         robot.leftBack.setPower(0);

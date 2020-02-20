@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -51,30 +52,38 @@ public class TestingGyroStrafe extends LinearOpMode {
 
         waitForStart();
 
-        gridNavigation.setGridPosition(0, 0, 0);
-
-        gyroTurn.kd = 0;
-        gyroTurn.ki = 0;
-
-        double kp_array[] = {.01, .02, .05, .1, .2, .3, .6, 1};
-
-        gyroTurn.kp = .6;
-        gyroTurn.kd = .3;
+        while (opModeIsActive()) {
+//            gridNavigation.setGridPosition(0, 0, 0);
 
 
-        for (int i = 0; (i < kp_array.length); i++) {
+            //Did a lot of testing with different values.  Narrowed down kp and kd to be within .5
+            //degrees reliably
+//            gyroTurn.kp = 0.05;
+////            gyroTurn.ki = .85;
+//            gyroTurn.ki = 0;
+//            gyroTurn.kd = 0.13;
+//
+//            double kp_array[] = {.7, .75, .8, .85, .9};
+//
+////        gyroTurn.kp = .6;
+////        gyroTurn.kd = .3;
+//
+//            for (int i = 0; (i < kp_array.length); i++) {
+//
+////               gyroTurn.ki = 0;
+////               gyroTurn.SetTunings(0.06, .885, .13); Current Best
+//               gyroTurn.SetTunings(.05, kp_array[i], .13);
+//
+//                telemetry.addData("kp value is ", kp_array[i]);
+//                telemetry.update();
 
-            gyroTurn.ki = kp_array[i];
-
-            telemetry.addData("kp value is ", kp_array[i]);
-            telemetry.update();
-
-            gyroTurn.turnGyro(90);
+                gyroTurn.turnGyro(90);
             sleep(2000);
-        }
-
-
-
+                gyroTurn.turnGyro(90);
+            sleep(2000);
+                gyroTurn.turnGyro(90);
+                sleep(2000);
+            }
 
 
     }

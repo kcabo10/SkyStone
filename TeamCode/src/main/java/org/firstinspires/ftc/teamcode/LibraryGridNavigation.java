@@ -389,7 +389,7 @@ public class LibraryGridNavigation {
 
 
         if (power >= .3){
-            Distance = Distance - (8 * myEncoderTicksPerInch);
+            Distance = Distance - (12 * myEncoderTicksPerInch);
         }
 
         gyroDrive.gyroDriveVariableP(power, (int) Distance, 0, PCoeff);
@@ -484,7 +484,7 @@ public class LibraryGridNavigation {
         double myEncoderTicksPerInch = 145.6/6;
 
         if (power >= .3){
-            Distance = Distance - (8 * myEncoderTicksPerInch);
+            Distance = Distance - (12 * myEncoderTicksPerInch);
         }
 
         gyroDrive.gyroDriveVariableP(-power, (int) -Distance, 0, PCoeff);

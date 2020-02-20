@@ -69,7 +69,6 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
         telemetry.addData("OpenCV initialized","");
         telemetry.update();
-        sleep(5000);
 
         while (!isStarted())
         {
@@ -96,20 +95,20 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         double[] SKYSTONE_POS_1 = {1.9, 2.7};
         double[] SKYSTONE_POS_2 = {1.5, 2.7};
         double[] SKYSTONE_POS_3 = {1.1, 2.7};
-        double[] BACKING_UP_1 = {1.9, 1.45};
-        double[] BACKING_UP_2 = {1.5, 1.45};
-        double[] BACKING_UP_3 = {1.1, 1.45};
+        double[] BACKING_UP_1 = {1.9, 1.5};
+        double[] BACKING_UP_2 = {1.5, 1.5};
+        double[] BACKING_UP_3 = {1.1, 1.5};
 
 
-        double[] SKYSTONE2_POS_1 = {1, 1.4};
-        double[] SKYSTONE2_POS_2 = {.6, 1.4};
-        double[] SKYSTONE2_POS_3 = {.8, 1.4};
+        double[] SKYSTONE2_POS_1 = {1, 1.5};
+        double[] SKYSTONE2_POS_2 = {.6, 1.5};
+        double[] SKYSTONE2_POS_3 = {.8, 1.5};
         double[] GRAB_SKYSTONE2_POS_1 = {1, 2.6};
         double[] GRAB_SKYSTONE2_POS_2 = {.6, 2.6};
         double[] GRAB_SKYSTONE2_POS_3 = {.3, 1.7};
-        double[] BACKING_UP2_1 = {.9, 1.4};
-        double[] BACKING_UP2_2 = {.6, 1.4};
-        double[] BACKING_UP2_3 = {.6, 1.4};
+        double[] BACKING_UP2_1 = {.9, 1.5};
+        double[] BACKING_UP2_2 = {.6, 1.5};
+        double[] BACKING_UP2_3 = {.6, 1.5};
 
         //Same end to each case
         double[] DELIVERING_SKYSTONE_ON_FOUNDATION = {5.1, 1.35};
@@ -120,7 +119,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         double[] PARKING_POS = {2.9, 1.4};
         double[] STARTING_POS = {1.7, .3645};
 
-        //waitForStart();
+//        waitForStart();
 
         //opencv.openCVIsNotActive();
 
@@ -138,22 +137,23 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
              * Drive Toward Skystone and Intake
              */
             intakeSkystone();
-            gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_1,1.4), 1.4,.6);
+            gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS,SKYSTONE_POS_1,1.4), 1.4,.5);
+
             gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .3);
             sleep(400);
-            gridNavigation.driveToPosition(calcTargetX(STARTING_POS, SKYSTONE_POS_1, 1.4), BACKING_UP_1[Y], .6);
+            gridNavigation.driveToPosition(calcTargetX(SKYSTONE_POS_1, STARTING_POS, 1.5), BACKING_UP_1[Y], .5);
 
             placeStoneFoundation();
 
             /**
              * Drive to pick up second Skystone and deliver
              */
-            gridNavigation.driveToPositionBackwards(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .5);
+            gridNavigation.driveToPositionBackwards(SKYSTONE2_POS_1[X], SKYSTONE2_POS_1[Y], .6);
             intakeSkystone();
-            sleep(500);
+            sleep(200);
             gridNavigation.driveToPositionBackwards(GRAB_SKYSTONE2_POS_1[X], GRAB_SKYSTONE2_POS_1[Y], .2);
 
-            gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_1,GRAB_SKYSTONE2_POS_1,1.4), BACKING_UP2_1[Y], .6);
+            gridNavigation.driveToPosition(calcTargetX(SKYSTONE2_POS_1,GRAB_SKYSTONE2_POS_1,1.5), BACKING_UP2_1[Y], .6);
             sleep(150);
 
             gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE[X], DELIVERING_SKYSTONE[Y], .6);
@@ -186,7 +186,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
 
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_2[X], SKYSTONE_POS_2[Y], .3);
                 sleep(400);
-                gridNavigation.driveToPosition(calcTargetX(STARTING_POS,SKYSTONE_POS_2,1.4), BACKING_UP_2[Y], .5);
+                gridNavigation.driveToPosition(calcTargetX(SKYSTONE_POS_2,STARTING_POS,1.4), BACKING_UP_2[Y], .5);
 
                 /**
                  * Drive to foundation, place stone, grab foundation and reposition
@@ -315,31 +315,32 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
             int X = 0;
             int Y = 1;
 
-            double[] DELIVERING_SKYSTONE_ON_FOUNDATION = {5.1, 1.4};
-            double[] GRAB_FOUNDATION = {5.1, 1.85};
-            double[] REPOSITION_FOUNDATION = {5.1, .65};
+            double[] DELIVERING_SKYSTONE_ON_FOUNDATION = {4.9, 1.5};
+            double[] GRAB_FOUNDATION = {4.9, 1.95};
+            double[] REPOSITION_FOUNDATION = {4.9, .65};
 
 
             robot.clawAid.setPosition(1); //move the claw aid up
             sleep(300);
             robot.claw.setPosition(1); //close claw
-            sleep(400);
+            sleep(500);
             robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.outExtrusion.setTargetPosition(-500);
             robot.outExtrusion.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.outExtrusion.setPower(1);
 
-            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE_ON_FOUNDATION[X], DELIVERING_SKYSTONE_ON_FOUNDATION[Y], .4);
+            gridNavigation.driveToPositionBackwards(DELIVERING_SKYSTONE_ON_FOUNDATION[X], DELIVERING_SKYSTONE_ON_FOUNDATION[Y], .5);
             robot.outExtrusion.setPower(0);
+            sleep(200);
 
-            gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y], .2);
+            gridNavigation.driveToPosition(GRAB_FOUNDATION[X], GRAB_FOUNDATION[Y], .29);
 
-            robot.foundation1.setPosition(.5);
-            robot.foundation2.setPosition(.5);
+            robot.foundation1.setPosition(.6);
+            robot.foundation2.setPosition(.4);
 
             robot.claw.setPosition(0);
 
-            gridNavigation.driveToPositionBackwards(REPOSITION_FOUNDATION[X], REPOSITION_FOUNDATION[Y], .4);
+            gridNavigation.driveToPositionBackwards(REPOSITION_FOUNDATION[X], REPOSITION_FOUNDATION[Y], .5);
 
             robot.outExtrusion.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.outExtrusion.setTargetPosition(500);
@@ -351,8 +352,8 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
              */
             robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.leftBack.setTargetPosition(1250);
-            robot.rightBack.setTargetPosition(-1250);
+            robot.leftBack.setTargetPosition(1200);
+            robot.rightBack.setTargetPosition(-1200);
 
             robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -372,15 +373,15 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
             /**
              * Drive forward to push foundation into building site and detach from foundation
              */
-            gyroDrive.gyroDriveVariableP(.5,(int)(145.6*1),0,.03);
+            gyroDrive.gyroDriveVariableP(.5,(int)(145.6*1.2),0,.03);
             robot.foundation1.setPosition(1);
             robot.foundation2.setPosition(-1);
 
             /**
              * Reset grid position
              */
-            gridNavigation.setGridPosition(4.81,1.64,0);
-            sleep(500);
+            gridNavigation.setGridPosition(4.95,1.22,0);
+            sleep(200);
         }
         public double calcTargetX(double[] origPos, double[] newPos, double targetY){
         int X = 0;
