@@ -498,6 +498,31 @@ public class LibraryGridNavigation {
         telemetry.addData("yOrigin", yOrigin);
         telemetry.update();
     }
+
+    public void driveToPositionCalcFindX(double xDestination, double yDestination, double power) {
+        double PCoeff = .03;
+        getDriveDistance(xDestination, yDestination);
+        previousXPosition = getDriveDistance(xDestination, yDestination);
+
+        //THE HACK
+
+        double myEncoderTicksPerInch = 145.6/6;
+
+        if (power >= .3){
+            Distance = Distance - (12 * myEncoderTicksPerInch);
+        }
+
+        gyroDrive.gyroDriveVariableP(-power, (int) -Distance, 0, PCoeff);
+
+        //
+
+
+        telemetry.addData("What's my angle", StartingAngle);
+        telemetry.addData("Turn Angle", turnAngle);
+        telemetry.addData("xOrigin", xOrigin);
+        telemetry.addData("yOrigin", yOrigin);
+        telemetry.update();
+    }
     /**
      * @param xDestination When you call this method in another function you insert the x destination
      *                     * you want to go to on the grid

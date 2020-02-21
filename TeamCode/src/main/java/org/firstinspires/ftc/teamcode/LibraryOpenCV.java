@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.camera2.CameraDevice;
+
+import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -109,6 +113,7 @@ public class LibraryOpenCV {
          */
         skyStoneDetector = new SkystoneDetector();
         phoneCam.setPipeline(skyStoneDetector);
+
         /*
          * Tell the camera to start streaming images to us! Note that you must make sure
          * the resolution you specify is supported by the camera. If it is not, an exception
@@ -145,7 +150,7 @@ public class LibraryOpenCV {
                 currentPos = "right";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().y >= 120) { //187
+            } else if (skyStoneDetector.getScreenPosition().y >= 100) { //187
                 telemetry.addData("LibOpCV: Skystone Position middle", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
                 currentPos = "middle";
@@ -157,8 +162,5 @@ public class LibraryOpenCV {
             }
         // returns the current skystone position
         return currentPos;
-    }
-    public void openCVIsNotActive (){
-        openCVIsActive = false;
     }
 }

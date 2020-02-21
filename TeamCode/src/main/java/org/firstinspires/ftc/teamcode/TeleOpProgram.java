@@ -192,18 +192,6 @@ public class TeleOpProgram extends OpMode {
             robot.rightIntake.setPower(0);
         }
 
-        if (gamepad1.right_trigger > 0) {
-            robot.leftIntake.setPower(-.8);
-            robot.rightIntake.setPower(.8);
-        } else if (gamepad1.left_trigger > 0) {
-            robot.leftIntake.setPower(.8);
-            robot.rightIntake.setPower(-.8);
-        } else {
-            robot.leftIntake.setPower(0);
-            robot.rightIntake.setPower(0);
-        }
-
-
         /**
          * Capstone Controls
          */
@@ -412,16 +400,16 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("capstone pos", capstone_pos);
 //        //telemetry.addData("gamepad2.a", gamepad2.a);
 //        telemetry.addData("dance state", dance_state);
-          telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+//          telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getCurrentPosition());
 //
-        telemetry.addData("Out Extrusion Encoders", robot.outExtrusion.getCurrentPosition());
-        telemetry.addData("outExtrusion State: ", out_extrusion_state);
-        telemetry.addData("Droid Lifter Right", robot.droidLifterRight.getCurrentPosition());
-        telemetry.addData("Droid Lifter Left", robot.droidLifterLeft.getCurrentPosition());
+//        telemetry.addData("Out Extrusion Encoders", robot.outExtrusion.getCurrentPosition());
+//        telemetry.addData("outExtrusion State: ", out_extrusion_state);
+//        telemetry.addData("Droid Lifter Right", robot.droidLifterRight.getCurrentPosition());
+//        telemetry.addData("Droid Lifter Left", robot.droidLifterLeft.getCurrentPosition());
 //        telemetry.addData("touch sensor", robot.touchSensor.getState());
 
 
