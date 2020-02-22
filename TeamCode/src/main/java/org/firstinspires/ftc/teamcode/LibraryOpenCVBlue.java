@@ -42,7 +42,8 @@ public class LibraryOpenCVBlue {
      */
     public String findSkystone() {
 
-        initOpenCV();
+        //Init was moved to the calling class
+        //initOpenCV();
 
         long startTime = 0;
         String previousPosition = "";
@@ -58,6 +59,7 @@ public class LibraryOpenCVBlue {
             // sets skystone position values to the read skystone function
             SkystonePosition = readSkystonePos();
 
+
             /*
              * Send some stats to the telemetry
              */
@@ -71,12 +73,10 @@ public class LibraryOpenCVBlue {
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
             telemetry.update();
 //        }
-        phoneCam.stopStreaming();
         return SkystonePosition;
-
     }
 
-    private void initOpenCV() {
+    public void initOpenCV() {
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using the phone's internal camera. We pass it a
@@ -103,6 +103,7 @@ public class LibraryOpenCVBlue {
          */
         skyStoneDetector = new SkystoneDetector();
         phoneCam.setPipeline(skyStoneDetector);
+
         /*
          * Tell the camera to start streaming images to us! Note that you must make sure
          * the resolution you specify is supported by the camera. If it is not, an exception
@@ -116,14 +117,17 @@ public class LibraryOpenCVBlue {
          */
         phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
     }
+    public void shutDownOpenCV() {
+        phoneCam.stopStreaming();
+    }
 
     public String readSkystonePos() {
         String currentPos = "";
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
-
         // while mineral position is not found and the timer counts 6 seconds
-        while (timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
+        //while (openCVIsActive) { // Read while
+//        while (timer.seconds() < 3) { /**DEBUG CHANGED TO 600 */
 
             // If the skystone is positioned more toward the right of the phones camera view
             // then the x position will increase
@@ -148,9 +152,6 @@ public class LibraryOpenCVBlue {
                 telemetry.update();
                 currentPos = "Pos 1"; //24
             }
-            telemetry.addData("y value", skyStoneDetector.getScreenPosition().y);
-            telemetry.update();
-        }
         // returns the current skystone position
         return currentPos;
     }

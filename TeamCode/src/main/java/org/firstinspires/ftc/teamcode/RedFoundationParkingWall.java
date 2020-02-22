@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "Red Foundation Parking Wall", group = "Beep")
@@ -31,35 +32,91 @@ public class RedFoundationParkingWall extends LinearOpMode {
         telemetry.update();
         telemetry.update();
 
-        //wait for start
         waitForStart();
 
         robot.foundation1.setPosition(1);
         robot.foundation2.setPosition(-1);
         //Grid nav set in perspective on positive x,y and blue build site
 
-        gridNavigation.setGridPosition(1.5,  translateForRed(0.296), 270);
+        gridNavigation.setGridPosition(4.6, 0.4,90);
 
-        gridNavigation.strafeToPosition(.9, translateForRed(0.296), 0.6, 0);
+        gridNavigation.strafeToPosition(5.1, 0.4,.5, 0);
 
-        gridNavigation.driveToPosition(.9, translateForRed(1.7),.3);
-
-        gridNavigation.driveToPosition(.9, translateForRed(1.9),.2);
+        gridNavigation.driveToPosition(5.1, 1.7,.3);
+        gridNavigation.driveToPosition(5.1, 1.9,.2);
 
         robot.foundation1.setPosition(.5);
         robot.foundation2.setPosition(.5);
-        sleep(800);
+        sleep(400);
 
-        gridNavigation.driveToPositionBackwards(.9,translateForRed(-.1),.4);
+        gridNavigation.driveToPositionBackwards(5.1, .8,.3);
+
+        /**
+         * Turn foundation into building site
+         */
+
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftBack.setTargetPosition(1200);
+        robot.rightBack.setTargetPosition(-1200);
+
+        robot.leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.leftBack.setPower(1);
+        robot.rightBack.setPower(1);
+
+        while (robot.rightBack.isBusy() && robot.leftBack.isBusy()) {
+        }
+
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+
+        gyroDrive.gyroDriveVariableP(.5,(int)(145.6*1.6),0,.03);
 
         robot.foundation1.setPosition(1);
         robot.foundation2.setPosition(-1);
-        sleep(1000);
+        sleep(200);
 
-        gridNavigation.strafeToPosition(3,translateForRed(-.1),.5,1);
+        gyroDrive.gyroStrafeRight(.5,720,0);
 
-    }
-    private double translateForRed(double blue) {
-        return 6-blue;
+        gyroDrive.gyroDriveVariableP(-.29,-(int)(145.6* (44/12.56) + 450),0,.03);
+        //wait for start
+//        waitForStart();
+
+//
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(-1);
+//        //Grid nav set in perspective on positive x,y and blue build site
+//
+//        gridNavigation.setGridPosition(1.5,  translateForRed(0.296), 270);
+//
+//        gridNavigation.strafeToPosition(.9, translateForRed(0.296), 0.6, 0);
+//
+//        gridNavigation.driveToPosition(.9, translateForRed(1.7),.3);
+//
+//        gridNavigation.driveToPosition(.9, translateForRed(1.9),.2);
+//
+//        robot.foundation1.setPosition(.5);
+//        robot.foundation2.setPosition(.5);
+//        sleep(800);
+//
+//        //ORIG gridNavigation.driveToPositionBackwards(.9,translateForRed(-.1),.4);
+//        //Changed for abnormal 360 turn at start of program, now have to return
+//        //to a farther position to achieve building zone 2/21 6:26am
+//        gridNavigation.driveToPositionBackwards(.9,translateForRed(-.3),.4);
+//
+//        robot.foundation1.setPosition(1);
+//        robot.foundation2.setPosition(-1);
+//        sleep(1000);
+//
+//        //Changed for abnormal 360 turn at start of program, now have to return
+//        //to a farther position to achieve building zone 2/21 6:26am. Was -.1
+//        gridNavigation.strafeToPosition(3,translateForRed(-.3),.5,1);
+//
+//    }
+//    private double translateForRed(double blue) {
+//        return 6-blue;
     }
 }

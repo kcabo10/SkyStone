@@ -221,7 +221,8 @@ public class TeleOpProgram extends OpMode {
 
         switch (dance_state) {
             case (0): //opening claw & setting claw turner back to original pos
-                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
+                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 1 || danceDoOver)) {
+//                if ((gamepad2.b && !gamepad2.start) || (stoneColorSensor.readSaturation(robot, "sensor_color_dance") >= 0.75 || danceDoOver)) {
                     robot.claw.setPosition(0); //open claw
                     dance_state++;
                     danceTime.reset();
@@ -399,8 +400,8 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("capstone state", capstone_state);
 //        telemetry.addData("capstone pos", capstone_pos);
 //        //telemetry.addData("gamepad2.a", gamepad2.a);
-//        telemetry.addData("dance state", dance_state);
-//          telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
+        telemetry.addData("dance state", dance_state);
+            telemetry.addData("color sensor dance", stoneColorSensor.readSaturation(robot, "sensor_color_dance"));
 //        telemetry.addData("droid_left", robot.droidLifterLeft.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getPower());
 //        telemetry.addData("droid_right", robot.droidLifterRight.getCurrentPosition());
@@ -411,7 +412,6 @@ public class TeleOpProgram extends OpMode {
 //        telemetry.addData("Droid Lifter Right", robot.droidLifterRight.getCurrentPosition());
 //        telemetry.addData("Droid Lifter Left", robot.droidLifterLeft.getCurrentPosition());
 //        telemetry.addData("touch sensor", robot.touchSensor.getState());
-
 
         telemetry.update();
     }
