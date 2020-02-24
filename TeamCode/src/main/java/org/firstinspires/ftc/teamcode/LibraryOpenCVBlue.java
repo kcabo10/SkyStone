@@ -136,21 +136,21 @@ public class LibraryOpenCVBlue {
             // is in position
 
             // On Blue Side, Stone 1 read 137, Stone 2 read 229, and Stone 3 read 317
-            if (skyStoneDetector.getScreenPosition().y < 200) {
-                telemetry.addData("LibOpCVBlu: Skystone Position 3", skyStoneDetector.getScreenPosition().y);
+            if (skyStoneDetector.getScreenPosition().y < 210) {
+                telemetry.addData("LibOpCVBlu: Skystone Position left", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 3";
+                currentPos = "left";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().y < 290) {
-                telemetry.addData("LibOpCVBlu: Skystone Position 2", skyStoneDetector.getScreenPosition().y);
+            } else if (skyStoneDetector.getScreenPosition().y < 310) {
+                telemetry.addData("LibOpCVBlu: Skystone Position middle", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 2";
+                currentPos = "middle";
             } else //if (skyStoneDetector.getScreenPosition().y > 170 && skyStoneDetector.getScreenPosition().y <= 190) {
             {
-                telemetry.addData("LibOpCVBlu: Skystone Position 1", skyStoneDetector.getScreenPosition().y);
+                telemetry.addData("LibOpCVBlu: Skystone Position right", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
-                currentPos = "Pos 1"; //24
+                currentPos = "right"; //24
             }
         // returns the current skystone position
         return currentPos;

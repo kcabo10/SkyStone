@@ -120,7 +120,7 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
 
         //opencv.openCVIsNotActive();
 
-        gridNavigation.setGridPosition(STARTING_POS[X], STARTING_POS[Y], 270);
+        gridNavigation.setGridPosition(STARTING_POS[X], STARTING_POS[Y], 90);
 
 
         switch (SkystonePosition) {
@@ -134,7 +134,7 @@ public class BlueSkystoneUsingOpenCV extends LinearOpMode {
                  * Drive Toward Skystone and Intake
                  */
                 intakeSkystone();
-                gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS, SKYSTONE_POS_1, 1.5), 1.5, .55);
+//                gridNavigation.driveToPositionBackwards(calcTargetX(STARTING_POS, SKYSTONE_POS_1, 1.5), translateForBlue(1.5), .55);
 
                 gridNavigation.driveToPositionBackwards(SKYSTONE_POS_1[X], SKYSTONE_POS_1[Y], .2);
 

@@ -116,7 +116,7 @@ public class RedSkystoneUsingOpenCV extends LinearOpMode {
         double[] REPOSITION_FOUNDATION = {5.1, .65};
 
         double[] DELIVERING_SKYSTONE = {3.5, 1.4};
-        double[] PARKING_POS = {3.55, 1.4};
+        double[] PARKING_POS = {3, 1.4};
         double[] STARTING_POS = {1.7, .3645};
 
 //        waitForStart();

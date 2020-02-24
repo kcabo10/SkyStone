@@ -144,13 +144,13 @@ public class LibraryOpenCV {
 
             // If the skystone is at a position greater than 100 than we assume the skystone
             // is in position
-            if (skyStoneDetector.getScreenPosition().y >= 195) { //209
+            if (skyStoneDetector.getScreenPosition().y >= 200) { //209
                 telemetry.addData("LibOpCV: Skystone Position right", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
                 currentPos = "right";
                 //if the skystone is not greater than the stone than
                 // it sets the current skystone position as CENTER
-            } else if (skyStoneDetector.getScreenPosition().y >= 100) { //187
+            } else if (skyStoneDetector.getScreenPosition().y >= 150) { //187
                 telemetry.addData("LibOpCV: Skystone Position middle", skyStoneDetector.getScreenPosition().y);
                 telemetry.update();
                 currentPos = "middle";

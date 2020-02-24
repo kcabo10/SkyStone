@@ -39,18 +39,19 @@ public class BlueFoundationParkingWall extends LinearOpMode {
         robot.foundation2.setPosition(-1);
         //Grid nav set in perspective on positive x,y and blue build site
 
-        gridNavigation.setGridPosition(4.6, translateForBlue(0.4),90);
+        gridNavigation.setGridPosition(4.6, translateForBlue(0.4),270);
 
-        gridNavigation.strafeToPosition(5.1, translateForBlue(0.4),.5, 0);
+        gridNavigation.strafeToPosition(5.1, translateForBlue(0.4),.5, 1);
 
-        gridNavigation.driveToPosition(5.1, translateForBlue(1.7),.3);
+        sleep(500);
+
         gridNavigation.driveToPosition(5.1, translateForBlue(1.9),.2);
 
         robot.foundation1.setPosition(.5);
         robot.foundation2.setPosition(.5);
-        sleep(400);
+        sleep(1000);
 
-        gridNavigation.driveToPositionBackwards(5.1, translateForBlue(.8),.3);
+        gridNavigation.driveToPositionBackwards(5.1, translateForBlue(.3),.3);
 
         /**
          * Turn foundation into building site
